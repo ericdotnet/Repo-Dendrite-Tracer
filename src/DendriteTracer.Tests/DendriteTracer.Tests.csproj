@@ -10,6 +10,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="FluentAssertions" Version="6.11.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.5.0" />
     <PackageReference Include="xunit" Version="2.4.2" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.4.5">
@@ -24,6 +25,15 @@
 
   <ItemGroup>
     <ProjectReference Include="..\DendriteTracer.Core\DendriteTracer.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="SampleData\MAX_TSeries-04132023-1214-2165.tif">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="SampleData\TSeries-04132023-1214-2165.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>
