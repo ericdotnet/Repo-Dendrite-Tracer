@@ -100,7 +100,7 @@
             nudSpacing.Name = "nudSpacing";
             nudSpacing.Size = new Size(90, 31);
             nudSpacing.TabIndex = 5;
-            nudSpacing.Value = new decimal(new int[] { 20, 0, 0, 0 });
+            nudSpacing.Value = new decimal(new int[] { 15, 0, 0, 0 });
             // 
             // label4
             // 
@@ -119,7 +119,7 @@
             nudRadius.Name = "nudRadius";
             nudRadius.Size = new Size(90, 31);
             nudRadius.TabIndex = 7;
-            nudRadius.Value = new decimal(new int[] { 15, 0, 0, 0 });
+            nudRadius.Value = new decimal(new int[] { 10, 0, 0, 0 });
             // 
             // label5
             // 

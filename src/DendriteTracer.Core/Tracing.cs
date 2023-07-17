@@ -1,12 +1,16 @@
 ﻿namespace DendriteTracer.Core;
 
-public class ImageTracing
+public class Tracing
 {
-
     private readonly List<PixelLocation> TracePixels = new();
 
-    public ImageTracing()
+    public int Width { get; }
+    public int Height { get; }
+
+    public Tracing(int width, int height)
     {
+        Width = width;
+        Height = height;
     }
 
     public void Clear()
@@ -16,6 +20,9 @@ public class ImageTracing
 
     public void Add(float x, float y)
     {
+        if (x < 0 || x >= Width || y < 0 || y >= Height)
+            throw new ArgumentException("outside image area");
+
         TracePixels.Add(new PixelLocation(x, y));
     }
 
@@ -40,7 +47,9 @@ public class ImageTracing
     public Roi[] GetEvenlySpacedRois(float spacing, float radius)
     {
         List<Roi> rois = new();
+
         double nextSetback = 0;
+
         for (int i = 1; i < TracePixels.Count; i++)
         {
             (PixelLocation[] segmentPoints, double setback) = GetSubPoints(TracePixels[i - 1], TracePixels[i], spacing, nextSetback);
@@ -48,7 +57,23 @@ public class ImageTracing
             Roi[] segmentRois = segmentPoints.Select(pt => new Roi(pt.X, pt.Y, radius)).ToArray();
             rois.AddRange(segmentRois);
         }
-        return rois.ToArray();
+
+        // TODO: more clearly warn if ROIs in the middle are missing
+
+        return rois.Where(RoiIsFullyInsideImage).ToArray();
+    }
+
+    private bool RoiIsFullyInsideImage(Roi roi)
+    {
+        if (roi.Left < 0)
+            return false;
+        if (roi.Right >= Width)
+            return false;
+        if (roi.Top < 0)
+            return false;
+        if (roi.Bottom >= Height)
+            return false;
+        return true;
     }
 
     /// <summary>

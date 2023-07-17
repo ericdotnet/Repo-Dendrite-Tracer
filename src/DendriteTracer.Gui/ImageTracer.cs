@@ -6,7 +6,9 @@ public partial class ImageTracer : UserControl
 {
     MaxProjectionSeries? Proj;
     Bitmap[]? FrameImages;
-    readonly ImageTracing Tracing = new();
+    Tracing? Tracing;
+
+    public event EventHandler<ImageWithTracing> TracingChanged = delegate { };
 
     public ImageTracer()
     {
@@ -20,9 +22,17 @@ public partial class ImageTracer : UserControl
 
     private void PictureBox1_MouseDown(object? sender, MouseEventArgs e)
     {
+        if (Proj is null)
+            return;
+
+        if (Tracing is null)
+            return;
+
         if (e.Button == MouseButtons.Left)
         {
-            Tracing.Add(e.X, e.Y);
+            float scaleX = (float)Proj.Width / pictureBox1.Width;
+            float scaleY = (float)Proj.Height / pictureBox1.Height;
+            Tracing.Add(e.X * scaleX, e.Y * scaleY);
         }
         else if (e.Button == MouseButtons.Right)
         {
@@ -39,18 +49,24 @@ public partial class ImageTracer : UserControl
 
     private void DrawTracing()
     {
+        if (Tracing is null)
+            return;
+
+        if (Proj is null)
+            return;
+
         if (FrameImages is null)
             return;
 
         label2.Text = $"Frame {hScrollBar1.Value} of {hScrollBar1.Maximum}";
-
-        Bitmap bmp = new(FrameImages[hScrollBar1.Value - 1]);
+        int frameIndex = hScrollBar1.Value - 1;
+        Bitmap bmp = new(FrameImages[frameIndex]);
 
         // TODO: replace with RasterSharp drawing
         using Graphics gfx = Graphics.FromImage(bmp);
         gfx.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
 
-        PointF[] points = GetScaledTracingPoints();
+        PointF[] points = Tracing.GetPixels().Select(px => new PointF(px.X, px.Y)).ToArray();
 
         if (points.Length > 1)
         {
@@ -64,7 +80,14 @@ public partial class ImageTracer : UserControl
             gfx.DrawRectangle(Pens.Yellow, rect);
         }
 
-        foreach (RectangleF rect in GetScaledRois())
+        float spacing = (float)nudSpacing.Value;
+        float radius = (float)nudRadius.Value;
+
+        RectangleF[] roiRects = Tracing.GetEvenlySpacedRois(spacing, radius)
+            .Select(roi => new RectangleF(roi.Left, roi.Top, roi.Width, roi.Height))
+            .ToArray();
+
+        foreach (RectangleF rect in roiRects)
         {
             gfx.DrawRectangle(Pens.Cyan, rect);
         }
@@ -72,45 +95,10 @@ public partial class ImageTracer : UserControl
         Image? oldImage = pictureBox1.Image;
         pictureBox1.Image = bmp;
         oldImage?.Dispose();
-    }
 
-    private PointF[] GetScaledTracingPoints()
-    {
-        if (Proj is null)
-            return Array.Empty<PointF>();
-
-        float scaleX = (float)Proj.Width / pictureBox1.Width;
-        float scaleY = (float)Proj.Height / pictureBox1.Height;
-
-        return Tracing.GetPixels()
-            .Select(px => new PointF(px.X * scaleX, px.Y * scaleY))
-            .ToArray();
-    }
-
-    private RectangleF[] GetScaledRois()
-    {
-        if (Proj is null)
-            return Array.Empty<RectangleF>();
-
-        float scaleX = (float)Proj.Width / pictureBox1.Width;
-        float scaleY = (float)Proj.Height / pictureBox1.Height;
-
-        List<RectangleF> rois = new();
-
-        // TODO: display micron distances from XML
-        float spacing = (float)nudSpacing.Value;
-        float radius = (float)nudRadius.Value;
-        foreach (Roi roi in Tracing.GetEvenlySpacedRois(spacing, radius))
-        {
-            float x = (roi.X - roi.R) * scaleX;
-            float y = (roi.Y - roi.R) * scaleY;
-            float w = roi.R * 2 * scaleX;
-            float h = roi.R * 2 * scaleY;
-            RectangleF rect = new(x, y, w, h);
-            rois.Add(rect);
-        }
-
-        return rois.ToArray();
+        (RasterSharp.Channel red, RasterSharp.Channel green) = Proj.GetChannels(frameIndex);
+        ImageWithTracing iwt = new(Tracing, spacing, radius, red, green);
+        TracingChanged.Invoke(this, iwt);
     }
 
     public void LoadImge(string tifFilePath, PixelLocation[]? initialPoints = null)
@@ -131,7 +119,7 @@ public partial class ImageTracer : UserControl
             FrameImages[i] = bmp;
         }
 
-        Tracing.Clear();
+        Tracing = new(Proj.Width, Proj.Height);
 
         if (initialPoints is not null)
         {
