@@ -33,16 +33,17 @@ partial class Form1
         // 
         // imageTracer1
         // 
+        imageTracer1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left;
         imageTracer1.Location = new Point(12, 12);
         imageTracer1.Name = "imageTracer1";
-        imageTracer1.Size = new Size(543, 652);
+        imageTracer1.Size = new Size(543, 728);
         imageTracer1.TabIndex = 0;
         // 
         // Form1
         // 
         AutoScaleDimensions = new SizeF(10F, 25F);
         AutoScaleMode = AutoScaleMode.Font;
-        ClientSize = new Size(1541, 663);
+        ClientSize = new Size(1541, 752);
         Controls.Add(imageTracer1);
         Name = "Form1";
         Text = "Form1";

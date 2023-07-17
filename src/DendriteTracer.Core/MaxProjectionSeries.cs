@@ -6,11 +6,15 @@ public class MaxProjectionSeries
 {
     private readonly SciTIF.TifFile Tif;
     public int Length { get; }
+    public int Width { get; }
+    public int Height { get; }
 
     public MaxProjectionSeries(string tifFilePath)
     {
         Tif = LoadTifWithErrorChecking(tifFilePath);
         Length = Tif.Frames;
+        Width = Tif.Width;
+        Height = Tif.Height;
     }
 
     private static SciTIF.TifFile LoadTifWithErrorChecking(string tifFilePath)

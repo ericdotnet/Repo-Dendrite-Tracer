@@ -33,7 +33,15 @@
             label1 = new Label();
             label2 = new Label();
             label3 = new Label();
+            nudSpacing = new NumericUpDown();
+            label4 = new Label();
+            nudRadius = new NumericUpDown();
+            label5 = new Label();
+            label6 = new Label();
+            label7 = new Label();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)nudSpacing).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)nudRadius).BeginInit();
             SuspendLayout();
             // 
             // pictureBox1
@@ -84,18 +92,82 @@
             label3.TabIndex = 4;
             label3.Text = "label3";
             // 
+            // nudSpacing
+            // 
+            nudSpacing.Location = new Point(196, 641);
+            nudSpacing.Maximum = new decimal(new int[] { 1000, 0, 0, 0 });
+            nudSpacing.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
+            nudSpacing.Name = "nudSpacing";
+            nudSpacing.Size = new Size(90, 31);
+            nudSpacing.TabIndex = 5;
+            nudSpacing.Value = new decimal(new int[] { 20, 0, 0, 0 });
+            // 
+            // label4
+            // 
+            label4.AutoSize = true;
+            label4.Location = new Point(115, 643);
+            label4.Name = "label4";
+            label4.Size = new Size(75, 25);
+            label4.TabIndex = 6;
+            label4.Text = "Spacing";
+            // 
+            // nudRadius
+            // 
+            nudRadius.Location = new Point(196, 678);
+            nudRadius.Maximum = new decimal(new int[] { 1000, 0, 0, 0 });
+            nudRadius.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
+            nudRadius.Name = "nudRadius";
+            nudRadius.Size = new Size(90, 31);
+            nudRadius.TabIndex = 7;
+            nudRadius.Value = new decimal(new int[] { 15, 0, 0, 0 });
+            // 
+            // label5
+            // 
+            label5.AutoSize = true;
+            label5.Location = new Point(125, 680);
+            label5.Name = "label5";
+            label5.Size = new Size(65, 25);
+            label5.TabIndex = 8;
+            label5.Text = "Radius";
+            // 
+            // label6
+            // 
+            label6.AutoSize = true;
+            label6.Location = new Point(292, 643);
+            label6.Name = "label6";
+            label6.Size = new Size(87, 25);
+            label6.TabIndex = 9;
+            label6.Text = "10.12 µm";
+            // 
+            // label7
+            // 
+            label7.AutoSize = true;
+            label7.Location = new Point(292, 680);
+            label7.Name = "label7";
+            label7.Size = new Size(87, 25);
+            label7.TabIndex = 10;
+            label7.Text = "10.12 µm";
+            // 
             // ImageTracer
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
+            Controls.Add(label7);
+            Controls.Add(label6);
+            Controls.Add(label5);
+            Controls.Add(nudRadius);
+            Controls.Add(label4);
+            Controls.Add(nudSpacing);
             Controls.Add(label3);
             Controls.Add(label2);
             Controls.Add(label1);
             Controls.Add(hScrollBar1);
             Controls.Add(pictureBox1);
             Name = "ImageTracer";
-            Size = new Size(518, 639);
+            Size = new Size(518, 717);
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
+            ((System.ComponentModel.ISupportInitialize)nudSpacing).EndInit();
+            ((System.ComponentModel.ISupportInitialize)nudRadius).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -107,5 +179,11 @@
         private Label label1;
         private Label label2;
         private Label label3;
+        private NumericUpDown nudSpacing;
+        private Label label4;
+        private NumericUpDown nudRadius;
+        private Label label5;
+        private Label label6;
+        private Label label7;
     }
 }
