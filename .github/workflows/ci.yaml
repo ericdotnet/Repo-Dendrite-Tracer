@@ -1,0 +1,30 @@
+name: CI
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - src/**
+
+env:
+  DOTNET_VERSION: "7.0.x"
+
+jobs:
+  test:
+    name: Build and Test
+    runs-on: windows-latest
+    steps:
+      - name: 🛒 Checkout
+        uses: actions/checkout@v3
+      - name: ✨ Setup .NET ${{ env.DOTNET_VERSION }}
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }}
+      - name: 🚚 Restore
+        run: dotnet restore src
+      - name: 🛠️ Build
+        run: dotnet build src --configuration Release --no-restore
+      - name: 🧪 Test
+        run: dotnet test src --configuration Release --no-restore --verbosity minimal
