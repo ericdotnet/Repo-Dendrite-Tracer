@@ -29,8 +29,9 @@ public partial class RoiAnalyzer : UserControl
         formsPlot1.Plot.Clear();
         formsPlot1.Plot.XLabel("Distance (µm)");
         formsPlot1.Plot.YLabel("Fluorescence (AFU)");
-        formsPlot1.Plot.AddScatter(xs, roiMeansRed, System.Drawing.Color.Red);
-        formsPlot1.Plot.AddScatter(xs, roiMeansGreen, System.Drawing.Color.Green);
+        formsPlot1.Plot.AddScatter(xs, roiMeansRed, System.Drawing.Color.Red, label: "Red PMT");
+        formsPlot1.Plot.AddScatter(xs, roiMeansGreen, System.Drawing.Color.Green, label: "Green PMT");
+        formsPlot1.Plot.Legend(true, ScottPlot.Alignment.UpperRight);
         formsPlot1.Refresh();
 
         formsPlot2.Plot.Clear();

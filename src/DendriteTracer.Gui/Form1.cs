@@ -1,5 +1,4 @@
 using DendriteTracer.Core;
-using System.Diagnostics;
 
 namespace DendriteTracer.Gui;
 

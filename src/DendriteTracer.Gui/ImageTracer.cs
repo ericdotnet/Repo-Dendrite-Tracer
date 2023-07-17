@@ -7,6 +7,7 @@ public partial class ImageTracer : UserControl
     MaxProjectionSeries? Proj;
     Bitmap[]? FrameImages;
     Tracing? Tracing;
+    string? TifFilePath;
 
     public event EventHandler<ImageWithTracing> TracingChanged = delegate { };
 
@@ -18,6 +19,7 @@ public partial class ImageTracer : UserControl
         nudRadius.ValueChanged += (s, e) => DrawTracing();
         pictureBox1.MouseDown += PictureBox1_MouseDown;
         pictureBox1.MouseMove += PictureBox1_MouseMove;
+        button1.Click += (s, e) => System.Diagnostics.Process.Start("explorer.exe", Path.GetDirectoryName(TifFilePath)!);
     }
 
     private void PictureBox1_MouseDown(object? sender, MouseEventArgs e)
@@ -104,9 +106,9 @@ public partial class ImageTracer : UserControl
     public void LoadImge(string tifFilePath, PixelLocation[]? initialPoints = null)
     {
         // Load the TIF
-        tifFilePath = Path.GetFullPath(tifFilePath);
-        Proj = new(tifFilePath);
-        label1.Text = Path.GetFileName(tifFilePath);
+        TifFilePath = Path.GetFullPath(tifFilePath);
+        Proj = new(TifFilePath);
+        label1.Text = Path.GetFileName(TifFilePath);
         label3.Text = "Microns per pixel: ???";
 
         // Prepare all frame merge images
