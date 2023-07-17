@@ -9,7 +9,11 @@ public partial class Form1 : Form
     {
         InitializeComponent();
 
-        imageTracer1.TracingChanged += (s, e) => roiInspector1.LoadRois(e);
+        imageTracer1.TracingChanged += (s, e) =>
+        {
+            roiInspector1.LoadRois(e);
+            roiAnalyzer1.LoadRois(e);
+        };
 
         LoadSampleData();
     }

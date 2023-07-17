@@ -30,6 +30,7 @@ partial class Form1
     {
         imageTracer1 = new ImageTracer();
         roiInspector1 = new RoiInspector();
+        roiAnalyzer1 = new RoiAnalyzer();
         SuspendLayout();
         // 
         // imageTracer1
@@ -47,11 +48,19 @@ partial class Form1
         roiInspector1.Size = new Size(393, 496);
         roiInspector1.TabIndex = 1;
         // 
+        // roiAnalyzer1
+        // 
+        roiAnalyzer1.Location = new Point(844, 36);
+        roiAnalyzer1.Name = "roiAnalyzer1";
+        roiAnalyzer1.Size = new Size(685, 466);
+        roiAnalyzer1.TabIndex = 2;
+        // 
         // Form1
         // 
         AutoScaleDimensions = new SizeF(10F, 25F);
         AutoScaleMode = AutoScaleMode.Font;
         ClientSize = new Size(1541, 752);
+        Controls.Add(roiAnalyzer1);
         Controls.Add(roiInspector1);
         Controls.Add(imageTracer1);
         Name = "Form1";
@@ -63,4 +72,5 @@ partial class Form1
 
     private ImageTracer imageTracer1;
     private RoiInspector roiInspector1;
+    private RoiAnalyzer roiAnalyzer1;
 }

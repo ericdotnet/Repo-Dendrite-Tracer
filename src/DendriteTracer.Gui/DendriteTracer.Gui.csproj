@@ -9,6 +9,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="ScottPlot.WinForms" Version="4.1.65" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\DendriteTracer.Core\DendriteTracer.Core.csproj" />
   </ItemGroup>
 

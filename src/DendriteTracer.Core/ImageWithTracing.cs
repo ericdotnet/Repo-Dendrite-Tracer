@@ -21,6 +21,19 @@ public struct ImageWithTracing
         Rois = tracing.GetEvenlySpacedRois(spacing, radius);
     }
 
+    public (Channel[] reds, Channel[] greens) GetRoiChannels()
+    {
+        Channel[] reds = new Channel[Rois.Length];
+        Channel[] greens = new Channel[Rois.Length];
+
+        for (int i = 0; i < Rois.Length; i++)
+        {
+            (reds[i], greens[i]) = GetRoiChannels(i);
+        }
+
+        return (reds, greens);
+    }
+
     public (Channel red, Channel green) GetRoiChannels(int roiIndex)
     {
         if (Green is null)

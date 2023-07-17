@@ -22,7 +22,6 @@ public partial class RoiInspector : UserControl
 
         for (int i = 0; i < iwt.Rois.Length; i++)
         {
-            // TODO: store these for analysis later
             (Channel red, Channel green) = iwt.GetRoiChannels(i);
 
             Channel red2 = red.Clone();
