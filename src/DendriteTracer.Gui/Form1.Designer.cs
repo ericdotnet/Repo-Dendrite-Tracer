@@ -28,11 +28,28 @@ partial class Form1
     /// </summary>
     private void InitializeComponent()
     {
-        this.components = new System.ComponentModel.Container();
-        this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-        this.ClientSize = new System.Drawing.Size(800, 450);
-        this.Text = "Form1";
+        imageTracer1 = new ImageTracer();
+        SuspendLayout();
+        // 
+        // imageTracer1
+        // 
+        imageTracer1.Location = new Point(12, 12);
+        imageTracer1.Name = "imageTracer1";
+        imageTracer1.Size = new Size(543, 652);
+        imageTracer1.TabIndex = 0;
+        // 
+        // Form1
+        // 
+        AutoScaleDimensions = new SizeF(10F, 25F);
+        AutoScaleMode = AutoScaleMode.Font;
+        ClientSize = new Size(1541, 663);
+        Controls.Add(imageTracer1);
+        Name = "Form1";
+        Text = "Form1";
+        ResumeLayout(false);
     }
 
     #endregion
+
+    private ImageTracer imageTracer1;
 }
