@@ -8,11 +8,8 @@ public partial class Form1 : Form
     {
         InitializeComponent();
 
-        imageTracer1.TracingChanged += (s, e) =>
-        {
-            roiInspector1.LoadRois(e);
-            roiAnalyzer1.LoadRois(e);
-        };
+        imageTracer1.TracingChanged += (object? s, ImageWithTracing e) => roiInspector1.LoadRois(e);
+        roiInspector1.RoiDataChanged += (object? s, (RoiCollectionData data, double threshold) e) => roiAnalyzer1.LoadRois(e.data, e.threshold);
 
         LoadSampleData();
     }

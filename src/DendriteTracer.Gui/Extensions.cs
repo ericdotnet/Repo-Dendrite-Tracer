@@ -8,4 +8,9 @@ public static class Extensions
         Bitmap bmp = new(ms);
         return bmp;
     }
+
+    public static Bitmap ToBitmap(this RasterSharp.Image img)
+    {
+        return img.GetBitmapBytes().ToBitmap();
+    }
 }
