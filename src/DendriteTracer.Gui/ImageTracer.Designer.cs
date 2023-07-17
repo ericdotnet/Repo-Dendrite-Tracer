@@ -39,7 +39,9 @@
             label5 = new Label();
             label6 = new Label();
             label7 = new Label();
-            button1 = new Button();
+            btnLaunch = new Button();
+            btnLoadImage = new Button();
+            label8 = new Label();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)nudSpacing).BeginInit();
             ((System.ComponentModel.ISupportInitialize)nudRadius).BeginInit();
@@ -49,7 +51,7 @@
             // 
             pictureBox1.BackColor = Color.Navy;
             pictureBox1.Location = new Point(2, 17);
-            pictureBox1.Margin = new Padding(2, 2, 2, 2);
+            pictureBox1.Margin = new Padding(2);
             pictureBox1.Name = "pictureBox1";
             pictureBox1.Size = new Size(358, 307);
             pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
@@ -99,8 +101,8 @@
             // 
             // nudSpacing
             // 
-            nudSpacing.Location = new Point(197, 379);
-            nudSpacing.Margin = new Padding(2, 2, 2, 2);
+            nudSpacing.Location = new Point(128, 395);
+            nudSpacing.Margin = new Padding(2);
             nudSpacing.Maximum = new decimal(new int[] { 1000, 0, 0, 0 });
             nudSpacing.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
             nudSpacing.Name = "nudSpacing";
@@ -111,7 +113,7 @@
             // label4
             // 
             label4.AutoSize = true;
-            label4.Location = new Point(141, 380);
+            label4.Location = new Point(72, 396);
             label4.Margin = new Padding(2, 0, 2, 0);
             label4.Name = "label4";
             label4.Size = new Size(49, 15);
@@ -120,8 +122,8 @@
             // 
             // nudRadius
             // 
-            nudRadius.Location = new Point(197, 401);
-            nudRadius.Margin = new Padding(2, 2, 2, 2);
+            nudRadius.Location = new Point(128, 417);
+            nudRadius.Margin = new Padding(2);
             nudRadius.Maximum = new decimal(new int[] { 1000, 0, 0, 0 });
             nudRadius.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
             nudRadius.Name = "nudRadius";
@@ -132,7 +134,7 @@
             // label5
             // 
             label5.AutoSize = true;
-            label5.Location = new Point(148, 403);
+            label5.Location = new Point(79, 419);
             label5.Margin = new Padding(2, 0, 2, 0);
             label5.Name = "label5";
             label5.Size = new Size(42, 15);
@@ -142,7 +144,7 @@
             // label6
             // 
             label6.AutoSize = true;
-            label6.Location = new Point(265, 380);
+            label6.Location = new Point(197, 396);
             label6.Margin = new Padding(2, 0, 2, 0);
             label6.Name = "label6";
             label6.Size = new Size(55, 15);
@@ -152,28 +154,51 @@
             // label7
             // 
             label7.AutoSize = true;
-            label7.Location = new Point(265, 403);
+            label7.Location = new Point(197, 419);
             label7.Margin = new Padding(2, 0, 2, 0);
             label7.Name = "label7";
             label7.Size = new Size(55, 15);
             label7.TabIndex = 10;
             label7.Text = "10.12 µm";
             // 
-            // button1
+            // btnLaunch
             // 
-            button1.Location = new Point(2, 397);
-            button1.Margin = new Padding(2, 2, 2, 2);
-            button1.Name = "button1";
-            button1.Size = new Size(95, 25);
-            button1.TabIndex = 11;
-            button1.Text = "Open Folder";
-            button1.UseVisualStyleBackColor = true;
+            btnLaunch.Location = new Point(174, 461);
+            btnLaunch.Margin = new Padding(2);
+            btnLaunch.Name = "btnLaunch";
+            btnLaunch.Size = new Size(122, 26);
+            btnLaunch.TabIndex = 11;
+            btnLaunch.Text = "Launch Folder";
+            btnLaunch.UseVisualStyleBackColor = true;
+            // 
+            // btnLoadImage
+            // 
+            btnLoadImage.Location = new Point(38, 461);
+            btnLoadImage.Margin = new Padding(2);
+            btnLoadImage.Name = "btnLoadImage";
+            btnLoadImage.Size = new Size(119, 26);
+            btnLoadImage.TabIndex = 12;
+            btnLoadImage.Text = "Load Image";
+            btnLoadImage.UseVisualStyleBackColor = true;
+            // 
+            // label8
+            // 
+            label8.AutoSize = true;
+            label8.ForeColor = SystemColors.ControlDark;
+            label8.Location = new Point(69, 491);
+            label8.Name = "label8";
+            label8.Size = new Size(184, 15);
+            label8.TabIndex = 13;
+            label8.Text = "Drag/drop a TIF file here to load it";
             // 
             // ImageTracer
             // 
+            AllowDrop = true;
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            Controls.Add(button1);
+            Controls.Add(label8);
+            Controls.Add(btnLoadImage);
+            Controls.Add(btnLaunch);
             Controls.Add(label7);
             Controls.Add(label6);
             Controls.Add(label5);
@@ -185,9 +210,9 @@
             Controls.Add(label1);
             Controls.Add(hScrollBar1);
             Controls.Add(pictureBox1);
-            Margin = new Padding(2, 2, 2, 2);
+            Margin = new Padding(2);
             Name = "ImageTracer";
-            Size = new Size(363, 430);
+            Size = new Size(363, 511);
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ((System.ComponentModel.ISupportInitialize)nudSpacing).EndInit();
             ((System.ComponentModel.ISupportInitialize)nudRadius).EndInit();
@@ -208,6 +233,8 @@
         private Label label5;
         private Label label6;
         private Label label7;
-        private Button button1;
+        private Button btnLaunch;
+        private Button btnLoadImage;
+        private Label label8;
     }
 }

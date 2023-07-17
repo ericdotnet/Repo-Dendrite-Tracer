@@ -14,12 +14,38 @@ public partial class ImageTracer : UserControl
     public ImageTracer()
     {
         InitializeComponent();
+
         hScrollBar1.ValueChanged += (s, e) => DrawTracing();
         nudSpacing.ValueChanged += (s, e) => DrawTracing();
         nudRadius.ValueChanged += (s, e) => DrawTracing();
         pictureBox1.MouseDown += PictureBox1_MouseDown;
         pictureBox1.MouseMove += PictureBox1_MouseMove;
-        button1.Click += (s, e) => System.Diagnostics.Process.Start("explorer.exe", Path.GetDirectoryName(TifFilePath)!);
+
+        btnLaunch.Click += (s, e) =>
+        {
+            System.Diagnostics.Process.Start("explorer.exe", Path.GetDirectoryName(TifFilePath)!);
+        };
+
+        btnLoadImage.Click += (s, e) =>
+        {
+            OpenFileDialog diag = new() { Filter = "TIF files (*.tif, *.tiff)|*.tif;*.tiff" };
+            if (diag.ShowDialog() == DialogResult.OK)
+            {
+                LoadImge(diag.FileName);
+            }
+        };
+
+        DragEnter += (s, e) =>
+        {
+            if (e.Data!.GetDataPresent(DataFormats.FileDrop))
+                e.Effect = DragDropEffects.Copy;
+        };
+
+        DragDrop += (s, e) =>
+        {
+            string[] paths = (string[])e.Data!.GetData(DataFormats.FileDrop)!;
+            LoadImge(paths.First());
+        };
     }
 
     private void PictureBox1_MouseDown(object? sender, MouseEventArgs e)

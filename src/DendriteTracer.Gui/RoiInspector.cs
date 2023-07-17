@@ -39,6 +39,9 @@ public partial class RoiInspector : UserControl
         if (RoiData is null)
             return;
 
+        if (RoiData.Images.Length == 0)
+            return;
+
         int roiIndex = hScrollBar1.Value;
 
         label1.Text = $"ROI {roiIndex + 1} of {RoiData.Length}";
