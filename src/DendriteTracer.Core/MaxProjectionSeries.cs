@@ -1,6 +1,4 @@
-﻿using SciTIF.LUTs;
-
-namespace DendriteTracer.Core;
+﻿namespace DendriteTracer.Core;
 
 public class MaxProjectionSeries
 {
@@ -50,12 +48,26 @@ public class MaxProjectionSeries
         return (redChannel.Clone(), greenChannel.Clone());
     }
 
-    public byte[] GetPreviewImageBytes(int frame)
+    public (RasterSharp.Channel[] reds, RasterSharp.Channel[] greens) GetAllChannels()
+    {
+        RasterSharp.Channel[] reds = new RasterSharp.Channel[Tif.Frames];
+        RasterSharp.Channel[] greens = new RasterSharp.Channel[Tif.Frames];
+
+        for (int i = 0; i < Tif.Frames; i++)
+        {
+            (reds[i], greens[i]) = GetChannels(i);
+        }
+
+        return (reds, greens);
+    }
+
+    public byte[] GetPreviewImageBytes(int frame, double brightness)
     {
         (RasterSharp.Channel red, RasterSharp.Channel green) = GetChannels(frame);
 
-        red.Rescale();
-        green.Rescale();
+        double max = 255 * brightness;
+        red.Rescale(0, max);
+        green.Rescale(0, max);
 
         RasterSharp.Image img = new(red, green, red);
         return img.GetBitmapBytes();

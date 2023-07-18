@@ -2,7 +2,7 @@
 
 namespace DendriteTracer.Core;
 
-public struct ImageWithTracing
+public class ImageWithTracing
 {
     public Tracing Tracing { get; }
     public float RoiRadius { get; }

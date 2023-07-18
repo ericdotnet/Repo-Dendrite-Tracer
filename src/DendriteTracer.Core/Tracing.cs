@@ -3,7 +3,7 @@
 public class Tracing
 {
     private readonly List<PixelLocation> TracePixels = new();
-
+    public int Count => TracePixels.Count;
     public int Width { get; }
     public int Height { get; }
 
@@ -29,6 +29,14 @@ public class Tracing
     public void Add(PixelLocation pixel)
     {
         Add(pixel.X, pixel.Y);
+    }
+
+    public void AddRange(PixelLocation[] pixels)
+    {
+        foreach(PixelLocation pixel in pixels)
+        {
+            Add(pixel);
+        }
     }
 
     public PixelLocation[] GetPixels()

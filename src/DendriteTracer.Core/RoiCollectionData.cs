@@ -7,36 +7,34 @@ public class RoiCollectionData
 {
     public Channel[] Reds { get; }
     public Channel[] Greens { get; }
-    public Image[] Images { get; }
     public double[][] RedValuesSorted { get; }
-    public int Length => Images.Length;
+    public int RoiCount => Reds.Length;
 
     public RoiCollectionData(ImageWithTracing iwt)
     {
         (Reds, Greens) = iwt.GetRoiChannels();
 
-        Images = GetPreviewImages();
-
         RedValuesSorted = Reds.Select(x => x.GetValues().OrderBy(x => x).ToArray()).ToArray();
     }
 
-    private Image[] GetPreviewImages()
+    public Image GetMergedImage(int roiIndex)
     {
-        Image[] images = new Image[Reds.Length];
+        Channel r = Reds[roiIndex].Clone();
+        Channel g = Greens[roiIndex].Clone();
 
-        for (int i = 0; i < Reds.Length; i++)
-        {
-            Channel r = Reds[i].Clone();
-            Channel g = Greens[i].Clone();
+        r.Rescale();
+        g.Rescale();
 
-            r.Rescale();
-            g.Rescale();
+        return new Image(r, g, r);
+    }
 
-            images[i] = new Image(r, g, r);
-        }
-
-
-        return images;
+    public (double floor, double threshold) GetThreshold(double percent, double multiple, int roiIndex)
+    {
+        double[] sorted = Reds[roiIndex].GetValues().OrderBy(x => x).ToArray();
+        int floorIndex = (int)(percent * sorted.Length / 100.0);
+        double floor = sorted[floorIndex];
+        double threshold = floor * multiple;
+        return (floor, threshold);
     }
 
     public Image GetThresholdImage(double threshold, int roiIndex)
@@ -90,11 +88,11 @@ public class RoiCollectionData
 
     public (double[] reds, double[] greens, double[] ratios) GetCurves(double redThreshold)
     {
-        double[] redMeans = new double[Length];
-        double[] greenMeans = new double[Length];
-        double[] ratioMeans = new double[Length];
+        double[] redMeans = new double[RoiCount];
+        double[] greenMeans = new double[RoiCount];
+        double[] ratioMeans = new double[RoiCount];
 
-        for (int i = 0; i < Length; i++)
+        for (int i = 0; i < RoiCount; i++)
         {
             (double[] reds, double[] greens, PixelLocation[] locations) = GetPixelsAboveThreshold(redThreshold, i);
             double[] ratios = Enumerable.Range(0, reds.Length).Select(x => greens[x] / reds[x] * 100).ToArray();

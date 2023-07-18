@@ -12,12 +12,21 @@ public partial class RoiAnalyzer : UserControl
         nudRatioMax.ValueChanged += (s, e) => UpdatePlots();
     }
 
-    public void LoadRois(RoiCollectionData data, double threshold)
+    public void LoadRois(Analysis analysis)
     {
-        if (data.Images.Length == 0)
+        // TODO: DEDUP
+        RoiCollectionData data = analysis.GetRoiData(analysis.SelectedFrame);
+
+        Visible = data.RoiCount > 0;
+        if (data.RoiCount == 0)
             return;
 
-        double[] positions = ScottPlot.Generate.Consecutive(data.Length);
+        (double floor, double threshold) = data.GetThreshold(
+            percent: analysis.Settings.PixelThresholdFloor_Percent,
+            multiple: analysis.Settings.PixelThreshold_Multiple,
+            roiIndex: analysis.SelectedRoi);
+
+        double[] positions = ScottPlot.Generate.Consecutive(data.RoiCount);
 
         (double[] redMeans, double[] greenMeans, double[] ratios) = data.GetCurves(threshold);
 

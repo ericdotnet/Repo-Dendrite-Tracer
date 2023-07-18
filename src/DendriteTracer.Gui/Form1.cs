@@ -8,8 +8,16 @@ public partial class Form1 : Form
     {
         InitializeComponent();
 
-        imageTracer1.TracingChanged += (object? s, ImageWithTracing e) => roiInspector1.LoadRois(e);
-        roiInspector1.RoiDataChanged += (object? s, (RoiCollectionData data, double threshold) e) => roiAnalyzer1.LoadRois(e.data, e.threshold);
+        userInputs1.AnalysisChanged += (object? sender, Analysis analysis) =>
+        {
+            imageTracer1.LoadAnalysis(analysis);
+        };
+
+        imageTracer1.AnalysisChanged += (object? sender, Analysis analysis) =>
+        {
+            roiInspector1.LoadROIs(analysis);
+            roiAnalyzer1.LoadRois(analysis);
+        };
 
         LoadSampleData();
     }
@@ -32,6 +40,6 @@ public partial class Form1 : Form
             new(206, 39.5), new(219.5, 26), new(218, 14), new(216, 4),
         };
 
-        imageTracer1.LoadImge(startupImage, points);
+        userInputs1.LoadTif(startupImage, points);
     }
 }
