@@ -37,7 +37,7 @@ public class RoiCollectionData
         return (floor, threshold);
     }
 
-    public Image GetThresholdImage(double threshold, int roiIndex)
+    public Image GetThresholdImage(double threshold, int roiIndex, bool circular)
     {
         RasterSharp.Image img = new(Reds[0].Width, Reds[0].Height);
 
@@ -45,17 +45,29 @@ public class RoiCollectionData
         {
             for (int x = 0; x < img.Width; x++)
             {
-                if (Reds[roiIndex].GetValue(x, y) < threshold)
+                bool isAboveThreshold = Reds[roiIndex].GetValue(x, y) >= threshold;
+
+                if (isAboveThreshold && circular)
                 {
-                    img.Red.SetValue(x, y, 0);
-                    img.Green.SetValue(x, y, 0);
-                    img.Blue.SetValue(x, y, 255);
+                    double radius = (double)Reds[0].Width / 2;
+                    double dX = Math.Abs(radius - x);
+                    double dY = Math.Abs(radius - y);
+                    double distanceFromCenter = Math.Sqrt(dX * dX + dY * dY);
+                    if (distanceFromCenter > radius)
+                        isAboveThreshold = false;
                 }
-                else
+
+                if (isAboveThreshold)
                 {
                     img.Red.SetValue(x, y, 255);
                     img.Green.SetValue(x, y, 0);
                     img.Blue.SetValue(x, y, 0);
+                }
+                else
+                {
+                    img.Red.SetValue(x, y, 0);
+                    img.Green.SetValue(x, y, 0);
+                    img.Blue.SetValue(x, y, 255);
                 }
             }
         }

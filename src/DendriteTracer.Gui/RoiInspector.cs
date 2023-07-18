@@ -50,7 +50,7 @@ public partial class RoiInspector : UserControl
         pictureBox1.Image = data.GetMergedImage(Analysis.SelectedRoi).ToBitmap();
 
         var oldImage = pictureBox2.Image;
-        pictureBox2.Image = data.GetThresholdImage(threshold, Analysis.SelectedRoi).ToBitmap();
+        pictureBox2.Image = data.GetThresholdImage(threshold, Analysis.SelectedRoi, Analysis.Settings.RoiIsCircular).ToBitmap();
         oldImage?.Dispose();
 
         formsPlot1.Plot.Clear();

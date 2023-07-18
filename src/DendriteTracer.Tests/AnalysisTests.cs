@@ -1,11 +1,14 @@
-﻿namespace DendriteTracer.Tests;
+﻿using System.Data;
+using System.Text;
+
+namespace DendriteTracer.Tests;
 
 public class AnalysisTests
 {
     [Fact]
     public void Test_Analysis_Workflow()
     {
-        double[] times = Enumerable.Range(0, 31).Select(x=>(double)x).ToArray();
+        double[] times = Enumerable.Range(0, 31).Select(x => (double)x).ToArray();
 
         Core.AnalysisSettings settings = new(SampleData.TSeriesTifPath)
         {
@@ -27,5 +30,42 @@ public class AnalysisTests
 
         Core.Analysis analysis = new(settings);
         analysis.Tracing.AddRange(points);
+
+        var dataByFrame = analysis.GetRoiDataByFrame();
+
+        double[,] dffValues = new double[analysis.FrameCount, analysis.RoiCount];
+        for (int frameIndex = 0; frameIndex < analysis.FrameCount; frameIndex++)
+        {
+            double threshold = 0; // TODO
+            var frameCurves = dataByFrame[frameIndex].GetCurves(threshold);
+            for (int roiIndex = 0; roiIndex < analysis.RoiCount; roiIndex++)
+            {
+                dffValues[frameIndex, roiIndex] = frameCurves.ratios[roiIndex];
+            }
+        }
+
+        StringBuilder sb = new();
+
+        sb.Append($"\"Time\"\t");
+        for (int i = 0; i < analysis.RoiCount; i++)
+        {
+            sb.Append($"\"{10 * i} µm\"\t");
+        }
+        sb.AppendLine();
+
+        string saveAs = Path.GetFullPath("test.csv");
+        for (int i = 0; i < analysis.FrameCount; i++)
+        {
+            sb.Append($"{i}\t");
+
+            for (int j = 0; j < analysis.RoiCount; j++)
+            {
+                sb.Append($"{dffValues[i, j]}\t");
+            }
+
+            sb.AppendLine();
+        }
+        File.WriteAllText(saveAs, sb.ToString());
+        Console.Write(saveAs);
     }
 }

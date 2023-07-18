@@ -13,6 +13,7 @@ public class Analysis
     public int FrameCount => RedImages.Length;
     public Tracing Tracing { get; }
     public int RoiCount => Tracing.Count;
+    public string[] RoiNames => Enumerable.Range(0, RoiCount).Select(x => $"ROI #{x}").ToArray();
     public int SelectedFrame { get; set; }
     public int SelectedRoi { get; set; }
     public string SelectedRoiTitle => $"ROI {SelectedRoi + 1} of {RoiCount}";
@@ -77,6 +78,18 @@ public class Analysis
         using MemoryStream ms = new(bytes);
         Bitmap bmp = new(ms);
         return bmp;
+    }
+
+    public RoiCollectionData[] GetRoiDataByFrame()
+    {
+        RoiCollectionData[] dataByFrame = new RoiCollectionData[FrameCount];
+
+        for (int i=0; i<FrameCount; i++)
+        {
+            dataByFrame[i] = GetRoiData(i);
+        }
+
+        return dataByFrame;
     }
 
     public RoiCollectionData GetRoiData(int frameIndex)
