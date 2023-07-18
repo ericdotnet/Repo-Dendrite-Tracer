@@ -2,8 +2,8 @@
 
 public class Tracing
 {
-    private readonly List<PixelLocation> TracePixels = new();
-    public int Count => TracePixels.Count;
+    public readonly List<PixelLocation> Points = new();
+    public int Count => Points.Count;
     public int Width { get; }
     public int Height { get; }
 
@@ -15,7 +15,7 @@ public class Tracing
 
     public void Clear()
     {
-        TracePixels.Clear();
+        Points.Clear();
     }
 
     public void Add(float x, float y)
@@ -23,7 +23,7 @@ public class Tracing
         if (x < 0 || x >= Width || y < 0 || y >= Height)
             throw new ArgumentException("outside image area");
 
-        TracePixels.Add(new PixelLocation(x, y));
+        Points.Add(new PixelLocation(x, y));
     }
 
     public void Add(PixelLocation pixel)
@@ -41,7 +41,7 @@ public class Tracing
 
     public PixelLocation[] GetPixels()
     {
-        return TracePixels.ToArray();
+        return Points.ToArray();
     }
 
     public string GetPointsString()
@@ -58,9 +58,9 @@ public class Tracing
 
         double nextSetback = 0;
 
-        for (int i = 1; i < TracePixels.Count; i++)
+        for (int i = 1; i < Points.Count; i++)
         {
-            (PixelLocation[] segmentPoints, double setback) = GetSubPoints(TracePixels[i - 1], TracePixels[i], spacing, nextSetback);
+            (PixelLocation[] segmentPoints, double setback) = GetSubPoints(Points[i - 1], Points[i], spacing, nextSetback);
             nextSetback = setback;
             Roi[] segmentRois = segmentPoints.Select(pt => new Roi(pt.X, pt.Y, radius)).ToArray();
             rois.AddRange(segmentRois);
