@@ -35,8 +35,8 @@ namespace DendriteTracer.Gui
                 LoadTif(paths.First());
             };
 
-            nudImageSubtractionFloor.ValueChanged += (s, e) => OnSettingsChanged();
-            cbImageSubtractionEnabled.CheckedChanged += (s, e) => OnSettingsChanged();
+            nudImageSubtractionFloor.ValueChanged += (s, e) => OnSettingsChanged(true);
+            cbImageSubtractionEnabled.CheckedChanged += (s, e) => OnSettingsChanged(true);
             nudRoiRadius.ValueChanged += (s, e) => OnSettingsChanged();
             nudRoiSpacing.ValueChanged += (s, e) => OnSettingsChanged();
             cbRoiCirular.CheckedChanged += (s, e) => OnSettingsChanged();

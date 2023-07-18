@@ -14,33 +14,23 @@ public partial class RoiAnalyzer : UserControl
 
     public void LoadRois(Analysis analysis)
     {
-        // TODO: DEDUP
-        RoiCollectionData data = analysis.GetRoiData(analysis.SelectedFrame);
-
-        Visible = data.RoiCount > 0;
-        if (data.RoiCount == 0)
+        Visible = analysis.RoiCount > 0;
+        if (analysis.RoiCount == 0)
             return;
 
-        (double floor, double threshold) = data.GetThreshold(
-            percent: analysis.Settings.PixelThresholdFloor_Percent,
-            multiple: analysis.Settings.PixelThreshold_Multiple,
-            roiIndex: analysis.SelectedRoi);
-
-        double[] positions = ScottPlot.Generate.Consecutive(data.RoiCount);
-
-        (double[] redMeans, double[] greenMeans, double[] ratios) = data.GetCurves(threshold);
+        var curves = analysis.GetRoiCurvesForFrame(analysis.SelectedFrame);
 
         formsPlot1.Plot.Clear();
         formsPlot1.Plot.XLabel("Distance (µm)");
         formsPlot1.Plot.YLabel("Fluorescence (AFU)");
-        formsPlot1.Plot.AddScatter(positions, redMeans, System.Drawing.Color.Red, label: "Red PMT");
-        formsPlot1.Plot.AddScatter(positions, greenMeans, System.Drawing.Color.Green, label: "Green PMT");
-        formsPlot1.Plot.Legend(true, ScottPlot.Alignment.UpperRight);
+        formsPlot1.Plot.AddScatter(curves.position, curves.red, Color.Red, label: "Red PMT");
+        formsPlot1.Plot.AddScatter(curves.position, curves.green, Color.Green, label: "Green PMT");
+        formsPlot1.Plot.Legend(true, Alignment.UpperRight);
 
         formsPlot2.Plot.Clear();
         formsPlot2.Plot.XLabel("Distance (µm)");
         formsPlot2.Plot.YLabel("Green/Red (%)");
-        formsPlot2.Plot.AddScatter(positions, ratios, System.Drawing.Color.Blue);
+        formsPlot2.Plot.AddScatter(curves.position, curves.ratio, Color.Blue);
 
         UpdatePlots();
     }

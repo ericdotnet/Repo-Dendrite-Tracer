@@ -1,5 +1,4 @@
 ﻿using System.Drawing;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace DendriteTracer.Core;
 
@@ -7,69 +6,224 @@ public class Analysis
 {
     public AnalysisSettings Settings { get; set; }
     public MaxProjectionSeries Proj { get; }
-    RasterSharp.Channel[] RedImages { get; }
-    RasterSharp.Channel[] GreenImages { get; }
-    //public Bitmap[] FrameImages { get; }
-    public int FrameCount => RedImages.Length;
+    RasterSharp.Channel[] FrameImagesRed { get; }
+    RasterSharp.Channel[] FrameImagesGreen { get; }
+    public int FrameCount => FrameImagesRed.Length;
     public Tracing Tracing { get; }
-    public int RoiCount => Tracing.Count;
     public string[] RoiNames => Enumerable.Range(0, RoiCount).Select(x => $"ROI #{x}").ToArray();
     public int SelectedFrame { get; set; }
     public int SelectedRoi { get; set; }
     public string SelectedRoiTitle => $"ROI {SelectedRoi + 1} of {RoiCount}";
     public string SelectedFrameTitle => $"{Path.GetFileName(Settings.TifFilePath)} (Frame {SelectedFrame + 1} of {FrameCount})";
+    public Roi[] Rois { get; }
+    public int RoiCount => Rois.Length;
+    public RasterSharp.Channel[,] RoiImagesRed { get; }
+    public RasterSharp.Channel[,] RoiImagesGreen { get; }
+    public RasterSharp.Image[,] RoiImagesMerge { get; }
+    public double[,] RoiNoiseFloors { get; }
+    public double[,] RoiThresholds { get; }
+    public RasterSharp.Image[,] RoiMaskImages { get; }
+    public double[,] RoiMeansRed { get; }
+    public double[,] RoiMeansGreen { get; }
+    public double[,] RoiRatios { get; }
+    public double[] RoiPositions => Enumerable.Range(0, RoiCount).Select(x => x * Settings.RoiSpacing_Microns).ToArray();
 
     public Analysis(AnalysisSettings settings)
     {
+        System.Diagnostics.Debug.WriteLine($"REANALYZING");
+
         Settings = settings;
         Proj = new(settings.TifFilePath);
-        //FrameImages = GetFrameImages();
         Tracing = new(Proj.Width, Proj.Height);
-        (RedImages, GreenImages) = Proj.GetAllChannels();
-        //ApplyImageFloorSubtraction(); // TODO:
+        (FrameImagesRed, FrameImagesGreen) = Proj.GetAllChannels();
+        Rois = Tracing.GetEvenlySpacedRois(settings.RoiSpacing_Pixels, settings.RoiRadius_Pixels);
+        System.Diagnostics.Debug.WriteLine($"ROI COUNT: {Rois.Length}");
+        RoiImagesRed = GetRoiImages(FrameImagesRed, Rois);
+        RoiImagesGreen = GetRoiImages(FrameImagesGreen, Rois);
+        RoiImagesMerge = GetMergedRoiImages(RoiImagesRed, RoiImagesGreen);
+        (RoiNoiseFloors, RoiThresholds) = CalculateThresholds(RoiImagesRed);
+        RoiMaskImages = GetMaskImages(RoiImagesRed);
+        RoiMeansRed = GetRoiMeans(RoiImagesRed, RoiThresholds);
+        RoiMeansGreen = GetRoiMeans(RoiImagesGreen, RoiThresholds);
+        RoiRatios = GetRoiRatios(RoiMeansRed, RoiMeansGreen);
     }
 
-    private void ApplyImageFloorSubtraction()
+    public RasterSharp.Image[,] GetMergedRoiImages(RasterSharp.Channel[,] reds, RasterSharp.Channel[,] greens)
     {
-        if (Settings.ImageSubtractionFloor_Percent == 0)
-            return;
+        RasterSharp.Image[,] img = new RasterSharp.Image[reds.GetLength(0), reds.GetLength(1)];
 
-        for (int i = 0; i < FrameCount; i++)
+        for (int i = 0; i < reds.GetLength(0); i++)
         {
-            ApplySubtraction(RedImages[i], Settings.ImageSubtractionFloor_Percent);
-            ApplySubtraction(GreenImages[i], Settings.ImageSubtractionFloor_Percent);
-        }
-    }
-
-    private void ApplySubtraction(RasterSharp.Channel image, double percent)
-    {
-        double[] sorted = image.GetValues().OrderBy(x => x).ToArray();
-        int index = (int)(percent / 100 * sorted.Length);
-        double floor = sorted[index];
-
-        System.Diagnostics.Debug.WriteLine($"SUBTRACTING {floor}");
-
-        for (int y = 0; y < image.Height; y++)
-        {
-            for (int x = 0; x < image.Width; x++)
+            for (int j = 0; j < reds.GetLength(1); j++)
             {
-                double value = image.GetValue(x, y);
-                value -= floor;
-                image.SetValue(x, y, value);
+                img[i, j] = new(reds[i, j], greens[i, j], reds[i, j]);
             }
         }
+
+        return img;
     }
 
-    private Bitmap[] GetFrameImages()
+    public (double[] position, double[] red, double[] green, double[] ratio) GetRoiCurvesForFrame(int frameIndex)
     {
-        Bitmap[] images = new Bitmap[Proj.Length];
+        double[] red = new double[RoiCount];
+        double[] green = new double[RoiCount];
+        double[] ratio = new double[RoiCount];
 
-        for (int i = 0; i < Proj.Length; i++)
+        for (int i = 0; i < RoiCount; i++)
         {
-            images[i] = GetFrameImage(i);
+            red[i] = RoiMeansRed[frameIndex, i];
+            green[i] = RoiMeansGreen[frameIndex, i];
+            ratio[i] = RoiRatios[frameIndex, i];
+        }
+
+        return (RoiPositions, red, green, ratio);
+    }
+
+    public double[,] GetRoiRatios(double[,] redMeans, double[,] greenMeans)
+    {
+        double[,] means = new double[redMeans.GetLength(0), redMeans.GetLength(1)];
+
+        for (int i = 0; i < redMeans.GetLength(0); i++)
+        {
+            for (int j = 0; j < redMeans.GetLength(1); j++)
+            {
+                means[i, j] = greenMeans[i, j] / redMeans[i, j];
+            }
+        }
+
+        return means;
+    }
+
+    public double[,] GetRoiMeans(RasterSharp.Channel[,] images, double[,] thresholds)
+    {
+        double[,] means = new double[images.GetLength(0), images.GetLength(1)];
+
+        for (int i = 0; i < images.GetLength(0); i++)
+        {
+            for (int j = 0; j < images.GetLength(1); j++)
+            {
+                var values = images[i, j].GetValues().Where(x => x > thresholds[i, j]);
+                means[i, j] = values.Sum() / values.Count();
+            }
+        }
+
+        return means;
+    }
+
+    public RasterSharp.Image[,] GetMaskImages(RasterSharp.Channel[,] images)
+    {
+        RasterSharp.Image[,] masks = new RasterSharp.Image[images.GetLength(0), images.GetLength(1)];
+
+        for (int i = 0; i < images.GetLength(0); i++)
+        {
+            for (int j = 0; j < images.GetLength(1); j++)
+            {
+                masks[i, j] = GetThresholdImage(images[i, j], RoiThresholds[i, j]);
+            }
+        }
+
+        return masks;
+    }
+
+    public RasterSharp.Image GetThresholdImage(RasterSharp.Channel source, double threshold)
+    {
+        RasterSharp.Image img = new(source.Width, source.Height);
+
+        for (int y = 0; y < img.Height; y++)
+        {
+            for (int x = 0; x < img.Width; x++)
+            {
+                bool isAboveThreshold = source.GetValue(x, y) >= threshold;
+                bool isOutsideCircle = false;
+
+                if (Settings.RoiIsCircular)
+                {
+                    double radius = (double)source.Width / 2;
+                    double dX = Math.Abs(radius - x);
+                    double dY = Math.Abs(radius - y);
+                    double distanceFromCenter = Math.Sqrt(dX * dX + dY * dY);
+                    isOutsideCircle = distanceFromCenter > radius;
+                }
+
+                if (isOutsideCircle)
+                {
+                    img.Red.SetValue(x, y, 0);
+                    img.Green.SetValue(x, y, 0);
+                    img.Blue.SetValue(x, y, 0);
+                }
+                else if (isAboveThreshold)
+                {
+                    img.Red.SetValue(x, y, 255);
+                    img.Green.SetValue(x, y, 0);
+                    img.Blue.SetValue(x, y, 0);
+                }
+                else
+                {
+                    img.Red.SetValue(x, y, 0);
+                    img.Green.SetValue(x, y, 0);
+                    img.Blue.SetValue(x, y, 255);
+                }
+            }
+        }
+
+        return img;
+    }
+
+    public (double[,] floors, double[,] thresholds) CalculateThresholds(RasterSharp.Channel[,] images)
+    {
+        double[,] floors = new double[images.GetLength(0), images.GetLength(1)];
+        double[,] thresholds = new double[images.GetLength(0), images.GetLength(1)];
+
+        for (int i = 0; i < images.GetLength(0); i++)
+        {
+            for (int j = 0; j < images.GetLength(1); j++)
+            {
+                double[] sorted = images[i, j].GetValues().OrderBy(x => x).ToArray();
+                int floorIndex = (int)(Settings.PixelThresholdFloor_Percent * sorted.Length / 100.0);
+                double floor = sorted[floorIndex];
+                double threshold = floor * Settings.PixelThreshold_Multiple;
+
+                floors[i, j] = floor;
+                thresholds[i, j] = threshold;
+            }
+        }
+
+        return (floors, thresholds);
+    }
+
+    private static RasterSharp.Channel[,] GetRoiImages(RasterSharp.Channel[] frameImages, Roi[] rois)
+    {
+        RasterSharp.Channel[,] images = new RasterSharp.Channel[frameImages.Length, rois.Length];
+
+        for (int frameIndex = 0; frameIndex < frameImages.Length; frameIndex++)
+        {
+            for (int roiIndex = 0; roiIndex < rois.Length; roiIndex++)
+            {
+                images[frameIndex, roiIndex] = Crop(frameImages[frameIndex], rois[roiIndex]);
+            }
         }
 
         return images;
+    }
+
+    private static RasterSharp.Channel Crop(RasterSharp.Channel img, Roi roi)
+    {
+        return Crop(img, (int)roi.Left, (int)roi.Top, (int)roi.Width, (int)roi.Height);
+    }
+
+    private static RasterSharp.Channel Crop(RasterSharp.Channel img, int x, int y, int width, int height)
+    {
+        RasterSharp.Channel img2 = new(width, height);
+
+        for (int row = 0; row < height; row++)
+        {
+            for (int col = 0; col < width; col++)
+            {
+                img2.SetValue(col, row, img.GetValue(col + x, row + y));
+            }
+        }
+
+        return img2;
     }
 
     private Bitmap GetFrameImage(int frame)
@@ -78,30 +232,6 @@ public class Analysis
         using MemoryStream ms = new(bytes);
         Bitmap bmp = new(ms);
         return bmp;
-    }
-
-    public RoiCollectionData[] GetRoiDataByFrame()
-    {
-        RoiCollectionData[] dataByFrame = new RoiCollectionData[FrameCount];
-
-        for (int i=0; i<FrameCount; i++)
-        {
-            dataByFrame[i] = GetRoiData(i);
-        }
-
-        return dataByFrame;
-    }
-
-    public RoiCollectionData GetRoiData(int frameIndex)
-    {
-        ImageWithTracing iwt = new(
-            tracing: Tracing,
-            spacing: Settings.RoiSpacing_Pixels,
-            radius: Settings.RoiRadius_Pixels,
-            red: RedImages[frameIndex],
-            green: GreenImages[frameIndex]);
-
-        return new(iwt);
     }
 
     public Bitmap GetAnnotatedFrame()

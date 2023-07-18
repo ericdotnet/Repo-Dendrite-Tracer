@@ -214,7 +214,6 @@
             // 
             // nudImageSubtractionFloor
             // 
-            nudImageSubtractionFloor.Enabled = false;
             nudImageSubtractionFloor.Location = new Point(26, 71);
             nudImageSubtractionFloor.Name = "nudImageSubtractionFloor";
             nudImageSubtractionFloor.Size = new Size(106, 31);
@@ -224,8 +223,7 @@
             // cbImageSubtractionEnabled
             // 
             cbImageSubtractionEnabled.AutoSize = true;
-            cbImageSubtractionEnabled.Enabled = false;
-            cbImageSubtractionEnabled.Location = new Point(182, 73);
+            cbImageSubtractionEnabled.Location = new Point(166, 72);
             cbImageSubtractionEnabled.Name = "cbImageSubtractionEnabled";
             cbImageSubtractionEnabled.Size = new Size(90, 29);
             cbImageSubtractionEnabled.TabIndex = 10;
