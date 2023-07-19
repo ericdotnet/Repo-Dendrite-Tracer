@@ -6,11 +6,18 @@ public class Tracing
     public int Count => Points.Count;
     public int Width { get; }
     public int Height { get; }
+    public float Spacing_Px { get; set; } = 10;
+    public float Radius_Px { get; set; } = 15;
+    public bool IsCircular { get; set; } = true;
 
-    public Tracing(int width, int height)
+    public Tracing(int width, int height, PixelLocation[]? pixels = null)
     {
         Width = width;
         Height = height;
+        if (pixels is not null)
+        {
+            AddRange(pixels);
+        }
     }
 
     public void Clear()
@@ -33,7 +40,7 @@ public class Tracing
 
     public void AddRange(PixelLocation[] pixels)
     {
-        foreach(PixelLocation pixel in pixels)
+        foreach (PixelLocation pixel in pixels)
         {
             Add(pixel);
         }
@@ -49,10 +56,14 @@ public class Tracing
         return string.Join(", ", GetPixels().Select(p => $"({p.X}, {p.Y})"));
     }
 
-    /// <summary>
-    /// Return a collection of ROIs evenly-spaced along the trace
-    /// </summary>
-    public Roi[] GetEvenlySpacedRois(float spacing, float radius)
+    public Roi[] GetEvenlySpacedRois(float spacingPx, float radiusPx)
+    {
+        Spacing_Px = spacingPx;
+        Radius_Px = radiusPx;
+        return GetEvenlySpacedRois();
+    }
+
+    public Roi[] GetEvenlySpacedRois()
     {
         List<Roi> rois = new();
 
@@ -60,9 +71,9 @@ public class Tracing
 
         for (int i = 1; i < Points.Count; i++)
         {
-            (PixelLocation[] segmentPoints, double setback) = GetSubPoints(Points[i - 1], Points[i], spacing, nextSetback);
+            (PixelLocation[] segmentPoints, double setback) = GetSubPoints(Points[i - 1], Points[i], Spacing_Px, nextSetback);
             nextSetback = setback;
-            Roi[] segmentRois = segmentPoints.Select(pt => new Roi(pt.X, pt.Y, radius)).ToArray();
+            Roi[] segmentRois = segmentPoints.Select(pt => new Roi(pt.X, pt.Y, Radius_Px)).ToArray();
             rois.AddRange(segmentRois);
         }
 

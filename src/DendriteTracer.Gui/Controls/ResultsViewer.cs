@@ -3,9 +3,9 @@ using ScottPlot;
 
 namespace DendriteTracer.Gui;
 
-public partial class RoiAnalyzer : UserControl
+public partial class ResultsViewer : UserControl
 {
-    public RoiAnalyzer()
+    public ResultsViewer()
     {
         InitializeComponent();
         nudRawMax.ValueChanged += (s, e) => UpdatePlots();

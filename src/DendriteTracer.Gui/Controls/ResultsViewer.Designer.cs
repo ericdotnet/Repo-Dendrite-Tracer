@@ -1,6 +1,6 @@
 ﻿namespace DendriteTracer.Gui
 {
-    partial class RoiAnalyzer
+    partial class ResultsViewer
     {
         /// <summary> 
         /// Required designer variable.
