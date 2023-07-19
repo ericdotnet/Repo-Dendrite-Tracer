@@ -76,6 +76,7 @@ public partial class ImageTracer : UserControl
 
         cbImageSubtractionEnabled.CheckedChanged += (s, e) =>
         {
+            nudImageSubtractionFloor.Enabled = cbImageSubtractionEnabled.Checked;
             ReloadTif();
         };
 

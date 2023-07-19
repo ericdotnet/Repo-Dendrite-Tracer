@@ -36,20 +36,36 @@ public partial class ResultsViewer : UserControl
         if (RoiCollection is null)
             return;
 
-        formsPlot1.Plot.Clear();
-        formsPlot1.Plot.XLabel("Distance (µm)");
-        formsPlot1.Plot.YLabel("Fluorescence (AFU)");
-        formsPlot1.Plot.AddScatter(RoiCollection.Positions, RoiCollection.RedCurveByFrame[SelectedFrame], Color.Red, label: "Red PMT");
-        formsPlot1.Plot.AddScatter(RoiCollection.Positions, RoiCollection.GreenCurveByFrame[SelectedFrame], Color.Green, label: "Green PMT");
-        formsPlot1.Plot.Legend(true, Alignment.UpperRight);
-        formsPlot1.Plot.SetAxisLimitsY(0, (double)nudRawMax.Value);
-        formsPlot1.Refresh();
 
-        formsPlot2.Plot.Clear();
-        formsPlot2.Plot.XLabel("Distance (µm)");
-        formsPlot2.Plot.YLabel("Green/Red (%)");
-        formsPlot2.Plot.AddScatter(RoiCollection.Positions, RoiCollection.RatioCurveByFrame[SelectedFrame], Color.Blue);
-        formsPlot2.Plot.SetAxisLimitsY(0, (double)nudRatioMax.Value);
-        formsPlot2.Refresh();
+        try
+        {
+            formsPlot1.Plot.Clear();
+            formsPlot1.Plot.Title("");
+            formsPlot1.Plot.XLabel("Distance (µm)");
+            formsPlot1.Plot.YLabel("PMT Reading (AFU)");
+            formsPlot1.Plot.AddScatter(RoiCollection.Positions, RoiCollection.RedCurveByFrame[SelectedFrame], Color.Red, label: "Red PMT");
+            formsPlot1.Plot.AddScatter(RoiCollection.Positions, RoiCollection.GreenCurveByFrame[SelectedFrame], Color.Green, label: "Green PMT");
+            formsPlot1.Plot.Legend(true, Alignment.UpperRight);
+            formsPlot1.Plot.SetAxisLimitsY(0, (double)nudRawMax.Value);
+            formsPlot1.Refresh();
+
+            formsPlot2.Plot.Clear();
+            formsPlot1.Plot.Title("");
+            formsPlot2.Plot.XLabel("Distance (µm)");
+            formsPlot2.Plot.YLabel("Green/Red (%)");
+            formsPlot2.Plot.AddScatter(RoiCollection.Positions, RoiCollection.RatioCurveByFrame[SelectedFrame], Color.Blue);
+            formsPlot2.Plot.SetAxisLimitsY(0, (double)nudRatioMax.Value);
+            formsPlot2.Refresh();
+        }
+        catch (Exception ex)
+        {
+            formsPlot1.Plot.Clear();
+            formsPlot1.Plot.Title(ex.ToString());
+            formsPlot1.Refresh();
+
+            formsPlot2.Plot.Clear();
+            formsPlot2.Refresh();
+        }
+
     }
 }

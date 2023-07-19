@@ -41,17 +41,15 @@
             // 
             // groupBox2
             // 
-            groupBox2.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             groupBox2.Controls.Add(cbEnableThreshold);
             groupBox2.Controls.Add(label9);
             groupBox2.Controls.Add(label10);
             groupBox2.Controls.Add(nudPixelThresholdMult);
             groupBox2.Controls.Add(nudPixelThresholdFloor);
-            groupBox2.Location = new Point(2, 2);
-            groupBox2.Margin = new Padding(2);
+            groupBox2.Dock = DockStyle.Fill;
+            groupBox2.Location = new Point(0, 0);
             groupBox2.Name = "groupBox2";
-            groupBox2.Padding = new Padding(2);
-            groupBox2.Size = new Size(384, 73);
+            groupBox2.Size = new Size(554, 132);
             groupBox2.TabIndex = 1;
             groupBox2.TabStop = false;
             groupBox2.Text = "ROI Threshold";
@@ -59,11 +57,10 @@
             // cbEnableThreshold
             // 
             cbEnableThreshold.AutoSize = true;
-            cbEnableThreshold.Checked = true;
-            cbEnableThreshold.CheckState = CheckState.Checked;
-            cbEnableThreshold.Location = new Point(208, 43);
+            cbEnableThreshold.Location = new Point(297, 72);
+            cbEnableThreshold.Margin = new Padding(4, 5, 4, 5);
             cbEnableThreshold.Name = "cbEnableThreshold";
-            cbEnableThreshold.Size = new Size(68, 19);
+            cbEnableThreshold.Size = new Size(101, 29);
             cbEnableThreshold.TabIndex = 5;
             cbEnableThreshold.Text = "Enabled";
             cbEnableThreshold.UseVisualStyleBackColor = true;
@@ -71,49 +68,44 @@
             // label9
             // 
             label9.AutoSize = true;
-            label9.Location = new Point(116, 23);
-            label9.Margin = new Padding(2, 0, 2, 0);
+            label9.Location = new Point(166, 38);
             label9.Name = "label9";
-            label9.Size = new Size(59, 15);
+            label9.Size = new Size(90, 25);
             label9.TabIndex = 4;
             label9.Text = "Threshold";
             // 
             // label10
             // 
             label10.AutoSize = true;
-            label10.Location = new Point(18, 23);
-            label10.Margin = new Padding(2, 0, 2, 0);
+            label10.Location = new Point(26, 38);
             label10.Name = "label10";
-            label10.Size = new Size(55, 15);
+            label10.Size = new Size(83, 25);
             label10.TabIndex = 3;
             label10.Text = "Floor (%)";
             // 
             // nudPixelThresholdMult
             // 
-            nudPixelThresholdMult.Location = new Point(116, 40);
-            nudPixelThresholdMult.Margin = new Padding(2);
+            nudPixelThresholdMult.Location = new Point(166, 67);
             nudPixelThresholdMult.Name = "nudPixelThresholdMult";
-            nudPixelThresholdMult.Size = new Size(74, 23);
+            nudPixelThresholdMult.Size = new Size(106, 31);
             nudPixelThresholdMult.TabIndex = 1;
-            nudPixelThresholdMult.Value = new decimal(new int[] { 3, 0, 0, 0 });
+            nudPixelThresholdMult.Value = new decimal(new int[] { 10, 0, 0, 0 });
             // 
             // nudPixelThresholdFloor
             // 
-            nudPixelThresholdFloor.Location = new Point(18, 40);
-            nudPixelThresholdFloor.Margin = new Padding(2);
+            nudPixelThresholdFloor.Location = new Point(26, 67);
             nudPixelThresholdFloor.Name = "nudPixelThresholdFloor";
-            nudPixelThresholdFloor.Size = new Size(74, 23);
+            nudPixelThresholdFloor.Size = new Size(106, 31);
             nudPixelThresholdFloor.TabIndex = 0;
-            nudPixelThresholdFloor.Value = new decimal(new int[] { 50, 0, 0, 0 });
+            nudPixelThresholdFloor.Value = new decimal(new int[] { 20, 0, 0, 0 });
             // 
             // RoiConfigurator
             // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             Controls.Add(groupBox2);
-            Margin = new Padding(2);
             Name = "RoiConfigurator";
-            Size = new Size(388, 79);
+            Size = new Size(554, 132);
             groupBox2.ResumeLayout(false);
             groupBox2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)nudPixelThresholdMult).EndInit();

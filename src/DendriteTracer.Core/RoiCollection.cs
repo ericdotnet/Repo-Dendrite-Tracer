@@ -20,7 +20,7 @@ public class RoiCollection
     public Bitmap[,] MergedImages { get; }
     public double[][] SortedRedPixelsByFrame { get; }
     public double[,][] SortedRedPixelsByRoi { get; }
-    public double[] NoiseFloorsByFrame { get; }
+    //public double[] NoiseFloorsByFrame { get; }
     public double[] ThresholdsByFrame { get; }
     public Bitmap[,] MaskImages { get; }
     public bool[,][,] Masks { get; }
@@ -44,19 +44,15 @@ public class RoiCollection
         MergedImages = Drawing.GetMergedImages(RedImages, GreenImages);
         SortedRedPixelsByFrame = ArrayOperations.GetSortedPixels(roiGen.RedImages);
         SortedRedPixelsByRoi = ArrayOperations.GetSortedPixels(RedImages);
-        NoiseFloorsByFrame = ArrayOperations.GetNoiseFloorsByFrame(SortedRedPixelsByFrame, thresholdFloorPercent);
-        ThresholdsByFrame = ArrayOperations.GetThresholdsByFrame(SortedRedPixelsByFrame, NoiseFloorsByFrame, thresholdMult);
+        //NoiseFloorsByFrame = ArrayOperations.GetNoiseFloorsByFrame(SortedRedPixelsByFrame, thresholdFloorPercent);
+        ThresholdsByFrame = ArrayOperations.GetThresholdsByFrame(SortedRedPixelsByFrame, thresholdFloorPercent, thresholdMult);
 
-        bool maskDisabled = thresholdFloorPercent == 0 && thresholdMult == 0;
+        bool maskDisabled = thresholdFloorPercent == 0 || thresholdMult == 0;
         (MaskImages, Masks) = Drawing.GetMaskImages(RedImages, ThresholdsByFrame, roiGen.Tracing.IsCircular, maskDisabled);
 
         RedMeans = ArrayOperations.GetMeans(RedImages, Masks);
         GreenMeans = ArrayOperations.GetMeans(GreenImages, Masks);
         Ratios = ArrayOperations.GetRatios(RedMeans, GreenMeans);
-
-        //RedMeans = ArrayOperations.GetMeans(RedImages);
-        //GreenMeans = ArrayOperations.GetMeans(GreenImages);
-        //Ratios = ArrayOperations.GetRatios(RedMeans, GreenMeans);
 
         RedCurveByFrame = ArrayOperations.GetCurveByFrame(RedMeans);
         GreenCurveByFrame = ArrayOperations.GetCurveByFrame(GreenMeans);

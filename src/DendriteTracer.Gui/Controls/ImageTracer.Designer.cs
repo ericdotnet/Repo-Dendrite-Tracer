@@ -65,10 +65,9 @@
             // pictureBox1
             // 
             pictureBox1.BackColor = Color.Navy;
-            pictureBox1.Location = new Point(2, 17);
-            pictureBox1.Margin = new Padding(2);
+            pictureBox1.Location = new Point(3, 28);
             pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(358, 307);
+            pictureBox1.Size = new Size(511, 512);
             pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
             pictureBox1.TabIndex = 0;
             pictureBox1.TabStop = false;
@@ -81,17 +80,16 @@
             hScrollBar1.Maximum = 10;
             hScrollBar1.Minimum = 1;
             hScrollBar1.Name = "hScrollBar1";
-            hScrollBar1.Size = new Size(355, 28);
+            hScrollBar1.Size = new Size(507, 47);
             hScrollBar1.TabIndex = 1;
             hScrollBar1.Value = 1;
             // 
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(2, 0);
-            label1.Margin = new Padding(2, 0, 2, 0);
+            label1.Location = new Point(3, 0);
             label1.Name = "label1";
-            label1.Size = new Size(38, 15);
+            label1.Size = new Size(59, 25);
             label1.TabIndex = 2;
             label1.Text = "label1";
             // 
@@ -99,18 +97,20 @@
             // 
             nudBrightness.DecimalPlaces = 1;
             nudBrightness.Increment = new decimal(new int[] { 5, 0, 0, 65536 });
-            nudBrightness.Location = new Point(75, 22);
+            nudBrightness.Location = new Point(107, 37);
+            nudBrightness.Margin = new Padding(4, 5, 4, 5);
             nudBrightness.Name = "nudBrightness";
-            nudBrightness.Size = new Size(63, 23);
+            nudBrightness.Size = new Size(90, 31);
             nudBrightness.TabIndex = 3;
             nudBrightness.Value = new decimal(new int[] { 4, 0, 0, 0 });
             // 
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(7, 24);
+            label2.Location = new Point(10, 40);
+            label2.Margin = new Padding(4, 0, 4, 0);
             label2.Name = "label2";
-            label2.Size = new Size(62, 15);
+            label2.Size = new Size(94, 25);
             label2.TabIndex = 4;
             label2.Text = "Brightness";
             // 
@@ -119,9 +119,10 @@
             cbRois.AutoSize = true;
             cbRois.Checked = true;
             cbRois.CheckState = CheckState.Checked;
-            cbRois.Location = new Point(231, 25);
+            cbRois.Location = new Point(330, 42);
+            cbRois.Margin = new Padding(4, 5, 4, 5);
             cbRois.Name = "cbRois";
-            cbRois.Size = new Size(50, 19);
+            cbRois.Size = new Size(76, 29);
             cbRois.TabIndex = 5;
             cbRois.Text = "ROIs";
             cbRois.UseVisualStyleBackColor = true;
@@ -131,9 +132,10 @@
             cbSpines.AutoSize = true;
             cbSpines.Checked = true;
             cbSpines.CheckState = CheckState.Checked;
-            cbSpines.Location = new Point(165, 25);
+            cbSpines.Location = new Point(236, 42);
+            cbSpines.Margin = new Padding(4, 5, 4, 5);
             cbSpines.Name = "cbSpines";
-            cbSpines.Size = new Size(60, 19);
+            cbSpines.Size = new Size(90, 29);
             cbSpines.TabIndex = 6;
             cbSpines.Text = "Spines";
             cbSpines.UseVisualStyleBackColor = true;
@@ -142,9 +144,10 @@
             // 
             panel1.BorderStyle = BorderStyle.FixedSingle;
             panel1.Controls.Add(hScrollBar1);
-            panel1.Location = new Point(3, 329);
+            panel1.Location = new Point(4, 548);
+            panel1.Margin = new Padding(4, 5, 4, 5);
             panel1.Name = "panel1";
-            panel1.Size = new Size(357, 30);
+            panel1.Size = new Size(509, 49);
             panel1.TabIndex = 7;
             // 
             // groupBox1
@@ -153,9 +156,11 @@
             groupBox1.Controls.Add(nudBrightness);
             groupBox1.Controls.Add(cbSpines);
             groupBox1.Controls.Add(cbRois);
-            groupBox1.Location = new Point(4, 514);
+            groupBox1.Location = new Point(6, 857);
+            groupBox1.Margin = new Padding(4, 5, 4, 5);
             groupBox1.Name = "groupBox1";
-            groupBox1.Size = new Size(355, 57);
+            groupBox1.Padding = new Padding(4, 5, 4, 5);
+            groupBox1.Size = new Size(507, 95);
             groupBox1.TabIndex = 8;
             groupBox1.TabStop = false;
             groupBox1.Text = "Display";
@@ -164,9 +169,11 @@
             // 
             groupBox2.Controls.Add(label3);
             groupBox2.Controls.Add(btnSelectFile);
-            groupBox2.Location = new Point(4, 365);
+            groupBox2.Location = new Point(6, 608);
+            groupBox2.Margin = new Padding(4, 5, 4, 5);
             groupBox2.Name = "groupBox2";
-            groupBox2.Size = new Size(355, 62);
+            groupBox2.Padding = new Padding(4, 5, 4, 5);
+            groupBox2.Size = new Size(507, 103);
             groupBox2.TabIndex = 9;
             groupBox2.TabStop = false;
             groupBox2.Text = "Load Data";
@@ -175,17 +182,19 @@
             // 
             label3.AutoSize = true;
             label3.ForeColor = SystemColors.ControlDark;
-            label3.Location = new Point(128, 32);
+            label3.Location = new Point(183, 53);
+            label3.Margin = new Padding(4, 0, 4, 0);
             label3.Name = "label3";
-            label3.Size = new Size(129, 15);
+            label3.Size = new Size(198, 25);
             label3.TabIndex = 11;
             label3.Text = "or drag/drop a file here";
             // 
             // btnSelectFile
             // 
-            btnSelectFile.Location = new Point(12, 28);
+            btnSelectFile.Location = new Point(17, 47);
+            btnSelectFile.Margin = new Padding(4, 5, 4, 5);
             btnSelectFile.Name = "btnSelectFile";
-            btnSelectFile.Size = new Size(75, 23);
+            btnSelectFile.Size = new Size(107, 38);
             btnSelectFile.TabIndex = 10;
             btnSelectFile.Text = "Select File";
             btnSelectFile.UseVisualStyleBackColor = true;
@@ -197,11 +206,9 @@
             groupBox3.Controls.Add(label5);
             groupBox3.Controls.Add(nudRoiRadius);
             groupBox3.Controls.Add(nudRoiSpacing);
-            groupBox3.Location = new Point(4, 576);
-            groupBox3.Margin = new Padding(2);
+            groupBox3.Location = new Point(6, 960);
             groupBox3.Name = "groupBox3";
-            groupBox3.Padding = new Padding(2);
-            groupBox3.Size = new Size(355, 72);
+            groupBox3.Size = new Size(507, 120);
             groupBox3.TabIndex = 10;
             groupBox3.TabStop = false;
             groupBox3.Text = "ROI Dimensions";
@@ -211,10 +218,9 @@
             cbRoiCirular.AutoSize = true;
             cbRoiCirular.Checked = true;
             cbRoiCirular.CheckState = CheckState.Checked;
-            cbRoiCirular.Location = new Point(214, 38);
-            cbRoiCirular.Margin = new Padding(2);
+            cbRoiCirular.Location = new Point(306, 63);
             cbRoiCirular.Name = "cbRoiCirular";
-            cbRoiCirular.Size = new Size(67, 19);
+            cbRoiCirular.Size = new Size(96, 29);
             cbRoiCirular.TabIndex = 9;
             cbRoiCirular.Text = "Circular";
             cbRoiCirular.UseVisualStyleBackColor = true;
@@ -222,38 +228,34 @@
             // label4
             // 
             label4.AutoSize = true;
-            label4.Location = new Point(115, 21);
-            label4.Margin = new Padding(2, 0, 2, 0);
+            label4.Location = new Point(164, 35);
             label4.Name = "label4";
-            label4.Size = new Size(71, 15);
+            label4.Size = new Size(106, 25);
             label4.TabIndex = 4;
             label4.Text = "Radius (µm)";
             // 
             // label5
             // 
             label5.AutoSize = true;
-            label5.Location = new Point(17, 21);
-            label5.Margin = new Padding(2, 0, 2, 0);
+            label5.Location = new Point(24, 35);
             label5.Name = "label5";
-            label5.Size = new Size(78, 15);
+            label5.Size = new Size(116, 25);
             label5.TabIndex = 3;
             label5.Text = "Spacing (µm)";
             // 
             // nudRoiRadius
             // 
-            nudRoiRadius.Location = new Point(116, 39);
-            nudRoiRadius.Margin = new Padding(2);
+            nudRoiRadius.Location = new Point(166, 65);
             nudRoiRadius.Name = "nudRoiRadius";
-            nudRoiRadius.Size = new Size(74, 23);
+            nudRoiRadius.Size = new Size(106, 31);
             nudRoiRadius.TabIndex = 1;
             nudRoiRadius.Value = new decimal(new int[] { 15, 0, 0, 0 });
             // 
             // nudRoiSpacing
             // 
-            nudRoiSpacing.Location = new Point(18, 39);
-            nudRoiSpacing.Margin = new Padding(2);
+            nudRoiSpacing.Location = new Point(26, 65);
             nudRoiSpacing.Name = "nudRoiSpacing";
-            nudRoiSpacing.Size = new Size(74, 23);
+            nudRoiSpacing.Size = new Size(106, 31);
             nudRoiSpacing.TabIndex = 0;
             nudRoiSpacing.Value = new decimal(new int[] { 10, 0, 0, 0 });
             // 
@@ -263,11 +265,9 @@
             groupBox4.Controls.Add(label6);
             groupBox4.Controls.Add(nudImageSubtractionFloor);
             groupBox4.Controls.Add(cbImageSubtractionEnabled);
-            groupBox4.Location = new Point(4, 432);
-            groupBox4.Margin = new Padding(2);
+            groupBox4.Location = new Point(6, 720);
             groupBox4.Name = "groupBox4";
-            groupBox4.Padding = new Padding(2);
-            groupBox4.Size = new Size(355, 76);
+            groupBox4.Size = new Size(507, 127);
             groupBox4.TabIndex = 11;
             groupBox4.TabStop = false;
             groupBox4.Text = "Noise Floor Subtraction";
@@ -275,19 +275,17 @@
             // label6
             // 
             label6.AutoSize = true;
-            label6.Location = new Point(17, 23);
-            label6.Margin = new Padding(2, 0, 2, 0);
+            label6.Location = new Point(24, 38);
             label6.Name = "label6";
-            label6.Size = new Size(55, 15);
+            label6.Size = new Size(83, 25);
             label6.TabIndex = 12;
             label6.Text = "Floor (%)";
             // 
             // nudImageSubtractionFloor
             // 
-            nudImageSubtractionFloor.Location = new Point(18, 43);
-            nudImageSubtractionFloor.Margin = new Padding(2);
+            nudImageSubtractionFloor.Location = new Point(26, 72);
             nudImageSubtractionFloor.Name = "nudImageSubtractionFloor";
-            nudImageSubtractionFloor.Size = new Size(74, 23);
+            nudImageSubtractionFloor.Size = new Size(106, 31);
             nudImageSubtractionFloor.TabIndex = 11;
             nudImageSubtractionFloor.Value = new decimal(new int[] { 20, 0, 0, 0 });
             // 
@@ -296,10 +294,9 @@
             cbImageSubtractionEnabled.AutoSize = true;
             cbImageSubtractionEnabled.Checked = true;
             cbImageSubtractionEnabled.CheckState = CheckState.Checked;
-            cbImageSubtractionEnabled.Location = new Point(115, 42);
-            cbImageSubtractionEnabled.Margin = new Padding(2);
+            cbImageSubtractionEnabled.Location = new Point(166, 74);
             cbImageSubtractionEnabled.Name = "cbImageSubtractionEnabled";
-            cbImageSubtractionEnabled.Size = new Size(61, 19);
+            cbImageSubtractionEnabled.Size = new Size(90, 29);
             cbImageSubtractionEnabled.TabIndex = 10;
             cbImageSubtractionEnabled.Text = "Enable";
             cbImageSubtractionEnabled.UseVisualStyleBackColor = true;
@@ -307,7 +304,7 @@
             // ImageTracer
             // 
             AllowDrop = true;
-            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             Controls.Add(groupBox4);
             Controls.Add(groupBox3);
@@ -316,9 +313,8 @@
             Controls.Add(panel1);
             Controls.Add(label1);
             Controls.Add(pictureBox1);
-            Margin = new Padding(2);
             Name = "ImageTracer";
-            Size = new Size(363, 650);
+            Size = new Size(519, 1083);
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ((System.ComponentModel.ISupportInitialize)nudBrightness).EndInit();
             panel1.ResumeLayout(false);

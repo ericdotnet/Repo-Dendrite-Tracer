@@ -11,6 +11,9 @@
         {
             InitializeComponent();
 
+            nudPixelThresholdFloor.Enabled = false;
+            nudPixelThresholdMult.Enabled = false;
+
             nudPixelThresholdFloor.ValueChanged += (s, e) => OnSettingsChanged();
             nudPixelThresholdMult.ValueChanged += (s, e) => OnSettingsChanged();
             cbEnableThreshold.CheckedChanged += (s, e) => OnSettingsChanged();
@@ -18,6 +21,8 @@
 
         private void OnSettingsChanged()
         {
+            nudPixelThresholdFloor.Enabled = cbEnableThreshold.Checked;
+            nudPixelThresholdMult.Enabled = cbEnableThreshold.Checked;
             RoiSettingsChanged.Invoke(this, EventArgs.Empty);
         }
     }

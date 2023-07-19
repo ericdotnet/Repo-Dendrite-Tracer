@@ -115,23 +115,6 @@ internal static class ArrayOperations
         return values.Sum() / values.Count;
     }
 
-    public static double[] GetThresholdsByFrame(double[][] sortedByFrame, double[] floors, double mult)
-    {
-        int frameCount = floors.Length;
-
-        double[] thresholds = new double[frameCount];
-
-        for (int i = 0; i < frameCount; i++)
-        {
-            double lowest = sortedByFrame[0][0];
-            double floorDistFromLowest = floors[i] - lowest;
-            double thresholdDistFromLowest = floorDistFromLowest * mult;
-            thresholds[i] = lowest + thresholdDistFromLowest;
-        }
-
-        return thresholds;
-    }
-
     public static double[] GetNoiseFloorsByFrame(double[][] SortedRedPixels, double percentile)
     {
         int frameCount = SortedRedPixels.Length;
@@ -145,6 +128,55 @@ internal static class ArrayOperations
         }
 
         return floors;
+    }
+
+    public static double[] GetThresholdsByFrame(double[][] sortedByFrame, double percent, double mult)
+    {
+        int frameCount = sortedByFrame.Length;
+
+        double[] thresholds = new double[frameCount];
+
+        for (int i = 0; i < frameCount; i++)
+        {
+            if (percent == 0 || mult == 0)
+            {
+                thresholds[i] = sortedByFrame[i][0];
+            }
+            else
+            {
+                int lastIndex = (int)(sortedByFrame[i].Length * percent / 100.0);
+                double[] floorValues = new double[lastIndex];
+                Array.Copy(sortedByFrame[i], floorValues, lastIndex);
+                thresholds[i] = StDev(floorValues) * mult;
+            }
+        }
+
+        return thresholds;
+    }
+
+    public static double StDev(double[] values)
+    {
+        double sum = 0;
+        for (int i = 0; i < values.Length; i++)
+        {
+            sum += values[i];
+        }
+
+        double mean = sum / values.Length;
+
+        double sumVariancesSquared = 0;
+        for (int i = 0; i < values.Length; i++)
+        {
+            double pointVariance = Math.Abs(mean - values[i]);
+            double pointVarianceSquared = Math.Pow(pointVariance, 2);
+            sumVariancesSquared += pointVarianceSquared;
+        }
+
+        double meanVarianceSquared = sumVariancesSquared / values.Length;
+
+        double stDev = Math.Sqrt(meanVarianceSquared);
+
+        return stDev;
     }
 
     public static double[,][] GetSortedPixels(RasterSharp.Channel[,] imgs)

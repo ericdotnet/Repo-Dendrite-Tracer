@@ -37,48 +37,45 @@ partial class Form1
         // imageTracer1
         // 
         imageTracer1.AllowDrop = true;
-        imageTracer1.Location = new Point(8, 7);
-        imageTracer1.Margin = new Padding(1);
+        imageTracer1.Location = new Point(11, 12);
+        imageTracer1.Margin = new Padding(1, 2, 1, 2);
         imageTracer1.Name = "imageTracer1";
-        imageTracer1.Size = new Size(380, 654);
+        imageTracer1.Size = new Size(543, 1090);
         imageTracer1.TabIndex = 0;
         // 
         // roiInspector1
         // 
         roiInspector1.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-        roiInspector1.Location = new Point(393, 18);
-        roiInspector1.Margin = new Padding(1);
+        roiInspector1.Location = new Point(561, 30);
+        roiInspector1.Margin = new Padding(1, 2, 1, 2);
         roiInspector1.Name = "roiInspector1";
-        roiInspector1.Size = new Size(779, 231);
+        roiInspector1.Size = new Size(1113, 385);
         roiInspector1.TabIndex = 1;
         // 
         // roiConfigurator1
         // 
-        roiConfigurator1.Location = new Point(10, 660);
-        roiConfigurator1.Margin = new Padding(2);
+        roiConfigurator1.Location = new Point(14, 1100);
         roiConfigurator1.Name = "roiConfigurator1";
-        roiConfigurator1.Size = new Size(359, 162);
+        roiConfigurator1.Size = new Size(512, 114);
         roiConfigurator1.TabIndex = 2;
         // 
         // resultsViewer1
         // 
         resultsViewer1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-        resultsViewer1.Location = new Point(391, 256);
-        resultsViewer1.Margin = new Padding(2);
+        resultsViewer1.Location = new Point(559, 427);
         resultsViewer1.Name = "resultsViewer1";
-        resultsViewer1.Size = new Size(778, 627);
+        resultsViewer1.Size = new Size(1111, 1045);
         resultsViewer1.TabIndex = 3;
         // 
         // Form1
         // 
-        AutoScaleDimensions = new SizeF(7F, 15F);
+        AutoScaleDimensions = new SizeF(10F, 25F);
         AutoScaleMode = AutoScaleMode.Font;
-        ClientSize = new Size(1180, 894);
+        ClientSize = new Size(1686, 1490);
         Controls.Add(resultsViewer1);
         Controls.Add(roiConfigurator1);
         Controls.Add(roiInspector1);
         Controls.Add(imageTracer1);
-        Margin = new Padding(2);
         Name = "Form1";
         StartPosition = FormStartPosition.CenterScreen;
         Text = "Dendrite Tracer";
