@@ -10,6 +10,7 @@ public partial class ImageTracer : UserControl
     public event EventHandler FrameChanged = delegate { };
     public double SubtractionFloor => cbImageSubtractionEnabled.Checked ? (double)nudImageSubtractionFloor.Value : 0;
     public int SelectedFrame => hScrollBar1.Value - 1;
+    private int SelectedRoi;
 
     public ImageTracer()
     {
@@ -93,6 +94,12 @@ public partial class ImageTracer : UserControl
         pictureBox1.MouseUp += PictureBox1_MouseUp;
         pictureBox1.MouseMove += PictureBox1_MouseMove;
 
+    }
+
+    public void SetSelectedRoi(int roi)
+    {
+        SelectedRoi = roi;
+        RedrawFrame();
     }
 
     private void ReloadTif()
@@ -221,7 +228,7 @@ public partial class ImageTracer : UserControl
         label1.Text = $"Frame {SelectedFrame + 1} of {RoiGen.FrameCount}";
 
         Image? oldImage = pictureBox1.Image;
-        pictureBox1.Image = Drawing.DrawTracingAndRois(RoiGen.MergedImages[SelectedFrame], RoiGen.Tracing, cbSpines.Checked, cbRois.Checked);
+        pictureBox1.Image = Drawing.DrawTracingAndRois(RoiGen.MergedImages[SelectedFrame], RoiGen.Tracing, cbSpines.Checked, cbRois.Checked, SelectedRoi);
         oldImage?.Dispose();
 
         pictureBox1.Invalidate();

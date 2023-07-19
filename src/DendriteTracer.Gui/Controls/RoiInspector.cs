@@ -6,12 +6,17 @@ public partial class RoiInspector : UserControl
 {
     private RoiCollection? RoiCollection;
     private int SelectedFrame;
-    private int SelectedRoi => hScrollBar1.Value;
+    public int SelectedRoi => hScrollBar1.Value;
+    public event EventHandler SelectedRoiChanged = delegate { };
 
     public RoiInspector()
     {
         InitializeComponent();
-        hScrollBar1.ValueChanged += (s, e) => { UpdateImage(); };
+        hScrollBar1.ValueChanged += (s, e) =>
+        {
+            UpdateImage();
+            SelectedRoiChanged.Invoke(this, EventArgs.Empty);
+        };
     }
 
     public void LoadROIs(RoiCollection roiCollection)

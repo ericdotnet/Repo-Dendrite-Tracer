@@ -12,7 +12,10 @@ public partial class Form1 : Form
         imageTracer1.RoisChanged += (s, e) => UpdateAllRois();
 
         // When the frame slider moves, update the ROI inspector
-        imageTracer1.FrameChanged += (s, e) => UpdateFrame();
+        imageTracer1.FrameChanged += (s, e) => UpdateFrameAndRoi();
+
+        // When the ROI slider moves, update the analysis window
+        roiInspector1.SelectedRoiChanged += (s, e) => UpdateFrameAndRoi();
 
         roiConfigurator1.RoiSettingsChanged += (s, e) => UpdateAllRois();
 
@@ -29,10 +32,11 @@ public partial class Form1 : Form
         resultsViewer1.LoadRois(rois);
     }
 
-    private void UpdateFrame()
+    private void UpdateFrameAndRoi()
     {
+        imageTracer1.SetSelectedRoi(roiInspector1.SelectedRoi);
         roiInspector1.SetFrame(imageTracer1.SelectedFrame);
-        resultsViewer1.SetFrame(imageTracer1.SelectedFrame);
+        resultsViewer1.SetSelectedFrameAndRoi(imageTracer1.SelectedFrame, roiInspector1.SelectedRoi);
     }
 
     private void LoadSampleData()

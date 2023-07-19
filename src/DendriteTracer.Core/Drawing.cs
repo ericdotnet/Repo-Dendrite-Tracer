@@ -101,7 +101,7 @@ public static class Drawing
         return merged;
     }
 
-    public static Bitmap DrawTracingAndRois(Bitmap source, Tracing Tracing, bool showSpines, bool showRois)
+    public static Bitmap DrawTracingAndRois(Bitmap source, Tracing Tracing, bool showSpines, bool showRois, int selectedRoi)
     {
         // TODO: replace with RasterSharp drawing
         Bitmap bmp = new(source);
@@ -112,7 +112,7 @@ public static class Drawing
             DrawSpines(gfx, Tracing.GetPixels());
 
         if (showRois)
-            DrawRois(gfx, Tracing.GetEvenlySpacedRois(), Tracing.IsCircular);
+            DrawRois(gfx, Tracing.GetEvenlySpacedRois(), Tracing.IsCircular, selectedRoi);
 
         return bmp;
     }
@@ -135,22 +135,24 @@ public static class Drawing
         }
     }
 
-    public static void DrawRois(Graphics gfx, Roi[] rois, bool isCircular)
+    public static void DrawRois(Graphics gfx, Roi[] rois, bool isCircular, int selectedRoi)
     {
         RectangleF[] roiRects = rois.Select(roi => new RectangleF(roi.Left, roi.Top, roi.Width, roi.Height)).ToArray();
 
-        using Pen pen = new(Color.FromArgb(150, Color.Cyan));
+        using Pen penNormal = new(Color.FromArgb(100, Color.Cyan));
+        using Pen penSelected = new(Color.Cyan, 2);
 
-        foreach (RectangleF rect in roiRects)
+        for (int i = 0; i < roiRects.Length; i++)
         {
+            RectangleF rect = roiRects[i];
 
             if (isCircular)
             {
-                gfx.DrawEllipse(pen, rect.X, rect.Y, rect.Width, rect.Height);
+                gfx.DrawEllipse(i == selectedRoi ? penSelected : penNormal, rect.X, rect.Y, rect.Width, rect.Height);
             }
             else
             {
-                gfx.DrawRectangle(Pens.Cyan, rect.X, rect.Y, rect.Width, rect.Height);
+                gfx.DrawRectangle(i == selectedRoi ? penSelected : penNormal, rect.X, rect.Y, rect.Width, rect.Height);
             }
         }
     }
