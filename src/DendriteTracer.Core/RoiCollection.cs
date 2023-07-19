@@ -58,4 +58,60 @@ public class RoiCollection
         GreenCurveByFrame = ArrayOperations.GetCurveByFrame(GreenMeans);
         RatioCurveByFrame = ArrayOperations.GetCurveByFrame(Ratios);
     }
+
+    /// <summary>
+    /// Rows are frames (time), columns are ROIs (distance)
+    /// </summary>
+    public IO.CsvData GetDataByFrame(double[,] metric)
+    {
+        IO.CsvData csv = new();
+        csv.AddCol(Times, "Time", "minutes");
+
+        for (int roiIndex = 0; roiIndex < RoiCount; roiIndex++)
+        {
+            Core.IO.CsvColumn col = new()
+            {
+                Name = $"{Math.Round(Positions[roiIndex], 5)} µm",
+                Units = "%",
+                Comments = $"R/G",
+            };
+
+            for (int frameIndex = 0; frameIndex < FrameCount; frameIndex++)
+            {
+                col.AddCell(metric[frameIndex, roiIndex]);
+            }
+
+            csv.AddCol(col);
+        }
+
+        return csv;
+    }
+
+    /// <summary>
+    /// Rows are ROIs (distance), columns are frame (time)
+    /// </summary>
+    public IO.CsvData GetDataByRoi(double[,] metric)
+    {
+        IO.CsvData csv = new();
+
+        csv.AddCol(Positions, "Position", "µm");
+        for (int frameIndex = 0; frameIndex < FrameCount; frameIndex++)
+        {
+            Core.IO.CsvColumn col = new()
+            {
+                Name = $"{Math.Round(Times[frameIndex], 5)} min",
+                Units = "%",
+                Comments = $"R/G",
+            };
+
+            for (int roiIndex = 0; roiIndex < RoiCount; roiIndex++)
+            {
+                col.AddCell(metric[frameIndex, roiIndex]);
+            }
+
+            csv.AddCol(col);
+        }
+
+        return csv;
+    }
 }
