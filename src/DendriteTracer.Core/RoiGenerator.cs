@@ -16,6 +16,7 @@ public class RoiGenerator
     public int Height { get; }
     public int FrameCount { get; }
 
+
     public RoiGenerator(string tifFile, double brightness = 1)
     {
         MaxProjectionSeries proj = new(tifFile); // TODO: make this static
@@ -25,7 +26,8 @@ public class RoiGenerator
         FrameCount = RedImages.Length;
         MergedImages = new Bitmap[RedImages.Length];
         RegenerateMergedImages(brightness);
-        Tracing = new(Width, Height);
+        double micronsPerPixel = 1; // TODO: read from XML
+        Tracing = new(Width, Height, (float)micronsPerPixel);
     }
 
     public void RegenerateMergedImages(double brightness)

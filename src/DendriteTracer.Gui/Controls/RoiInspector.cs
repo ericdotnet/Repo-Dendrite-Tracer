@@ -5,7 +5,9 @@ namespace DendriteTracer.Gui;
 
 public partial class RoiInspector : UserControl
 {
-    private Core.Analysis? Analysis;
+    private RoiCollection? RoiCollection;
+    private int SelectedFrame;
+    private int SelectedRoi => hScrollBar1.Value;
 
     public RoiInspector()
     {
@@ -13,50 +15,42 @@ public partial class RoiInspector : UserControl
         hScrollBar1.ValueChanged += (s, e) => { UpdateImage(); };
     }
 
-    public void LoadROIs(Core.Analysis analysis)
+    public void LoadROIs(RoiCollection roiCollection)
     {
-        Visible = analysis.RoiCount > 0;
-        if (analysis.RoiCount == 0)
+        Visible = roiCollection.RoiCount > 0;
+        if (roiCollection.RoiCount == 0)
             return;
 
-        Analysis = analysis;
+        RoiCollection = roiCollection;
+        hScrollBar1.Value = Math.Min(hScrollBar1.Value, RoiCollection.RoiCount - 1);
+        hScrollBar1.Maximum = RoiCollection.RoiCount - 1;
 
-        hScrollBar1.Value = Math.Min(hScrollBar1.Value, analysis.RoiCount);
-        hScrollBar1.Maximum = analysis.RoiCount;
+        UpdateImage();
+    }
 
+    public void SetFrame(int frame)
+    {
+        SelectedFrame = frame;
         UpdateImage();
     }
 
     public void UpdateImage()
     {
-        if (Analysis is null)
+        if (RoiCollection is null)
             return;
 
-        Analysis.SelectedRoi = hScrollBar1.Value - 1;
-        label1.Text = Analysis.SelectedRoiTitle;
+        label1.Text = $"Frame {SelectedFrame + 1}, ROI {SelectedRoi + 1} of {RoiCollection.RoiCount}";
+        pictureBox1.Image = RoiCollection.MergedImages[SelectedFrame, SelectedRoi];
+        pictureBox2.Image = RoiCollection.MaskImages[SelectedFrame, SelectedRoi];
 
-        Visible = Analysis.RoiCount > 0;
-        if (Analysis.RoiCount == 0)
-            return;
-
-        pictureBox1.Image = Analysis.RoiImagesMerge[Analysis.SelectedFrame, Analysis.SelectedRoi].ToBitmap();
-
-
-        var oldImage = pictureBox2.Image;
-        pictureBox2.Image = Analysis.RoiMaskImages[Analysis.SelectedFrame, Analysis.SelectedRoi].ToBitmap();
-        oldImage?.Dispose();
-
-        var curves = Analysis.GetRoiCurvesForFrame(Analysis.SelectedFrame);
-
-        double[] sortedRedValues = Analysis.RoiImagesRed[Analysis.SelectedFrame, Analysis.SelectedRoi]
-            .GetValues()
-            .OrderBy(x => x)
-            .ToArray();  
+        double[] allValues = RoiCollection.SortedRedPixels[SelectedFrame, SelectedRoi];
+        double floor = RoiCollection.NoiseFloors[SelectedFrame, SelectedRoi];
+        double threshold = RoiCollection.Thresholds[SelectedFrame, SelectedRoi];
 
         formsPlot1.Plot.Clear();
-        formsPlot1.Plot.AddSignal(sortedRedValues, sortedRedValues.Length / 100.0);
-        formsPlot1.Plot.AddHorizontalLine(Analysis.RoiNoiseFloors[Analysis.SelectedFrame, Analysis.SelectedRoi], System.Drawing.Color.Black, style: LineStyle.Dot, label: "Noise Floor");
-        formsPlot1.Plot.AddHorizontalLine(Analysis.RoiThresholds[Analysis.SelectedFrame, Analysis.SelectedRoi], System.Drawing.Color.Black, style: LineStyle.Dash, label: "Threshold");
+        formsPlot1.Plot.AddSignal(allValues, allValues.Length / 100.0);
+        formsPlot1.Plot.AddHorizontalLine(floor, System.Drawing.Color.Black, style: LineStyle.Dot, label: "Noise Floor");
+        formsPlot1.Plot.AddHorizontalLine(threshold, System.Drawing.Color.Black, style: LineStyle.Dash, label: "Threshold");
         formsPlot1.Plot.Legend(true, Alignment.UpperLeft);
 
         formsPlot1.Plot.XLabel("Distribution (%)");

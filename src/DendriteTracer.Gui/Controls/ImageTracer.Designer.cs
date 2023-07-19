@@ -186,7 +186,6 @@
             // 
             // groupBox3
             // 
-            groupBox3.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             groupBox3.Controls.Add(cbRoiCirular);
             groupBox3.Controls.Add(label4);
             groupBox3.Controls.Add(label5);

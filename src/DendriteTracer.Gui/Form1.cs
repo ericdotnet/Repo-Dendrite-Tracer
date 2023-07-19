@@ -8,7 +8,17 @@ public partial class Form1 : Form
     {
         InitializeComponent();
 
+        // When the image, trace, or ROI settings change, reanalyze everything
+        imageTracer1.RoisChanged += (object? sender, RoiCollection roiCollection) =>
+        {
+            roiInspector1.LoadROIs(roiCollection);
+        };
 
+        // When the frame slider moves, update the ROI inspector
+        imageTracer1.FrameChanged += (object? sender, int frame) =>
+        {
+            roiInspector1.SetFrame(frame);
+        };
 
         LoadSampleData();
     }

@@ -6,18 +6,29 @@ public class Tracing
     public int Count => Points.Count;
     public int Width { get; }
     public int Height { get; }
+
+    public bool IsCircular { get; set; } = true;
     public float Spacing_Px { get; set; } = 10;
     public float Radius_Px { get; set; } = 15;
-    public bool IsCircular { get; set; } = true;
+    public float MicronsPerPixel { get; } = 1;
 
-    public Tracing(int width, int height, PixelLocation[]? pixels = null)
+    public float RoiSpacing_Microns
+    {
+        get => Spacing_Px * MicronsPerPixel;
+        set => Spacing_Px = value / MicronsPerPixel;
+    }
+
+    public float RoiRadius_Microns
+    {
+        get => Radius_Px * MicronsPerPixel;
+        set => Radius_Px = value / MicronsPerPixel;
+    }
+
+    public Tracing(int width, int height, float micronsPerPixel)
     {
         Width = width;
         Height = height;
-        if (pixels is not null)
-        {
-            AddRange(pixels);
-        }
+        MicronsPerPixel = micronsPerPixel;
     }
 
     public void Clear()
@@ -63,6 +74,7 @@ public class Tracing
         return GetEvenlySpacedRois();
     }
 
+    // TODO: obsolete these
     public Roi[] GetEvenlySpacedRois()
     {
         List<Roi> rois = new();

@@ -7,27 +7,15 @@ public partial class ImageTracer : UserControl
     public RoiGenerator? RoiGen;
 
     public event EventHandler<RoiCollection> RoisChanged = delegate { };
+    public event EventHandler<int> FrameChanged = delegate { };
+    public int SelectedFrame => hScrollBar1.Value - 1;
 
     public ImageTracer()
     {
         InitializeComponent();
+
+        // file selection
         AllowDrop = true;
-
-        hScrollBar1.ValueChanged += (s, e) => RedrawFrame(true);
-        nudBrightness.ValueChanged += (s, e) =>
-        {
-            RoiGen?.RegenerateMergedImages((double)nudBrightness.Value);
-            RedrawFrame();
-        };
-        cbSpines.CheckedChanged += (s, e) => RedrawFrame();
-        cbRois.CheckedChanged += (s, e) => RedrawFrame();
-        nudRoiRadius.ValueChanged += (s, e) => RedrawFrame(true);
-        nudRoiSpacing.ValueChanged += (s, e) => RedrawFrame(true);
-        cbRoiCirular.CheckedChanged += (s, e) => RedrawFrame(true);
-
-        pictureBox1.MouseDown += PictureBox1_MouseDown;
-        pictureBox1.MouseUp += PictureBox1_MouseUp;
-        pictureBox1.MouseMove += PictureBox1_MouseMove;
 
         btnSelectFile.Click += (s, e) =>
         {
@@ -51,6 +39,48 @@ public partial class ImageTracer : UserControl
             string[] paths = (string[])e.Data!.GetData(DataFormats.FileDrop)!;
             LoadTif(paths.First());
         };
+
+        // these things change the ROI generator and trigger reanalysis
+        nudRoiRadius.ValueChanged += (s, e) =>
+        {
+            if (RoiGen is null) return;
+            RoiGen.Tracing.RoiRadius_Microns = (float)nudRoiRadius.Value;
+            RedrawFrame(true);
+        };
+
+        nudRoiSpacing.ValueChanged += (s, e) =>
+        {
+            if (RoiGen is null) return;
+            RoiGen.Tracing.RoiSpacing_Microns = (float)nudRoiSpacing.Value;
+            RedrawFrame(true);
+        };
+
+        cbRoiCirular.CheckedChanged += (s, e) =>
+        {
+            if (RoiGen is null) return;
+            RoiGen.Tracing.IsCircular = cbRoiCirular.Checked;
+            RedrawFrame(true);
+        };
+
+        hScrollBar1.ValueChanged += (s, e) =>
+        {
+            RedrawFrame();
+            FrameChanged.Invoke(this, SelectedFrame);
+        };
+
+        // these things just change the display and don't leave this control
+        nudBrightness.ValueChanged += (s, e) =>
+        {
+            RoiGen?.RegenerateMergedImages((double)nudBrightness.Value);
+            RedrawFrame();
+        };
+        cbSpines.CheckedChanged += (s, e) => RedrawFrame();
+        cbRois.CheckedChanged += (s, e) => RedrawFrame();
+
+        pictureBox1.MouseDown += PictureBox1_MouseDown;
+        pictureBox1.MouseUp += PictureBox1_MouseUp;
+        pictureBox1.MouseMove += PictureBox1_MouseMove;
+
     }
 
     private void PictureBox1_MouseUp(object? sender, MouseEventArgs e)
@@ -165,11 +195,11 @@ public partial class ImageTracer : UserControl
 
         hScrollBar1.Value = Math.Min(RoiGen.FrameCount, hScrollBar1.Value);
         hScrollBar1.Maximum = RoiGen.FrameCount;
-        int selectedFrame = hScrollBar1.Value - 1;
-        label1.Text = $"Frame {selectedFrame} of {RoiGen.FrameCount}";
+        
+        label1.Text = $"Frame {SelectedFrame + 1} of {RoiGen.FrameCount}";
 
         Image? oldImage = pictureBox1.Image;
-        pictureBox1.Image = Drawing.DrawTracingAndRois(RoiGen.MergedImages[selectedFrame], RoiGen.Tracing, cbSpines.Checked, cbRois.Checked);
+        pictureBox1.Image = Drawing.DrawTracingAndRois(RoiGen.MergedImages[SelectedFrame], RoiGen.Tracing, cbSpines.Checked, cbRois.Checked);
         oldImage?.Dispose();
 
         pictureBox1.Invalidate();
@@ -185,6 +215,9 @@ public partial class ImageTracer : UserControl
 
     private void GenerateROIs()
     {
+        if (RoiGen is null)
+            return;
+
         RoiCollection roiCollection = new(RoiGen);
         RoisChanged.Invoke(this, roiCollection);
     }

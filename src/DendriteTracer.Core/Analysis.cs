@@ -30,11 +30,9 @@ public class Analysis
 
     public Analysis(AnalysisSettings settings)
     {
-        System.Diagnostics.Debug.WriteLine($"REANALYZING");
-
         Settings = settings;
         Proj = new(settings.TifFilePath);
-        Tracing = new(Proj.Width, Proj.Height);
+        Tracing = new(Proj.Width, Proj.Height, 1);
         (FrameImagesRed, FrameImagesGreen) = Proj.GetAllChannels();
         Rois = Tracing.GetEvenlySpacedRois(settings.RoiSpacing_Pixels, settings.RoiRadius_Pixels);
         System.Diagnostics.Debug.WriteLine($"ROI COUNT: {Rois.Length}");
