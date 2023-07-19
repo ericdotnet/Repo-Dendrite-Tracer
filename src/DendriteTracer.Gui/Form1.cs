@@ -27,6 +27,7 @@ public partial class Form1 : Form
         if (imageTracer1.RoiGen is null)
             return;
 
+        System.Diagnostics.Debug.WriteLine(imageTracer1.RoiGen.Tracing.GetPointsString());
         RoiCollection rois = imageTracer1.RoiGen.CalculateRois(roiConfigurator1.ThresholdFloor, roiConfigurator1.ThresholdMult);
         roiInspector1.LoadROIs(rois);
         resultsViewer1.LoadRois(rois);
@@ -44,8 +45,8 @@ public partial class Form1 : Form
 
         string[] possibleStartupImages =
         {
-            "SampleData/MAX_TSeries-04132023-1214-2165.tif",
-            "../../../../DendriteTracer.Tests/SampleData/MAX_TSeries-04132023-1214-2165.tif",
+            "MAX_TSeries-05312023-1239-2203.tif",
+            "../../../../DendriteTracer.Tests/SampleData/MAX_TSeries-05312023-1239-2203.tif",
         };
 
         foreach (string path in possibleStartupImages)
@@ -58,12 +59,14 @@ public partial class Form1 : Form
                 continue;
             }
 
-            PixelLocation[] points =
+            Core.PixelLocation[] points =
             {
-                new(73, 186), new(90, 175), new(102.5, 159.5), new(110, 146),
-                new(120, 135), new(131.5, 126.5), new(131, 113.5), new(129, 104),
-                new(139.5, 89), new(149, 75.5), new(161, 65.5), new(179, 55.5),
-                new(206, 39.5), new(204, 26),
+                new(101.69863, 194.5),
+                new(116.72798, 168.5),
+                new(123.741684, 141.5),
+                new(138.77104, 119),
+                new(155.8043, 95),
+                new(168.32877, 82)
             };
 
             imageTracer1.LoadTif(startupImage, points);

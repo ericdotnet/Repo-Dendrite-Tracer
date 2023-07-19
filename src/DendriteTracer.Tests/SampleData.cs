@@ -16,6 +16,18 @@ public class SampleData
         new(206, 39.5), new(219.5, 26), new(218, 14), new(216, 4),
     };
 
+    public static readonly string TSeriesTifPath2 = Path.GetFullPath("SampleData/MAX_TSeries-05312023-1239-2203.tif");
+
+    public static readonly Core.PixelLocation[] TracingPoints2 =
+    {
+        new(101.69863, 194.5),
+        new(116.72798, 168.5),
+        new(123.741684, 141.5),
+        new(138.77104, 119),
+        new(155.8043, 95),
+        new(168.32877, 82)
+    };
+
     public static readonly Tracing Tracing = GetTracing();
 
     private static Tracing GetTracing()
