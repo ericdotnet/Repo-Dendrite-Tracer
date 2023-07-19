@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             groupBox2 = new GroupBox();
+            cbEnableThreshold = new CheckBox();
             label9 = new Label();
             label10 = new Label();
             nudPixelThresholdMult = new NumericUpDown();
@@ -41,6 +42,7 @@
             // groupBox2
             // 
             groupBox2.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            groupBox2.Controls.Add(cbEnableThreshold);
             groupBox2.Controls.Add(label9);
             groupBox2.Controls.Add(label10);
             groupBox2.Controls.Add(nudPixelThresholdMult);
@@ -49,10 +51,22 @@
             groupBox2.Margin = new Padding(2);
             groupBox2.Name = "groupBox2";
             groupBox2.Padding = new Padding(2);
-            groupBox2.Size = new Size(241, 73);
+            groupBox2.Size = new Size(384, 73);
             groupBox2.TabIndex = 1;
             groupBox2.TabStop = false;
             groupBox2.Text = "ROI Threshold";
+            // 
+            // cbEnableThreshold
+            // 
+            cbEnableThreshold.AutoSize = true;
+            cbEnableThreshold.Checked = true;
+            cbEnableThreshold.CheckState = CheckState.Checked;
+            cbEnableThreshold.Location = new Point(208, 43);
+            cbEnableThreshold.Name = "cbEnableThreshold";
+            cbEnableThreshold.Size = new Size(68, 19);
+            cbEnableThreshold.TabIndex = 5;
+            cbEnableThreshold.Text = "Enabled";
+            cbEnableThreshold.UseVisualStyleBackColor = true;
             // 
             // label9
             // 
@@ -99,7 +113,7 @@
             Controls.Add(groupBox2);
             Margin = new Padding(2);
             Name = "RoiConfigurator";
-            Size = new Size(245, 79);
+            Size = new Size(388, 79);
             groupBox2.ResumeLayout(false);
             groupBox2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)nudPixelThresholdMult).EndInit();
@@ -113,5 +127,6 @@
         private Label label10;
         private NumericUpDown nudPixelThresholdMult;
         private NumericUpDown nudPixelThresholdFloor;
+        private CheckBox cbEnableThreshold;
     }
 }

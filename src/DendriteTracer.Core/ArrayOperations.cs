@@ -63,6 +63,24 @@ internal static class ArrayOperations
         return means;
     }
 
+    public static double[,] GetMeans(RasterSharp.Channel[,] images)
+    {
+        int frameCount = images.GetLength(0);
+        int roiCount = images.GetLength(1);
+
+        double[,] means = new double[frameCount, roiCount];
+
+        for (int i = 0; i < frameCount; i++)
+        {
+            for (int j = 0; j < roiCount; j++)
+            {
+                means[i, j] = GetMean(images[i, j]);
+            }
+        }
+
+        return means;
+    }
+
     public static double GetMean(RasterSharp.Channel image, bool[,] mask)
     {
         List<double> values = new();
@@ -82,18 +100,33 @@ internal static class ArrayOperations
         return values.Any() ? values.Sum() / values.Count : -100;
     }
 
-    public static double[] GetThresholdsByFrame(double[] floors, double mult)
+    public static double GetMean(RasterSharp.Channel image)
+    {
+        List<double> values = new();
+
+        for (int y = 0; y < image.Height; y++)
+        {
+            for (int x = 0; x < image.Width; x++)
+            {
+                values.Add(image.GetValue(y, x));
+            }
+        }
+
+        return values.Sum() / values.Count;
+    }
+
+    public static double[] GetThresholdsByFrame(double[][] sortedByFrame, double[] floors, double mult)
     {
         int frameCount = floors.Length;
 
         double[] thresholds = new double[frameCount];
 
-        if (mult == 0)
-            return thresholds;
-
         for (int i = 0; i < frameCount; i++)
         {
-            thresholds[i] = floors[i] * mult;
+            double lowest = sortedByFrame[0][0];
+            double floorDistFromLowest = floors[i] - lowest;
+            double thresholdDistFromLowest = floorDistFromLowest * mult;
+            thresholds[i] = lowest + thresholdDistFromLowest;
         }
 
         return thresholds;
@@ -104,11 +137,6 @@ internal static class ArrayOperations
         int frameCount = SortedRedPixels.Length;
 
         double[] floors = new double[frameCount];
-
-        if (percentile == 0)
-        {
-            return floors;
-        }
 
         for (int i = 0; i < frameCount; i++)
         {

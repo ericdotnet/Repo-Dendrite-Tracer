@@ -45,11 +45,19 @@ public class RoiCollection
         SortedRedPixelsByFrame = ArrayOperations.GetSortedPixels(roiGen.RedImages);
         SortedRedPixelsByRoi = ArrayOperations.GetSortedPixels(RedImages);
         NoiseFloorsByFrame = ArrayOperations.GetNoiseFloorsByFrame(SortedRedPixelsByFrame, thresholdFloorPercent);
-        ThresholdsByFrame = ArrayOperations.GetThresholdsByFrame(NoiseFloorsByFrame, thresholdMult);
-        (MaskImages, Masks) = Drawing.GetMaskImages(RedImages, ThresholdsByFrame, roiGen.Tracing.IsCircular);
+        ThresholdsByFrame = ArrayOperations.GetThresholdsByFrame(SortedRedPixelsByFrame, NoiseFloorsByFrame, thresholdMult);
+
+        bool maskDisabled = thresholdFloorPercent == 0 && thresholdMult == 0;
+        (MaskImages, Masks) = Drawing.GetMaskImages(RedImages, ThresholdsByFrame, roiGen.Tracing.IsCircular, maskDisabled);
+
         RedMeans = ArrayOperations.GetMeans(RedImages, Masks);
         GreenMeans = ArrayOperations.GetMeans(GreenImages, Masks);
         Ratios = ArrayOperations.GetRatios(RedMeans, GreenMeans);
+
+        //RedMeans = ArrayOperations.GetMeans(RedImages);
+        //GreenMeans = ArrayOperations.GetMeans(GreenImages);
+        //Ratios = ArrayOperations.GetRatios(RedMeans, GreenMeans);
+
         RedCurveByFrame = ArrayOperations.GetCurveByFrame(RedMeans);
         GreenCurveByFrame = ArrayOperations.GetCurveByFrame(GreenMeans);
         RatioCurveByFrame = ArrayOperations.GetCurveByFrame(Ratios);

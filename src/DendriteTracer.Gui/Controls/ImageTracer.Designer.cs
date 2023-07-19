@@ -294,6 +294,8 @@
             // cbImageSubtractionEnabled
             // 
             cbImageSubtractionEnabled.AutoSize = true;
+            cbImageSubtractionEnabled.Checked = true;
+            cbImageSubtractionEnabled.CheckState = CheckState.Checked;
             cbImageSubtractionEnabled.Location = new Point(115, 42);
             cbImageSubtractionEnabled.Margin = new Padding(2);
             cbImageSubtractionEnabled.Name = "cbImageSubtractionEnabled";
