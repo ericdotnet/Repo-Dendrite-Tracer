@@ -29,7 +29,7 @@ public class RoiGenerator
         FrameCount = RedImages.Length;
         MergedImages = new Bitmap[RedImages.Length];
         RegenerateMergedImages(brightness);
-        double micronsPerPixel = 1; // TODO: read from XML
+        double micronsPerPixel = 1.17879356364206; // TODO: read from XML
         Tracing = new(Width, Height, (float)micronsPerPixel);
         FrameTimes = Enumerable.Range(0, FrameCount).Select(x => (double)x).ToArray();// TODO: read from XML
     }
@@ -51,5 +51,10 @@ public class RoiGenerator
             RasterSharp.Image img = new(r, g, r);
             MergedImages[i] = img.ToSDBitmap();
         }
+    }
+
+    public RoiCollection CalculateRois(double thresholdFloor, double thresholdMult)
+    {
+        return new(this, thresholdFloor, thresholdMult);
     }
 }

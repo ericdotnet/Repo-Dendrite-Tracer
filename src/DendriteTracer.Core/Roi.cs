@@ -21,4 +21,9 @@ public struct Roi
         Y = y;
         R = r;
     }
+
+    public override string ToString()
+    {
+        return $"ROI X={X}, Y={Y}, R={R}, L={Left}, T={Top}, W={Width}, H={Height}";
+    }
 }

@@ -10,11 +10,11 @@ public class Tracing
     public int Count => Points.Count;
     public int Width { get; }
     public int Height { get; }
+    public float MicronsPerPixel { get; }
 
     public bool IsCircular { get; set; } = true;
     public float Spacing_Px { get; set; } = 10;
     public float Radius_Px { get; set; } = 15;
-    public float MicronsPerPixel { get; } = 1; // TODO: make everything float
 
     public float RoiSpacing_Microns
     {

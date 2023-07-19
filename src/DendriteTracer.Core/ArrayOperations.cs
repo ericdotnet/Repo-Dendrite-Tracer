@@ -89,6 +89,9 @@ internal static class ArrayOperations
 
         double[,] thresholds = new double[frameCount, roiCount];
 
+        if (mult == 0)
+            return thresholds;
+
         for (int i = 0; i < frameCount; i++)
         {
             for (int j = 0; j < roiCount; j++)
@@ -106,6 +109,11 @@ internal static class ArrayOperations
         int roiCount = SortedRedPixels.GetLength(1);
 
         double[,] floors = new double[frameCount, roiCount];
+
+        if (percentile == 0)
+        {
+            return floors;
+        }
 
         for (int i = 0; i < frameCount; i++)
         {

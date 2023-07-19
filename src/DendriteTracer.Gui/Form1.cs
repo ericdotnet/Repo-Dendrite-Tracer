@@ -24,10 +24,9 @@ public partial class Form1 : Form
         if (imageTracer1.RoiGen is null)
             return;
 
-        RoiGenerator roiGen = imageTracer1.RoiGen;
-        RoiCollection roiCollection = new(roiGen, roiConfigurator1.ThresholdFloor, roiConfigurator1.ThresholdMult);
-        roiInspector1.LoadROIs(roiCollection);
-        resultsViewer1.LoadRois(roiCollection);
+        RoiCollection rois = imageTracer1.RoiGen.CalculateRois(roiConfigurator1.ThresholdFloor, roiConfigurator1.ThresholdMult);
+        roiInspector1.LoadROIs(rois);
+        resultsViewer1.LoadRois(rois);
     }
 
     private void UpdateFrame()
