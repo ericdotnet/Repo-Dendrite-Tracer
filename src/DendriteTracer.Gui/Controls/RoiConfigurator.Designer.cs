@@ -33,15 +33,9 @@
             label10 = new Label();
             nudPixelThresholdMult = new NumericUpDown();
             nudPixelThresholdFloor = new NumericUpDown();
-            groupBox3 = new GroupBox();
-            label3 = new Label();
-            nudImageSubtractionFloor = new NumericUpDown();
-            cbImageSubtractionEnabled = new CheckBox();
             groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)nudPixelThresholdMult).BeginInit();
             ((System.ComponentModel.ISupportInitialize)nudPixelThresholdFloor).BeginInit();
-            groupBox3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)nudImageSubtractionFloor).BeginInit();
             SuspendLayout();
             // 
             // groupBox2
@@ -51,7 +45,7 @@
             groupBox2.Controls.Add(label10);
             groupBox2.Controls.Add(nudPixelThresholdMult);
             groupBox2.Controls.Add(nudPixelThresholdFloor);
-            groupBox2.Location = new Point(2, 83);
+            groupBox2.Location = new Point(2, 2);
             groupBox2.Margin = new Padding(2);
             groupBox2.Name = "groupBox2";
             groupBox2.Padding = new Padding(2);
@@ -98,67 +92,18 @@
             nudPixelThresholdFloor.TabIndex = 0;
             nudPixelThresholdFloor.Value = new decimal(new int[] { 50, 0, 0, 0 });
             // 
-            // groupBox3
-            // 
-            groupBox3.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            groupBox3.Controls.Add(label3);
-            groupBox3.Controls.Add(nudImageSubtractionFloor);
-            groupBox3.Controls.Add(cbImageSubtractionEnabled);
-            groupBox3.Location = new Point(2, 2);
-            groupBox3.Margin = new Padding(2);
-            groupBox3.Name = "groupBox3";
-            groupBox3.Padding = new Padding(2);
-            groupBox3.Size = new Size(241, 77);
-            groupBox3.TabIndex = 2;
-            groupBox3.TabStop = false;
-            groupBox3.Text = "Noise Floor Subtraction";
-            // 
-            // label3
-            // 
-            label3.AutoSize = true;
-            label3.Location = new Point(18, 24);
-            label3.Margin = new Padding(2, 0, 2, 0);
-            label3.Name = "label3";
-            label3.Size = new Size(55, 15);
-            label3.TabIndex = 12;
-            label3.Text = "Floor (%)";
-            // 
-            // nudImageSubtractionFloor
-            // 
-            nudImageSubtractionFloor.Location = new Point(18, 43);
-            nudImageSubtractionFloor.Margin = new Padding(2);
-            nudImageSubtractionFloor.Name = "nudImageSubtractionFloor";
-            nudImageSubtractionFloor.Size = new Size(74, 23);
-            nudImageSubtractionFloor.TabIndex = 11;
-            nudImageSubtractionFloor.Value = new decimal(new int[] { 20, 0, 0, 0 });
-            // 
-            // cbImageSubtractionEnabled
-            // 
-            cbImageSubtractionEnabled.AutoSize = true;
-            cbImageSubtractionEnabled.Location = new Point(116, 43);
-            cbImageSubtractionEnabled.Margin = new Padding(2);
-            cbImageSubtractionEnabled.Name = "cbImageSubtractionEnabled";
-            cbImageSubtractionEnabled.Size = new Size(61, 19);
-            cbImageSubtractionEnabled.TabIndex = 10;
-            cbImageSubtractionEnabled.Text = "Enable";
-            cbImageSubtractionEnabled.UseVisualStyleBackColor = true;
-            // 
-            // UserInputPanel
+            // RoiConfigurator
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            Controls.Add(groupBox3);
             Controls.Add(groupBox2);
             Margin = new Padding(2);
-            Name = "UserInputPanel";
-            Size = new Size(245, 159);
+            Name = "RoiConfigurator";
+            Size = new Size(245, 79);
             groupBox2.ResumeLayout(false);
             groupBox2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)nudPixelThresholdMult).EndInit();
             ((System.ComponentModel.ISupportInitialize)nudPixelThresholdFloor).EndInit();
-            groupBox3.ResumeLayout(false);
-            groupBox3.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)nudImageSubtractionFloor).EndInit();
             ResumeLayout(false);
         }
 
@@ -168,9 +113,5 @@
         private Label label10;
         private NumericUpDown nudPixelThresholdMult;
         private NumericUpDown nudPixelThresholdFloor;
-        private GroupBox groupBox3;
-        private Label label3;
-        private NumericUpDown nudImageSubtractionFloor;
-        private CheckBox cbImageSubtractionEnabled;
     }
 }

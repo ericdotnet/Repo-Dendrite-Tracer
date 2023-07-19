@@ -8,6 +8,7 @@ public partial class ImageTracer : UserControl
 
     public event EventHandler RoisChanged = delegate { };
     public event EventHandler FrameChanged = delegate { };
+    public double SubtractionFloor => cbImageSubtractionEnabled.Checked ? (double)nudImageSubtractionFloor.Value : 0;
     public int SelectedFrame => hScrollBar1.Value - 1;
 
     public ImageTracer()
@@ -68,6 +69,16 @@ public partial class ImageTracer : UserControl
             FrameChanged.Invoke(this, EventArgs.Empty);
         };
 
+        nudImageSubtractionFloor.ValueChanged += (s, e) =>
+        {
+            ReloadTif();
+        };
+
+        cbImageSubtractionEnabled.CheckedChanged += (s, e) =>
+        {
+            ReloadTif();
+        };
+
         // these things just change the display and don't leave this control
         nudBrightness.ValueChanged += (s, e) =>
         {
@@ -81,6 +92,16 @@ public partial class ImageTracer : UserControl
         pictureBox1.MouseUp += PictureBox1_MouseUp;
         pictureBox1.MouseMove += PictureBox1_MouseMove;
 
+    }
+
+    private void ReloadTif()
+    {
+        if (RoiGen is null)
+            return;
+        var tracing = RoiGen.Tracing;
+        RoiGen = new(RoiGen.TifFilePath, SubtractionFloor, (double)nudBrightness.Value);
+        RoiGen.Tracing.AddRange(tracing.Points.ToArray());
+        RedrawFrame(true);
     }
 
     private void PictureBox1_MouseUp(object? sender, MouseEventArgs e)
@@ -172,7 +193,7 @@ public partial class ImageTracer : UserControl
 
     public void LoadTif(string tifFilePath, PixelLocation[]? initialPoints = null)
     {
-        RoiGen = new(tifFilePath, (double)nudBrightness.Value);
+        RoiGen = new(tifFilePath, 20, (double)nudBrightness.Value);
 
         if (initialPoints is not null)
             RoiGen.Tracing.AddRange(initialPoints);

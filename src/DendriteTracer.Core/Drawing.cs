@@ -1,11 +1,10 @@
-﻿using BitMiracle.LibTiff.Classic;
-using System.Drawing;
+﻿using System.Drawing;
+using System.Threading.Channels;
 
 namespace DendriteTracer.Core;
 
 public static class Drawing
 {
-
     public static (Bitmap[,], bool[,][,]) GetMaskImages(RasterSharp.Channel[,] images, double[,] thresholds, bool isCircular)
     {
         int frameCount = images.GetLength(0);
@@ -248,5 +247,34 @@ public static class Drawing
     public static Bitmap ToSDBitmap(this RasterSharp.Image img)
     {
         return img.GetBitmapBytes().ToSDBitmap();
+    }
+
+    public static RasterSharp.Channel[] SubtractNoiseFloor(RasterSharp.Channel[] images, double percentile)
+    {
+        if (percentile == 0)
+            return images;
+
+        return images.Select(x => SubtractNoiseFloor(x, percentile)).ToArray();
+    }
+
+    public static RasterSharp.Channel SubtractNoiseFloor(RasterSharp.Channel image, double percentile)
+    {
+        if (percentile == 0)
+            return image;
+
+        double[] sorted = image.GetValues().OrderBy(x => x).ToArray();
+        int index = (int)(sorted.Length * percentile / 100.0);
+        double floor = sorted[index];
+
+        RasterSharp.Channel image2 = new(image.Width, image.Height);
+        for (int y = 0; y < image.Height; y++)
+        {
+            for (int x = 0; x < image.Width; x++)
+            {
+                image2.SetValue(x, y, image.GetValue(x, y) - floor);
+            }
+        }
+
+        return image2;
     }
 }

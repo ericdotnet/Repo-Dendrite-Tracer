@@ -8,6 +8,7 @@ namespace DendriteTracer.Core;
 /// </summary>
 public class RoiGenerator
 {
+    public string TifFilePath { get; }
     public Tracing Tracing { get; }
     public RasterSharp.Channel[] RedImages { get; }
     public RasterSharp.Channel[] GreenImages { get; }
@@ -18,14 +19,17 @@ public class RoiGenerator
     public int FrameCount { get; }
     public double[] FrameTimes { get; }
 
-    public RoiGenerator(string tifFile, double brightness = 1)
+    public RoiGenerator(string tifFile, double noiseFloorPercentile = 0, double brightness = 1)
     {
         //MaxProjectionSeries proj = new(tifFile); // TODO: make this static
         SciTIF.TifFile tif = new(tifFile);
         Drawing.AssertValidTif(tif);
+        TifFilePath = Path.GetFullPath(tifFile);
         Width = tif.Width;
         Height = tif.Height;
         (RedImages, GreenImages) = Drawing.GetAllChannels(tif);
+        RedImages = Drawing.SubtractNoiseFloor(RedImages, noiseFloorPercentile); // TODO: pass in
+        GreenImages = Drawing.SubtractNoiseFloor(GreenImages, noiseFloorPercentile); // TODO: pass in
         FrameCount = RedImages.Length;
         MergedImages = new Bitmap[RedImages.Length];
         RegenerateMergedImages(brightness);
