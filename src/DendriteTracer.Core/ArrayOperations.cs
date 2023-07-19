@@ -82,33 +82,28 @@ internal static class ArrayOperations
         return values.Any() ? values.Sum() / values.Count : -100;
     }
 
-    public static double[,] GetThresholds(double[,] floors, double mult)
+    public static double[] GetThresholdsByFrame(double[] floors, double mult)
     {
-        int frameCount = floors.GetLength(0);
-        int roiCount = floors.GetLength(1);
+        int frameCount = floors.Length;
 
-        double[,] thresholds = new double[frameCount, roiCount];
+        double[] thresholds = new double[frameCount];
 
         if (mult == 0)
             return thresholds;
 
         for (int i = 0; i < frameCount; i++)
         {
-            for (int j = 0; j < roiCount; j++)
-            {
-                thresholds[i, j] = floors[i, j] * mult;
-            }
+            thresholds[i] = floors[i] * mult;
         }
 
         return thresholds;
     }
 
-    public static double[,] GetNoiseFloors(double[,][] SortedRedPixels, double percentile)
+    public static double[] GetNoiseFloorsByFrame(double[][] SortedRedPixels, double percentile)
     {
-        int frameCount = SortedRedPixels.GetLength(0);
-        int roiCount = SortedRedPixels.GetLength(1);
+        int frameCount = SortedRedPixels.Length;
 
-        double[,] floors = new double[frameCount, roiCount];
+        double[] floors = new double[frameCount];
 
         if (percentile == 0)
         {
@@ -117,12 +112,8 @@ internal static class ArrayOperations
 
         for (int i = 0; i < frameCount; i++)
         {
-            for (int j = 0; j < roiCount; j++)
-            {
-                double[] values = SortedRedPixels[i, j];
-                int index = (int)(values.Length * percentile / 100.0);
-                floors[i, j] = values[index];
-            }
+            int index = (int)(SortedRedPixels[i].Length * percentile / 100.0);
+            floors[i] = SortedRedPixels[i][index];
         }
 
         return floors;
@@ -142,6 +133,20 @@ internal static class ArrayOperations
             {
                 pixels[i, j] = imgs[i, j].GetValues().OrderBy(x => x).ToArray();
             }
+        }
+
+        return pixels;
+    }
+
+    public static double[][] GetSortedPixels(RasterSharp.Channel[] imgs)
+    {
+        int frameCount = imgs.Length;
+
+        double[][] pixels = new double[frameCount][];
+
+        for (int i = 0; i < frameCount; i++)
+        {
+            pixels[i] = imgs[i].GetValues().OrderBy(x => x).ToArray();
         }
 
         return pixels;

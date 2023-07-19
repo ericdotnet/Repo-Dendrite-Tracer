@@ -18,9 +18,10 @@ public class RoiCollection
     public RasterSharp.Channel[,] GreenImages { get; }
     public RasterSharp.Channel[,] RedImages { get; }
     public Bitmap[,] MergedImages { get; }
-    public double[,][] SortedRedPixels { get; }
-    public double[,] NoiseFloors { get; }
-    public double[,] Thresholds { get; }
+    public double[][] SortedRedPixelsByFrame { get; }
+    public double[,][] SortedRedPixelsByRoi { get; }
+    public double[] NoiseFloorsByFrame { get; }
+    public double[] ThresholdsByFrame { get; }
     public Bitmap[,] MaskImages { get; }
     public bool[,][,] Masks { get; }
     public double[,] RedMeans { get; }
@@ -41,10 +42,11 @@ public class RoiCollection
         RedImages = Drawing.Crop(roiGen.RedImages, Rois);
         GreenImages = Drawing.Crop(roiGen.GreenImages, Rois);
         MergedImages = Drawing.GetMergedImages(RedImages, GreenImages);
-        SortedRedPixels = ArrayOperations.GetSortedPixels(RedImages);
-        NoiseFloors = ArrayOperations.GetNoiseFloors(SortedRedPixels, thresholdFloorPercent);
-        Thresholds = ArrayOperations.GetThresholds(NoiseFloors, thresholdMult);
-        (MaskImages, Masks) = Drawing.GetMaskImages(RedImages, Thresholds, roiGen.Tracing.IsCircular);
+        SortedRedPixelsByFrame = ArrayOperations.GetSortedPixels(roiGen.RedImages);
+        SortedRedPixelsByRoi = ArrayOperations.GetSortedPixels(RedImages);
+        NoiseFloorsByFrame = ArrayOperations.GetNoiseFloorsByFrame(SortedRedPixelsByFrame, thresholdFloorPercent);
+        ThresholdsByFrame = ArrayOperations.GetThresholdsByFrame(NoiseFloorsByFrame, thresholdMult);
+        (MaskImages, Masks) = Drawing.GetMaskImages(RedImages, ThresholdsByFrame, roiGen.Tracing.IsCircular);
         RedMeans = ArrayOperations.GetMeans(RedImages, Masks);
         GreenMeans = ArrayOperations.GetMeans(GreenImages, Masks);
         Ratios = ArrayOperations.GetRatios(RedMeans, GreenMeans);

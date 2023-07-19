@@ -1,11 +1,10 @@
 ﻿using System.Drawing;
-using System.Threading.Channels;
 
 namespace DendriteTracer.Core;
 
 public static class Drawing
 {
-    public static (Bitmap[,], bool[,][,]) GetMaskImages(RasterSharp.Channel[,] images, double[,] thresholds, bool isCircular)
+    public static (Bitmap[,], bool[,][,]) GetMaskImages(RasterSharp.Channel[,] images, double[] thresholds, bool isCircular)
     {
         int frameCount = images.GetLength(0);
         int roiCount = images.GetLength(1);
@@ -17,7 +16,7 @@ public static class Drawing
         {
             for (int j = 0; j < roiCount; j++)
             {
-                (maskImages[i, j], mask[i, j]) = GetMask(images[i, j], thresholds[i, j], isCircular);
+                (maskImages[i, j], mask[i, j]) = GetMask(images[i, j], thresholds[i], isCircular);
             }
         }
 

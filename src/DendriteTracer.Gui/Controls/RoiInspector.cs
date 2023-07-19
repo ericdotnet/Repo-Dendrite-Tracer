@@ -43,14 +43,14 @@ public partial class RoiInspector : UserControl
         pictureBox1.Image = RoiCollection.MergedImages[SelectedFrame, SelectedRoi];
         pictureBox2.Image = RoiCollection.MaskImages[SelectedFrame, SelectedRoi];
 
-        double[] allValues = RoiCollection.SortedRedPixels[SelectedFrame, SelectedRoi];
-        double floor = RoiCollection.NoiseFloors[SelectedFrame, SelectedRoi];
-        double threshold = RoiCollection.Thresholds[SelectedFrame, SelectedRoi];
+        double[] roiRedValues = RoiCollection.SortedRedPixelsByRoi[SelectedFrame, SelectedRoi];
+        double[] frameRedValues = RoiCollection.SortedRedPixelsByFrame[SelectedFrame];
 
         formsPlot1.Plot.Clear();
-        formsPlot1.Plot.AddSignal(allValues, allValues.Length / 100.0);
-        formsPlot1.Plot.AddHorizontalLine(floor, System.Drawing.Color.Black, style: LineStyle.Dot, label: "Noise Floor");
-        formsPlot1.Plot.AddHorizontalLine(threshold, System.Drawing.Color.Black, style: LineStyle.Dash, label: "Threshold");
+        formsPlot1.Plot.AddSignal(roiRedValues, roiRedValues.Length / 100.0, label: "ROI");
+        formsPlot1.Plot.AddSignal(frameRedValues, frameRedValues.Length / 100.0, label: "Frame");
+        formsPlot1.Plot.AddHorizontalLine(RoiCollection.NoiseFloorsByFrame[SelectedFrame], System.Drawing.Color.Black, style: LineStyle.Dot, label: "Noise Floor");
+        formsPlot1.Plot.AddHorizontalLine(RoiCollection.ThresholdsByFrame[SelectedFrame], System.Drawing.Color.Black, style: LineStyle.Dash, label: "Threshold");
         formsPlot1.Plot.Legend(true, Alignment.UpperLeft);
 
         formsPlot1.Plot.XLabel("Distribution (%)");
