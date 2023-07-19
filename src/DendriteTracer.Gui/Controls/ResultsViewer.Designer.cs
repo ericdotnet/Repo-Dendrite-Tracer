@@ -36,10 +36,7 @@
             label1 = new Label();
             nudRatioMax = new NumericUpDown();
             nudRawMax = new NumericUpDown();
-            button4 = new Button();
             button3 = new Button();
-            button2 = new Button();
-            button1 = new Button();
             tableLayoutPanel1.SuspendLayout();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)nudRatioMax).BeginInit();
@@ -88,10 +85,7 @@
             panel1.Controls.Add(label1);
             panel1.Controls.Add(nudRatioMax);
             panel1.Controls.Add(nudRawMax);
-            panel1.Controls.Add(button4);
             panel1.Controls.Add(button3);
-            panel1.Controls.Add(button2);
-            panel1.Controls.Add(button1);
             panel1.Dock = DockStyle.Fill;
             panel1.Location = new Point(3, 507);
             panel1.Name = "panel1";
@@ -123,7 +117,7 @@
             nudRatioMax.Name = "nudRatioMax";
             nudRatioMax.Size = new Size(63, 23);
             nudRatioMax.TabIndex = 7;
-            nudRatioMax.Value = new decimal(new int[] { 100, 0, 0, 0 });
+            nudRatioMax.Value = new decimal(new int[] { 200, 0, 0, 0 });
             // 
             // nudRawMax
             // 
@@ -135,16 +129,6 @@
             nudRawMax.TabIndex = 4;
             nudRawMax.Value = new decimal(new int[] { 8192, 0, 0, 0 });
             // 
-            // button4
-            // 
-            button4.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            button4.Location = new Point(535, 3);
-            button4.Name = "button4";
-            button4.Size = new Size(90, 38);
-            button4.TabIndex = 3;
-            button4.Text = "Copy Ratios Over Time";
-            button4.UseVisualStyleBackColor = true;
-            // 
             // button3
             // 
             button3.Anchor = AnchorStyles.Top | AnchorStyles.Right;
@@ -152,36 +136,16 @@
             button3.Name = "button3";
             button3.Size = new Size(83, 38);
             button3.TabIndex = 2;
-            button3.Text = "Save As...";
+            button3.Text = "Save";
             button3.UseVisualStyleBackColor = true;
             // 
-            // button2
-            // 
-            button2.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            button2.Location = new Point(450, 3);
-            button2.Name = "button2";
-            button2.Size = new Size(79, 38);
-            button2.TabIndex = 1;
-            button2.Text = "Copy G, R, and Ratio";
-            button2.UseVisualStyleBackColor = true;
-            // 
-            // button1
-            // 
-            button1.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            button1.Location = new Point(369, 3);
-            button1.Name = "button1";
-            button1.Size = new Size(75, 38);
-            button1.TabIndex = 0;
-            button1.Text = "Copy Ratio";
-            button1.UseVisualStyleBackColor = true;
-            // 
-            // RoiAnalyzer
+            // ResultsViewer
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             Controls.Add(tableLayoutPanel1);
             Margin = new Padding(2);
-            Name = "RoiAnalyzer";
+            Name = "ResultsViewer";
             Size = new Size(723, 554);
             tableLayoutPanel1.ResumeLayout(false);
             panel1.ResumeLayout(false);
@@ -198,9 +162,6 @@
         private ScottPlot.FormsPlot formsPlot2;
         private Panel panel1;
         private Button button3;
-        private Button button2;
-        private Button button1;
-        private Button button4;
         private Label label1;
         private NumericUpDown nudRawMax;
         private NumericUpDown nudRatioMax;

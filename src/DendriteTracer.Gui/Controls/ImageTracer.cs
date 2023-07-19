@@ -6,8 +6,8 @@ public partial class ImageTracer : UserControl
 {
     public RoiGenerator? RoiGen;
 
-    public event EventHandler<RoiCollection> RoisChanged = delegate { };
-    public event EventHandler<int> FrameChanged = delegate { };
+    public event EventHandler RoisChanged = delegate { };
+    public event EventHandler FrameChanged = delegate { };
     public int SelectedFrame => hScrollBar1.Value - 1;
 
     public ImageTracer()
@@ -65,7 +65,7 @@ public partial class ImageTracer : UserControl
         hScrollBar1.ValueChanged += (s, e) =>
         {
             RedrawFrame();
-            FrameChanged.Invoke(this, SelectedFrame);
+            FrameChanged.Invoke(this, EventArgs.Empty);
         };
 
         // these things just change the display and don't leave this control
@@ -195,7 +195,7 @@ public partial class ImageTracer : UserControl
 
         hScrollBar1.Value = Math.Min(RoiGen.FrameCount, hScrollBar1.Value);
         hScrollBar1.Maximum = RoiGen.FrameCount;
-        
+
         label1.Text = $"Frame {SelectedFrame + 1} of {RoiGen.FrameCount}";
 
         Image? oldImage = pictureBox1.Image;
@@ -207,18 +207,9 @@ public partial class ImageTracer : UserControl
 
         if (updateOtherControls)
         {
-            GenerateROIs();
+            RoisChanged.Invoke(this, EventArgs.Empty);
         }
 
         RenderingNow = false;
-    }
-
-    private void GenerateROIs()
-    {
-        if (RoiGen is null)
-            return;
-
-        RoiCollection roiCollection = new(RoiGen);
-        RoisChanged.Invoke(this, roiCollection);
     }
 }

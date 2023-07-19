@@ -16,7 +16,14 @@ public class SampleData
         new(206, 39.5), new(219.5, 26), new(218, 14), new(216, 4),
     };
 
-    public static readonly Tracing Tracing = new(256, 256, SampleData.TracingPoints);
+    public static readonly Tracing Tracing = GetTracing();
+
+    private static Tracing GetTracing()
+    {
+        Tracing t = new(512, 512, 1.17879356364206f);
+        t.AddRange(TracingPoints);
+        return t;
+    }
 
     [Fact]
     public void Test_Files_exist()

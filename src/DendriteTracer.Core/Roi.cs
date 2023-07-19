@@ -1,5 +1,8 @@
 ﻿namespace DendriteTracer.Core;
 
+/// <summary>
+/// The center of an ROI with a radius, all in pixel units
+/// </summary>
 public struct Roi
 {
     public float X { get; }

@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using BitMiracle.LibTiff.Classic;
+using System.Drawing;
 
 namespace DendriteTracer.Core;
 
@@ -15,19 +16,22 @@ public class RoiGenerator
     public int Width { get; }
     public int Height { get; }
     public int FrameCount { get; }
-
+    public double[] FrameTimes { get; }
 
     public RoiGenerator(string tifFile, double brightness = 1)
     {
-        MaxProjectionSeries proj = new(tifFile); // TODO: make this static
-        Width = proj.Width;
-        Height = proj.Height;
-        (RedImages, GreenImages) = proj.GetAllChannels();
+        //MaxProjectionSeries proj = new(tifFile); // TODO: make this static
+        SciTIF.TifFile tif = new(tifFile);
+        Drawing.AssertValidTif(tif);
+        Width = tif.Width;
+        Height = tif.Height;
+        (RedImages, GreenImages) = Drawing.GetAllChannels(tif);
         FrameCount = RedImages.Length;
         MergedImages = new Bitmap[RedImages.Length];
         RegenerateMergedImages(brightness);
         double micronsPerPixel = 1; // TODO: read from XML
         Tracing = new(Width, Height, (float)micronsPerPixel);
+        FrameTimes = Enumerable.Range(0, FrameCount).Select(x => (double)x).ToArray();// TODO: read from XML
     }
 
     public void RegenerateMergedImages(double brightness)

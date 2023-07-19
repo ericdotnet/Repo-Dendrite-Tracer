@@ -1,5 +1,9 @@
 ﻿namespace DendriteTracer.Core;
 
+/// <summary>
+/// Represents a path along a dendrite.
+/// Contains scale information so it can generate evenly spaced/sized ROIs too.
+/// </summary>
 public class Tracing
 {
     public readonly List<PixelLocation> Points = new();
@@ -10,7 +14,7 @@ public class Tracing
     public bool IsCircular { get; set; } = true;
     public float Spacing_Px { get; set; } = 10;
     public float Radius_Px { get; set; } = 15;
-    public float MicronsPerPixel { get; } = 1;
+    public float MicronsPerPixel { get; } = 1; // TODO: make everything float
 
     public float RoiSpacing_Microns
     {

@@ -1,12 +1,12 @@
-﻿using DendriteTracer.Core;
-
-namespace DendriteTracer.Gui
+﻿namespace DendriteTracer.Gui
 {
     public partial class RoiConfigurator : UserControl
     {
-        public event EventHandler<Analysis> AnalysisChanged = delegate { };
+        public event EventHandler RoiSettingsChanged = delegate { };
 
-        private Analysis? LastAnalysis;
+        public double SubtractionFloor => (double)nudImageSubtractionFloor.Value;
+        public double ThresholdFloor => (double)nudPixelThresholdFloor.Value;
+        public double ThresholdMult => (double)nudPixelThresholdMult.Value;
 
         public RoiConfigurator()
         {
@@ -18,20 +18,9 @@ namespace DendriteTracer.Gui
             nudPixelThresholdMult.ValueChanged += (s, e) => OnSettingsChanged();
         }
 
-        public void LoadTif(string path, PixelLocation[]? initialPoints = null)
-        {
-            AnalysisSettings settings = new(path);
-            LastAnalysis = new Analysis(settings);
-
-            if (initialPoints is not null)
-                LastAnalysis.Tracing.AddRange(initialPoints);
-
-            OnSettingsChanged();
-        }
-
         private void OnSettingsChanged()
         {
-
+            RoiSettingsChanged.Invoke(this, EventArgs.Empty);
         }
     }
 }

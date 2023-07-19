@@ -1,5 +1,8 @@
 ﻿namespace DendriteTracer.Core;
 
+/// <summary>
+/// Location in pixel space
+/// </summary>
 public struct PixelLocation
 {
     public readonly float X;

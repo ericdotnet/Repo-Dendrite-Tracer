@@ -9,18 +9,31 @@ public partial class Form1 : Form
         InitializeComponent();
 
         // When the image, trace, or ROI settings change, reanalyze everything
-        imageTracer1.RoisChanged += (object? sender, RoiCollection roiCollection) =>
-        {
-            roiInspector1.LoadROIs(roiCollection);
-        };
+        imageTracer1.RoisChanged += (s, e) => UpdateAllRois();
 
         // When the frame slider moves, update the ROI inspector
-        imageTracer1.FrameChanged += (object? sender, int frame) =>
-        {
-            roiInspector1.SetFrame(frame);
-        };
+        imageTracer1.FrameChanged += (s, e) => UpdateFrame();
+
+        roiConfigurator1.RoiSettingsChanged += (s, e) => UpdateAllRois();
 
         LoadSampleData();
+    }
+
+    private void UpdateAllRois()
+    {
+        if (imageTracer1.RoiGen is null)
+            return;
+
+        RoiGenerator roiGen = imageTracer1.RoiGen;
+        RoiCollection roiCollection = new(roiGen, roiConfigurator1.ThresholdFloor, roiConfigurator1.ThresholdMult);
+        roiInspector1.LoadROIs(roiCollection);
+        resultsViewer1.LoadRois(roiCollection);
+    }
+
+    private void UpdateFrame()
+    {
+        roiInspector1.SetFrame(imageTracer1.SelectedFrame);
+        resultsViewer1.SetFrame(imageTracer1.SelectedFrame);
     }
 
     private void LoadSampleData()
