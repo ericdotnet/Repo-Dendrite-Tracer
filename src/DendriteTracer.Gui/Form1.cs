@@ -63,7 +63,7 @@ public partial class Form1 : Form
                 new(73, 186), new(90, 175), new(102.5, 159.5), new(110, 146),
                 new(120, 135), new(131.5, 126.5), new(131, 113.5), new(129, 104),
                 new(139.5, 89), new(149, 75.5), new(161, 65.5), new(179, 55.5),
-                new(206, 39.5), new(219.5, 26), new(218, 14), new(216, 4),
+                new(206, 39.5), new(204, 26),
             };
 
             imageTracer1.LoadTif(startupImage, points);

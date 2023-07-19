@@ -186,7 +186,7 @@ public partial class ResultsViewer : UserControl
             c.RedCurveByFrame.Select(x => x.Max()).Max(),
             c.GreenCurveByFrame.Select(x => x.Max()).Max());
 
-        plt.SetAxisLimitsY(min, max);
+        plt.SetAxisLimitsY(Math.Min(min, 0), max);
     }
 
     private static void AutoLimitsRatio(RoiCollection c, Plot plt)
@@ -194,6 +194,6 @@ public partial class ResultsViewer : UserControl
         double min = c.RatioCurveByFrame.Select(x => x.Min()).Min();
         double max = c.RatioCurveByFrame.Select(x => x.Max()).Max();
 
-        plt.SetAxisLimitsY(min, max);
+        plt.SetAxisLimitsY(Math.Min(min, 0), max);
     }
 }

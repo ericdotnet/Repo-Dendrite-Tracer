@@ -38,14 +38,23 @@ public partial class RoiInspector : UserControl
         UpdateImage();
     }
 
+    private void SetPictureboxImage(PictureBox pb, Bitmap bmp1)
+    {
+        Bitmap bmp2 = new(pb.Width, pb.Height);
+        using Graphics gfx = Graphics.FromImage(bmp2);
+        gfx.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
+        gfx.DrawImage(bmp1, 0, 0, bmp2.Width, bmp2.Height);
+        pb.Image = bmp2;
+    }
+
     public void UpdateImage()
     {
         if (RoiCollection is null)
             return;
 
         label1.Text = $"Frame {SelectedFrame + 1}, ROI {SelectedRoi + 1} of {RoiCollection.RoiCount}";
-        pictureBox1.Image = RoiCollection.MergedImages[SelectedFrame, SelectedRoi];
-        pictureBox2.Image = RoiCollection.MaskImages[SelectedFrame, SelectedRoi];
+        SetPictureboxImage(pictureBox1, RoiCollection.MergedImages[SelectedFrame, SelectedRoi]);
+        SetPictureboxImage(pictureBox2, RoiCollection.MaskImages[SelectedFrame, SelectedRoi]);
 
         double[] roiRedValues = RoiCollection.SortedRedPixelsByRoi[SelectedFrame, SelectedRoi];
         double[] frameRedValues = RoiCollection.SortedRedPixelsByFrame[SelectedFrame];
