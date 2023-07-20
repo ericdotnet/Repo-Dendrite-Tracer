@@ -8,6 +8,7 @@ namespace DendriteTracer.Core;
 /// </summary>
 public class RoiCollection
 {
+    public string TifFilePath { get; }
     public int FrameCount { get; }
     public Roi[] Rois { get; }
     public double[] Positions { get; }
@@ -35,6 +36,7 @@ public class RoiCollection
 
     public RoiCollection(RoiGenerator roiGen, double thresholdFloorPercent = 50, double thresholdMult = 3)
     {
+        TifFilePath = roiGen.TifFilePath;
         FrameCount = roiGen.FrameCount;
         Rois = roiGen.Tracing.GetEvenlySpacedRois();
         Positions = Enumerable.Range(0, RoiCount).Select(x => (double)x * roiGen.Tracing.MicronsPerPixel).ToArray();
@@ -113,5 +115,14 @@ public class RoiCollection
         }
 
         return csv;
+    }
+    
+    /// <summary>
+    /// Save all data as a single JSON file
+    /// </summary>
+    /// <param name="saveAs"></param>
+    public void SaveJson(string saveAs)
+    {
+        IO.Json.SaveJson(this, saveAs);
     }
 }

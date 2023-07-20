@@ -95,7 +95,7 @@ public class Tracing
         {
             (PixelLocation[] segmentPoints, double setback) = GetSubPoints(Points[i - 1], Points[i], Spacing_Px, nextSetback);
             nextSetback = setback;
-            Roi[] segmentRois = segmentPoints.Select(pt => new Roi(pt.X, pt.Y, (float)Radius_Px)).ToArray();
+            Roi[] segmentRois = segmentPoints.Select(pt => new Roi(pt.X, pt.Y, (float)Radius_Px, IsCircular)).ToArray();
             rois.AddRange(segmentRois);
         }
 

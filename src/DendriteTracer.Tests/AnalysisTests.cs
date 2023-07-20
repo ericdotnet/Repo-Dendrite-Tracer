@@ -25,5 +25,7 @@ public class AnalysisTests
         roic.GetDataByRoi(roic.Ratios).Save("TSeries-05312023-1239-2203.ratio.byRoi.csv");
         roic.GetDataByRoi(roic.RedMeans).Save("TSeries-05312023-1239-2203.red.byRoi.csv");
         roic.GetDataByRoi(roic.GreenMeans).Save("TSeries-05312023-1239-2203.green.byRoi.csv");
+
+        roic.SaveJson("test.json");
     }
 }
