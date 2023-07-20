@@ -15,6 +15,9 @@ public partial class ImageTracer : UserControl
     public ImageTracer()
     {
         InitializeComponent();
+        lblSpacingPx.Text = string.Empty;
+        lblRadiusPx.Text = string.Empty;
+        lblAreaPx.Text = string.Empty;
 
         // file selection
         AllowDrop = true;
@@ -222,6 +225,10 @@ public partial class ImageTracer : UserControl
         {
             return;
         }
+
+        lblSpacingPx.Text = Math.Round(RoiGen.Tracing.Spacing_Px, 2).ToString() + " px";
+        lblRadiusPx.Text = Math.Round(RoiGen.Tracing.Radius_Px, 2).ToString() + " px";
+        lblAreaPx.Text = Math.Round(RoiGen.Tracing.RoiArea_Microns, 2).ToString() + " µm²";
 
         RenderingNow = true;
 

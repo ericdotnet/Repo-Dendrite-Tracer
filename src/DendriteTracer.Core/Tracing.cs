@@ -28,6 +28,12 @@ public class Tracing
         set => Radius_Px = value / MicronsPerPixel;
     }
 
+    private double RoiEdgeLength_Microns => RoiRadius_Microns * 2;
+
+    public double RoiArea_Microns => IsCircular
+        ? Math.PI * RoiRadius_Microns * RoiRadius_Microns
+        : RoiEdgeLength_Microns * RoiEdgeLength_Microns;
+
     public Tracing(int width, int height, double micronsPerPixel)
     {
         Width = width;

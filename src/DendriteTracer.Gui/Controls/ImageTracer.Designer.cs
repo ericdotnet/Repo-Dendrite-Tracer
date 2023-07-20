@@ -41,6 +41,9 @@
             label3 = new Label();
             btnSelectFile = new Button();
             groupBox3 = new GroupBox();
+            lblAreaPx = new Label();
+            lblRadiusPx = new Label();
+            lblSpacingPx = new Label();
             cbRoiCirular = new CheckBox();
             label4 = new Label();
             label5 = new Label();
@@ -201,6 +204,9 @@
             // 
             // groupBox3
             // 
+            groupBox3.Controls.Add(lblAreaPx);
+            groupBox3.Controls.Add(lblRadiusPx);
+            groupBox3.Controls.Add(lblSpacingPx);
             groupBox3.Controls.Add(cbRoiCirular);
             groupBox3.Controls.Add(label4);
             groupBox3.Controls.Add(label5);
@@ -208,17 +214,47 @@
             groupBox3.Controls.Add(nudRoiSpacing);
             groupBox3.Location = new Point(6, 960);
             groupBox3.Name = "groupBox3";
-            groupBox3.Size = new Size(507, 120);
+            groupBox3.Size = new Size(507, 136);
             groupBox3.TabIndex = 10;
             groupBox3.TabStop = false;
             groupBox3.Text = "ROI Dimensions";
+            // 
+            // lblAreaPx
+            // 
+            lblAreaPx.AutoSize = true;
+            lblAreaPx.ForeColor = SystemColors.ControlDark;
+            lblAreaPx.Location = new Point(302, 99);
+            lblAreaPx.Name = "lblAreaPx";
+            lblAreaPx.Size = new Size(73, 25);
+            lblAreaPx.TabIndex = 12;
+            lblAreaPx.Text = "123 px²";
+            // 
+            // lblRadiusPx
+            // 
+            lblRadiusPx.AutoSize = true;
+            lblRadiusPx.ForeColor = SystemColors.ControlDark;
+            lblRadiusPx.Location = new Point(163, 99);
+            lblRadiusPx.Name = "lblRadiusPx";
+            lblRadiusPx.Size = new Size(66, 25);
+            lblRadiusPx.TabIndex = 11;
+            lblRadiusPx.Text = "123 px";
+            // 
+            // lblSpacingPx
+            // 
+            lblSpacingPx.AutoSize = true;
+            lblSpacingPx.ForeColor = SystemColors.ControlDark;
+            lblSpacingPx.Location = new Point(23, 99);
+            lblSpacingPx.Name = "lblSpacingPx";
+            lblSpacingPx.Size = new Size(66, 25);
+            lblSpacingPx.TabIndex = 10;
+            lblSpacingPx.Text = "123 px";
             // 
             // cbRoiCirular
             // 
             cbRoiCirular.AutoSize = true;
             cbRoiCirular.Checked = true;
             cbRoiCirular.CheckState = CheckState.Checked;
-            cbRoiCirular.Location = new Point(306, 63);
+            cbRoiCirular.Location = new Point(306, 67);
             cbRoiCirular.Name = "cbRoiCirular";
             cbRoiCirular.Size = new Size(96, 29);
             cbRoiCirular.TabIndex = 9;
@@ -228,7 +264,7 @@
             // label4
             // 
             label4.AutoSize = true;
-            label4.Location = new Point(164, 35);
+            label4.Location = new Point(161, 35);
             label4.Name = "label4";
             label4.Size = new Size(106, 25);
             label4.TabIndex = 4;
@@ -237,7 +273,7 @@
             // label5
             // 
             label5.AutoSize = true;
-            label5.Location = new Point(24, 35);
+            label5.Location = new Point(21, 35);
             label5.Name = "label5";
             label5.Size = new Size(116, 25);
             label5.TabIndex = 3;
@@ -249,7 +285,7 @@
             nudRoiRadius.Name = "nudRoiRadius";
             nudRoiRadius.Size = new Size(106, 31);
             nudRoiRadius.TabIndex = 1;
-            nudRoiRadius.Value = new decimal(new int[] { 15, 0, 0, 0 });
+            nudRoiRadius.Value = new decimal(new int[] { 10, 0, 0, 0 });
             // 
             // nudRoiSpacing
             // 
@@ -275,7 +311,7 @@
             // label6
             // 
             label6.AutoSize = true;
-            label6.Location = new Point(24, 38);
+            label6.Location = new Point(21, 38);
             label6.Name = "label6";
             label6.Size = new Size(83, 25);
             label6.TabIndex = 12;
@@ -314,7 +350,7 @@
             Controls.Add(label1);
             Controls.Add(pictureBox1);
             Name = "ImageTracer";
-            Size = new Size(519, 1083);
+            Size = new Size(519, 1100);
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ((System.ComponentModel.ISupportInitialize)nudBrightness).EndInit();
             panel1.ResumeLayout(false);
@@ -357,5 +393,8 @@
         private Label label6;
         private NumericUpDown nudImageSubtractionFloor;
         private CheckBox cbImageSubtractionEnabled;
+        private Label lblAreaPx;
+        private Label lblRadiusPx;
+        private Label lblSpacingPx;
     }
 }
