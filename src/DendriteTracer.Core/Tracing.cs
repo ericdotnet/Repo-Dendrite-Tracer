@@ -10,25 +10,25 @@ public class Tracing
     public int Count => Points.Count;
     public int Width { get; }
     public int Height { get; }
-    public float MicronsPerPixel { get; }
+    public double MicronsPerPixel { get; }
 
     public bool IsCircular { get; set; } = true;
-    public float Spacing_Px { get; set; } = 10;
-    public float Radius_Px { get; set; } = 15;
+    public double Spacing_Px { get; set; } = 10;
+    public double Radius_Px { get; set; } = 15;
 
-    public float RoiSpacing_Microns
+    public double RoiSpacing_Microns
     {
         get => Spacing_Px * MicronsPerPixel;
         set => Spacing_Px = value / MicronsPerPixel;
     }
 
-    public float RoiRadius_Microns
+    public double RoiRadius_Microns
     {
         get => Radius_Px * MicronsPerPixel;
         set => Radius_Px = value / MicronsPerPixel;
     }
 
-    public Tracing(int width, int height, float micronsPerPixel)
+    public Tracing(int width, int height, double micronsPerPixel)
     {
         Width = width;
         Height = height;
@@ -89,7 +89,7 @@ public class Tracing
         {
             (PixelLocation[] segmentPoints, double setback) = GetSubPoints(Points[i - 1], Points[i], Spacing_Px, nextSetback);
             nextSetback = setback;
-            Roi[] segmentRois = segmentPoints.Select(pt => new Roi(pt.X, pt.Y, Radius_Px)).ToArray();
+            Roi[] segmentRois = segmentPoints.Select(pt => new Roi(pt.X, pt.Y, (float)Radius_Px)).ToArray();
             rois.AddRange(segmentRois);
         }
 
