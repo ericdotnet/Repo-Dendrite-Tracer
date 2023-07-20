@@ -21,21 +21,22 @@ public class RoiGenerator
 
     public RoiGenerator(string tifFile, double noiseFloorPercentile = 0, double brightness = 1)
     {
-        //MaxProjectionSeries proj = new(tifFile); // TODO: make this static
+        string xmlFile = IO.PvXml.Locate(tifFile);
+        double micronsPerPixel = IO.PvXml.GetMicronsPerPixel(xmlFile);
+        FrameTimes = IO.PvXml.GetFrameTimes(xmlFile);
+
         SciTIF.TifFile tif = new(tifFile);
         Drawing.AssertValidTif(tif);
         TifFilePath = Path.GetFullPath(tifFile);
         Width = tif.Width;
         Height = tif.Height;
         (RedImages, GreenImages) = Drawing.GetAllChannels(tif);
-        RedImages = Drawing.SubtractNoiseFloor(RedImages, noiseFloorPercentile); // TODO: pass in
-        GreenImages = Drawing.SubtractNoiseFloor(GreenImages, noiseFloorPercentile); // TODO: pass in
+        RedImages = Drawing.SubtractNoiseFloor(RedImages, noiseFloorPercentile);
+        GreenImages = Drawing.SubtractNoiseFloor(GreenImages, noiseFloorPercentile);
         FrameCount = RedImages.Length;
         MergedImages = new Bitmap[RedImages.Length];
         RegenerateMergedImages(brightness);
-        double micronsPerPixel = 1.17879356364206; // TODO: read from XML
         Tracing = new(Width, Height, (float)micronsPerPixel);
-        FrameTimes = Enumerable.Range(0, FrameCount).Select(x => (double)x).ToArray();// TODO: read from XML
     }
 
     public void RegenerateMergedImages(double brightness)

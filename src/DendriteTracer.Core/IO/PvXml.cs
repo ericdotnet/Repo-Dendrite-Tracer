@@ -24,7 +24,7 @@ public static class PvXml
         if (File.Exists(xmlInTifFolder))
             return xmlInTifFolder;
 
-        string xmlInParentFolder = Path.Combine(Path.GetDirectoryName(tifFolder), xmlFilename);
+        string xmlInParentFolder = Path.Combine(Path.GetDirectoryName(tifFolder)!, xmlFilename);
         if (File.Exists(xmlInParentFolder))
             return xmlInParentFolder;
 
