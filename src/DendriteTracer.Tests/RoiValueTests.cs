@@ -1,8 +1,5 @@
-﻿using DendriteTracer.Core;
-using FluentAssertions;
-using RasterSharp;
+﻿using RasterSharp;
 using System.Drawing;
-using Xunit.Abstractions;
 
 namespace DendriteTracer.Tests;
 

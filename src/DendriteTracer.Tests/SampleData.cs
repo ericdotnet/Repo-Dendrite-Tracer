@@ -1,7 +1,4 @@
-﻿using DendriteTracer.Core;
-using FluentAssertions;
-
-namespace DendriteTracer.Tests;
+﻿namespace DendriteTracer.Tests;
 
 public class SampleData
 {
