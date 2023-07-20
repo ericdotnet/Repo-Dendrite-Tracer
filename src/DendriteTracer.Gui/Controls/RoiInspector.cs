@@ -40,10 +40,19 @@ public partial class RoiInspector : UserControl
 
     private void SetPictureboxImage(PictureBox pb, Bitmap bmp1)
     {
+        pb.BackColor = SystemColors.Control;
         Bitmap bmp2 = new(pb.Width, pb.Height);
         using Graphics gfx = Graphics.FromImage(bmp2);
-        gfx.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
-        gfx.DrawImage(bmp1, 0, 0, bmp2.Width, bmp2.Height);
+
+        const bool USE_ANTIALIASING = true;
+        gfx.InterpolationMode = USE_ANTIALIASING
+            ? System.Drawing.Drawing2D.InterpolationMode.Bicubic
+            : System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
+
+        // zoom in a bit so the edges don't appear anti-aliased with transparency
+        float padX = bmp2.Width / bmp1.Width;
+        float padY = bmp2.Height / bmp1.Height;
+        gfx.DrawImage(bmp1, -padX, -padY, bmp2.Width + padX * 2, bmp2.Height + padY * 2);
         pb.Image = bmp2;
     }
 
