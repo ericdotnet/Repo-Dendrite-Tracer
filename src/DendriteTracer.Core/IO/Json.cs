@@ -20,8 +20,9 @@ public static class Json
 
             // ROI dimensions
             writer.WriteStartObject($"ROI #{roiIndex + 1}");
-            writer.WriteNumber("X", roi.X);
-            writer.WriteNumber("Y", roi.Y);
+            writer.WriteNumber("X_pixel", roi.X);
+            writer.WriteNumber("Y_pixel", roi.Y);
+            writer.WriteNumber("Distance_microns", roic.Positions[roiIndex]);
             writer.WriteString("Shape", roi.Shape);
 
             // PMT red
