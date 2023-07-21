@@ -45,7 +45,7 @@ public partial class Form1 : Form
 
         string[] possibleStartupImages =
         {
-            "MAX_TSeries-05312023-1239-2203.tif",
+            "SampleData/MAX_TSeries-05312023-1239-2203.tif",
             "../../../../DendriteTracer.Tests/SampleData/MAX_TSeries-05312023-1239-2203.tif",
         };
 
