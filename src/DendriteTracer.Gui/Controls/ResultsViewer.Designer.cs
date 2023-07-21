@@ -34,7 +34,7 @@
             panel1 = new Panel();
             cbOverTime = new CheckBox();
             cbAllFrames = new CheckBox();
-            button3 = new Button();
+            btnSave = new Button();
             tableLayoutPanel1.SuspendLayout();
             panel1.SuspendLayout();
             SuspendLayout();
@@ -78,7 +78,7 @@
             // 
             panel1.Controls.Add(cbOverTime);
             panel1.Controls.Add(cbAllFrames);
-            panel1.Controls.Add(button3);
+            panel1.Controls.Add(btnSave);
             panel1.Dock = DockStyle.Fill;
             panel1.Location = new Point(4, 845);
             panel1.Margin = new Padding(4, 5, 4, 5);
@@ -106,16 +106,16 @@
             cbAllFrames.Text = "All Frames";
             cbAllFrames.UseVisualStyleBackColor = true;
             // 
-            // button3
+            // btnSave
             // 
-            button3.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            button3.Location = new Point(902, 5);
-            button3.Margin = new Padding(4, 5, 4, 5);
-            button3.Name = "button3";
-            button3.Size = new Size(119, 63);
-            button3.TabIndex = 2;
-            button3.Text = "Save";
-            button3.UseVisualStyleBackColor = true;
+            btnSave.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            btnSave.Location = new Point(891, 14);
+            btnSave.Margin = new Padding(4, 5, 4, 5);
+            btnSave.Name = "btnSave";
+            btnSave.Size = new Size(119, 45);
+            btnSave.TabIndex = 2;
+            btnSave.Text = "Save As...";
+            btnSave.UseVisualStyleBackColor = true;
             // 
             // ResultsViewer
             // 
@@ -136,7 +136,7 @@
         private ScottPlot.FormsPlot formsPlot1;
         private ScottPlot.FormsPlot formsPlot2;
         private Panel panel1;
-        private Button button3;
+        private Button btnSave;
         private CheckBox cbOverTime;
         private CheckBox cbAllFrames;
     }

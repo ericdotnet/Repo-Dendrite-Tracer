@@ -21,6 +21,24 @@ public partial class ResultsViewer : UserControl
         };
 
         cbOverTime.CheckedChanged += (s, e) => UpdatePlots();
+
+        btnSave.Click += (s, e) =>
+        {
+            if (RoiCollection is null)
+                return;
+
+            SaveFileDialog savefile = new()
+            {
+                FileName = Path.GetFileNameWithoutExtension(RoiCollection.TifFilePath) + ".json",
+                Filter = "JSON Files (*.json)|*.json|All files (*.*)|*.*",
+
+            };
+
+            if (savefile.ShowDialog() == DialogResult.OK)
+            {
+                RoiCollection.SaveJson(savefile.FileName);
+            }
+        };
     }
 
     public void SetSelectedFrameAndRoi(int frame, int roi)
