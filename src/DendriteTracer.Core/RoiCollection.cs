@@ -21,7 +21,6 @@ public class RoiCollection
     public Bitmap[,] MergedImages { get; }
     public double[][] SortedRedPixelsByFrame { get; }
     public double[,][] SortedRedPixelsByRoi { get; }
-    //public double[] NoiseFloorsByFrame { get; }
     public double[] ThresholdsByFrame { get; }
     public Bitmap[,] MaskImages { get; }
     public bool[,][,] Masks { get; }
@@ -33,20 +32,21 @@ public class RoiCollection
     public double[][] RedCurveByFrame { get; }
     public double[][] GreenCurveByFrame { get; }
     public double[][] RatioCurveByFrame { get; }
+    public double[] FrameTimes;
 
     public RoiCollection(RoiGenerator roiGen, double thresholdFloorPercent = 50, double thresholdMult = 3)
     {
         TifFilePath = roiGen.TifFilePath;
         FrameCount = roiGen.FrameCount;
+        FrameTimes = roiGen.FrameTimes;
         Rois = roiGen.Tracing.GetEvenlySpacedRois();
-        Positions = Enumerable.Range(0, RoiCount).Select(x => (double)x * roiGen.Tracing.MicronsPerPixel).ToArray();
+        Positions = Enumerable.Range(0, RoiCount).Select(x => x * roiGen.Tracing.RoiSpacing_Microns).ToArray();
         Times = roiGen.FrameTimes;
         RedImages = Drawing.Crop(roiGen.RedImages, Rois);
         GreenImages = Drawing.Crop(roiGen.GreenImages, Rois);
         MergedImages = Drawing.GetMergedImages(RedImages, GreenImages);
         SortedRedPixelsByFrame = ArrayOperations.GetSortedPixels(roiGen.RedImages);
         SortedRedPixelsByRoi = ArrayOperations.GetSortedPixels(RedImages);
-        //NoiseFloorsByFrame = ArrayOperations.GetNoiseFloorsByFrame(SortedRedPixelsByFrame, thresholdFloorPercent);
         ThresholdsByFrame = ArrayOperations.GetThresholdsByFrame(SortedRedPixelsByFrame, thresholdFloorPercent, thresholdMult);
 
         bool maskDisabled = thresholdFloorPercent == 0 || thresholdMult == 0;
@@ -116,7 +116,7 @@ public class RoiCollection
 
         return csv;
     }
-    
+
     /// <summary>
     /// Save all data as a single JSON file
     /// </summary>
