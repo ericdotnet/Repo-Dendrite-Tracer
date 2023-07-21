@@ -49,19 +49,20 @@ public static class PvXml
         return double.Parse(micronsPerPixelValue);
     }
 
-    public static double[] GetFrameTimes(string xmlFilePath, int precision = 3)
+    public static double[] GetFrameTimes(string xmlFilePath)
     {
         string xmlText = File.ReadAllText(xmlFilePath);
         XDocument doc = XDocument.Parse(xmlText);
         var sequenceFirstFrameTimes = doc.Element("PVScan")!
             .Elements("Sequence")!
             .Select(x => x.Elements("Frame").First())
+            .Skip(1)
             .Select(x => double.Parse(x.Attribute("absoluteTime")!.Value))
             .ToArray();
 
         double[] frameTimes = sequenceFirstFrameTimes
             .Select(x => x - sequenceFirstFrameTimes.First())
-            .Select(x => Math.Round(x, precision))
+            .Select(x => Math.Round(x) / 60.0)
             .ToArray();
 
         return frameTimes;

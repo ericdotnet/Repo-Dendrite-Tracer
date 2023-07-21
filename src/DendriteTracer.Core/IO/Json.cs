@@ -14,7 +14,7 @@ public static class Json
         writer.WriteString("Path", roic.TifFilePath);
         writer.WriteNumber("RoiCount", roic.RoiCount);
         writer.WriteNumber("FrameCount", roic.FrameCount);
-        writer.WriteStartArray("FrameTimes_sec");
+        writer.WriteStartArray("FrameTimes_min");
         roic.FrameTimes.ToList().ForEach(x => writer.WriteNumberValue(x));
         writer.WriteEndArray();
 
