@@ -12,6 +12,11 @@ public static class Json
         writer.WriteString("Version", Core.Version.VersionString);
         writer.WriteString("Generated", DateTime.Now.ToString());
         writer.WriteString("Path", roic.TifFilePath);
+        writer.WriteNumber("RoiCount", roic.RoiCount);
+        writer.WriteNumber("FrameCount", roic.FrameCount);
+        writer.WriteStartArray("FrameTimes_sec");
+        roic.FrameTimes.ToList().ForEach(x => writer.WriteNumberValue(x));
+        writer.WriteEndArray();
 
         writer.WriteStartObject("ROIs");
         for (int roiIndex = 0; roiIndex < roic.RoiCount; roiIndex++)
