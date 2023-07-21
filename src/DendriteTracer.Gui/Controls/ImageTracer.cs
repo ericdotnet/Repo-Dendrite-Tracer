@@ -105,16 +105,6 @@ public partial class ImageTracer : UserControl
         RedrawFrame();
     }
 
-    private void ReloadTif()
-    {
-        if (RoiGen is null)
-            return;
-        var tracing = RoiGen.Tracing;
-        RoiGen = new(RoiGen.TifFilePath, SubtractionFloor, (double)nudBrightness.Value);
-        RoiGen.Tracing.AddRange(tracing.Points.ToArray());
-        RedrawFrame(true);
-    }
-
     private void PictureBox1_MouseUp(object? sender, MouseEventArgs e)
     {
         SpineBeingDragged = null;
@@ -200,6 +190,15 @@ public partial class ImageTracer : UserControl
             int? indexUnderMouse = GetSpineIndexUnderMouse(e);
             Cursor = indexUnderMouse is null ? Cursors.Default : Cursors.Hand;
         }
+    }
+
+    private void ReloadTif()
+    {
+        if (RoiGen is null)
+            return;
+
+        PixelLocation[] points = RoiGen.Tracing.Points.ToArray();
+        LoadTif(RoiGen.TifFilePath, points);
     }
 
     public void LoadTif(string tifFilePath, PixelLocation[]? initialPoints = null)

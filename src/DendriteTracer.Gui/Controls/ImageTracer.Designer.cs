@@ -105,7 +105,7 @@
             nudBrightness.Name = "nudBrightness";
             nudBrightness.Size = new Size(90, 31);
             nudBrightness.TabIndex = 3;
-            nudBrightness.Value = new decimal(new int[] { 4, 0, 0, 0 });
+            nudBrightness.Value = new decimal(new int[] { 2, 0, 0, 0 });
             // 
             // label2
             // 

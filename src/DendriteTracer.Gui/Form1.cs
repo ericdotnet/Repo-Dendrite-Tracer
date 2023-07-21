@@ -27,7 +27,6 @@ public partial class Form1 : Form
         if (imageTracer1.RoiGen is null)
             return;
 
-        System.Diagnostics.Debug.WriteLine(imageTracer1.RoiGen.Tracing.GetPointsString());
         RoiCollection rois = imageTracer1.RoiGen.CalculateRois(roiConfigurator1.ThresholdFloor, roiConfigurator1.ThresholdMult);
         roiInspector1.LoadROIs(rois);
         resultsViewer1.LoadRois(rois);
@@ -45,7 +44,7 @@ public partial class Form1 : Form
 
         string[] possibleStartupImages =
         {
-            "SampleData/MAX_TSeries-05312023-1239-2203.tif",
+            "./SampleData/MAX_TSeries-05312023-1239-2203.tif",
             "../../../../DendriteTracer.Tests/SampleData/MAX_TSeries-05312023-1239-2203.tif",
         };
 
