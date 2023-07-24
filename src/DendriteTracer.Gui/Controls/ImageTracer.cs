@@ -203,7 +203,8 @@ public partial class ImageTracer : UserControl
 
     public void LoadTif(string tifFilePath, PixelLocation[]? initialPoints = null)
     {
-        RoiGen = new(tifFilePath, 20, (double)nudBrightness.Value);
+        double noiseFloorPercentile = cbImageSubtractionEnabled.Checked ? (double)nudImageSubtractionFloor.Value : 0;
+        RoiGen = new(tifFilePath, noiseFloorPercentile, (double)nudBrightness.Value);
         RoiGen.Tracing.RoiSpacing_Microns = (double)nudRoiSpacing.Value;
         RoiGen.Tracing.RoiRadius_Microns = (double)nudRoiRadius.Value;
         RoiGen.Tracing.IsCircular = cbRoiCirular.Checked;
