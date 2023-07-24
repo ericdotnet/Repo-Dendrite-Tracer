@@ -20,6 +20,7 @@ public class RoiCollection
     public RasterSharp.Channel[,] RedImages { get; }
     public Bitmap[,] MergedImages { get; }
     public double[][] SortedRedPixelsByFrame { get; }
+    public double[][] SortedGreenPixelsByFrame { get; }
     public double[,][] SortedRedPixelsByRoi { get; }
     public double[] ThresholdsByFrame { get; }
     public Bitmap[,] MaskImages { get; }
@@ -33,6 +34,8 @@ public class RoiCollection
     public double[][] GreenCurveByFrame { get; }
     public double[][] RatioCurveByFrame { get; }
     public double[] FrameTimes;
+    public double ThresholdFloorPercent { get; }
+    public double ThresholdMult { get; }
 
     public RoiCollection(RoiGenerator roiGen, double thresholdFloorPercent = 50, double thresholdMult = 3)
     {
@@ -46,9 +49,12 @@ public class RoiCollection
         GreenImages = Drawing.Crop(roiGen.GreenImages, Rois);
         MergedImages = Drawing.GetMergedImages(RedImages, GreenImages);
         SortedRedPixelsByFrame = ArrayOperations.GetSortedPixels(roiGen.RedImages);
+        SortedGreenPixelsByFrame = ArrayOperations.GetSortedPixels(roiGen.GreenImages);
         SortedRedPixelsByRoi = ArrayOperations.GetSortedPixels(RedImages);
         ThresholdsByFrame = ArrayOperations.GetThresholdsByFrame(SortedRedPixelsByFrame, thresholdFloorPercent, thresholdMult);
 
+        ThresholdFloorPercent = thresholdFloorPercent;
+        ThresholdMult = thresholdMult;
         bool maskDisabled = thresholdFloorPercent == 0 || thresholdMult == 0;
         (MaskImages, Masks) = Drawing.GetMaskImages(RedImages, ThresholdsByFrame, roiGen.Tracing.IsCircular, maskDisabled);
 

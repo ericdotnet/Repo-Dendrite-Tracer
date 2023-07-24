@@ -144,10 +144,9 @@ internal static class ArrayOperations
             }
             else
             {
-                int lastIndex = (int)(sortedByFrame[i].Length * percent / 100.0);
-                double[] floorValues = new double[lastIndex];
-                Array.Copy(sortedByFrame[i], floorValues, lastIndex);
-                thresholds[i] = StDev(floorValues) * mult;
+                int floorIndex = (int)(sortedByFrame[i].Length * percent / 100.0);
+                double floor = sortedByFrame[i][floorIndex];
+                thresholds[i] = floor * mult;
             }
         }
 

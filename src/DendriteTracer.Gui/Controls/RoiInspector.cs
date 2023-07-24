@@ -66,22 +66,32 @@ public partial class RoiInspector : UserControl
         SetPictureboxImage(pictureBox2, RoiCollection.MaskImages[SelectedFrame, SelectedRoi]);
 
         double[] roiRedValues = RoiCollection.SortedRedPixelsByRoi[SelectedFrame, SelectedRoi];
-        double[] frameRedValues = RoiCollection.SortedRedPixelsByFrame[SelectedFrame];
+        double[] roiRedValuesPercents = Enumerable.Range(0, roiRedValues.Length).Select(x => 100.0 * x / roiRedValues.Length).ToArray();
 
-        //roiRedValues = roiRedValues.Select(x => Math.Log(x)).ToArray();
-        //frameRedValues = frameRedValues.Select(x => Math.Log(x)).ToArray();
+        double[] frameRedValues = RoiCollection.SortedRedPixelsByFrame[SelectedFrame];
+        double[] frameRedValuesPercents = Enumerable.Range(0, frameRedValues.Length).Select(x => 100.0 * x / frameRedValues.Length).ToArray();
+
+        double[] frameGreenValues = RoiCollection.SortedGreenPixelsByFrame[SelectedFrame];
+        double[] frameGreenValuesPercents = Enumerable.Range(0, frameGreenValues.Length).Select(x => 100.0 * x / frameGreenValues.Length).ToArray();
 
         try
         {
             formsPlot1.Plot.Clear();
-            formsPlot1.Plot.AddSignal(roiRedValues, roiRedValues.Length / 100.0, label: "ROI");
-            formsPlot1.Plot.AddSignal(frameRedValues, frameRedValues.Length / 100.0, label: "Frame");
-            formsPlot1.Plot.AddHorizontalLine(RoiCollection.ThresholdsByFrame[SelectedFrame], System.Drawing.Color.Black, style: LineStyle.Dash, label: "Threshold");
-            formsPlot1.Plot.Legend(true, Alignment.UpperLeft);
+            formsPlot1.Plot.AddScatterLines(roiRedValues, roiRedValuesPercents, Color.Black, 2, LineStyle.Dot, label: "ROI Red");
+            formsPlot1.Plot.AddScatterLines(frameRedValues, frameRedValuesPercents, Color.Magenta, 2, LineStyle.Solid, label: "Frame Red");
+            formsPlot1.Plot.AddScatterLines(frameGreenValues, frameGreenValuesPercents, Color.Green, 2, LineStyle.Solid, label: "Frame Green");
+
+            if (RoiCollection.ThresholdFloorPercent != 0)
+            {
+                formsPlot1.Plot.AddVerticalLine(RoiCollection.ThresholdsByFrame[SelectedFrame] / RoiCollection.ThresholdMult, Color.Blue, style: LineStyle.Dot, label: "ROI Floor");
+                formsPlot1.Plot.AddVerticalLine(RoiCollection.ThresholdsByFrame[SelectedFrame], Color.Blue, style: LineStyle.Dash, label: "ROI Threshold");
+            }
+
+            formsPlot1.Plot.Legend(true, Alignment.LowerRight);
 
             formsPlot1.Plot.Title("");
-            formsPlot1.Plot.XLabel("Distribution (%)");
-            formsPlot1.Plot.YLabel("Fluorescence");
+            formsPlot1.Plot.XLabel("Fluorescence (AFU)");
+            formsPlot1.Plot.YLabel("Cumulative Probability (%)");
             formsPlot1.Refresh();
         }
         catch (Exception ex)

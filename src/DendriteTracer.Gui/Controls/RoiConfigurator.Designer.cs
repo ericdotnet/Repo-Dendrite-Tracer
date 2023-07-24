@@ -89,7 +89,7 @@
             nudPixelThresholdMult.Name = "nudPixelThresholdMult";
             nudPixelThresholdMult.Size = new Size(106, 31);
             nudPixelThresholdMult.TabIndex = 1;
-            nudPixelThresholdMult.Value = new decimal(new int[] { 10, 0, 0, 0 });
+            nudPixelThresholdMult.Value = new decimal(new int[] { 20, 0, 0, 0 });
             // 
             // nudPixelThresholdFloor
             // 
@@ -97,7 +97,7 @@
             nudPixelThresholdFloor.Name = "nudPixelThresholdFloor";
             nudPixelThresholdFloor.Size = new Size(106, 31);
             nudPixelThresholdFloor.TabIndex = 0;
-            nudPixelThresholdFloor.Value = new decimal(new int[] { 20, 0, 0, 0 });
+            nudPixelThresholdFloor.Value = new decimal(new int[] { 50, 0, 0, 0 });
             // 
             // RoiConfigurator
             // 
