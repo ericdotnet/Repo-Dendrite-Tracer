@@ -30,6 +30,8 @@ public partial class Form1 : Form
         RoiCollection rois = imageTracer1.RoiGen.CalculateRois(roiConfigurator1.ThresholdFloor, roiConfigurator1.ThresholdMult);
         roiInspector1.LoadROIs(rois);
         resultsViewer1.LoadRois(rois);
+
+        Text = $"Dendrite Tracer - {Path.GetFileNameWithoutExtension(rois.TifFilePath)}";
     }
 
     private void UpdateFrameAndRoi()
