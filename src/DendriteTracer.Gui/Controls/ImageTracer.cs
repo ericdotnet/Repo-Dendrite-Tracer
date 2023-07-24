@@ -45,7 +45,14 @@ public partial class ImageTracer : UserControl
         DragDrop += (s, e) =>
         {
             string[] paths = (string[])e.Data!.GetData(DataFormats.FileDrop)!;
-            LoadTif(paths.First());
+            if (paths.First().EndsWith(".json"))
+            {
+                LoadJson(paths.First());
+            }
+            else
+            {
+                LoadTif(paths.First());
+            }
         };
 
         // these things change the ROI generator and trigger reanalysis
@@ -210,6 +217,7 @@ public partial class ImageTracer : UserControl
 
     public void LoadTif(string tifFilePath, PixelLocation[]? initialPoints = null)
     {
+        
         double noiseFloorPercentile = cbImageSubtractionEnabled.Checked ? (double)nudImageSubtractionFloor.Value : 0;
         RoiGen = new(tifFilePath, noiseFloorPercentile, (double)nudBrightness.Value);
         RoiGen.Tracing.RoiSpacing_Microns = (double)nudRoiSpacing.Value;
@@ -220,6 +228,21 @@ public partial class ImageTracer : UserControl
             RoiGen.Tracing.AddRange(initialPoints);
 
         RedrawFrame(true);
+    }
+
+    public void LoadJson(string jsonFilePath)
+    {
+        RoiGen = null;
+        RoiExperimentSettings settings = Core.IO.Json.Load(jsonFilePath);
+        nudImageSubtractionFloor.Value = (decimal)settings.ImageFloor_Percent;
+        cbImageSubtractionEnabled.Checked = settings.ImageFloor_IsEnabled;
+        nudRoiSpacing.Value = (decimal)settings.RoiSpacing_Microns;
+        nudRoiRadius.Value = (decimal)settings.RoiRadius_Microns;
+        cbRoiCirular.Checked = settings.RoiIsCircular;
+        nudPixelThresholdFloor.Value = (decimal)settings.RoiFloor_Percent;
+        nudPixelThresholdMult.Value = (decimal)settings.RoiThreshold_Multiple;
+        cbEnableThreshold.Checked = settings.RoiThreshold_IsEnabled;
+        LoadTif(settings.TifFilePath, settings.Rois);
     }
 
     bool RenderingNow = false;

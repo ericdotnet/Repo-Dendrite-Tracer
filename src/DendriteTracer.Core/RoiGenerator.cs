@@ -18,6 +18,7 @@ public class RoiGenerator
     public int Height { get; }
     public int FrameCount { get; }
     public double[] FrameTimes { get; }
+    public double NoiseFloor_Percent { get; }
 
     public RoiGenerator(string tifFile, double noiseFloorPercentile = 0, double brightness = 1)
     {
@@ -28,6 +29,7 @@ public class RoiGenerator
         SciTIF.TifFile tif = new(tifFile);
         Drawing.AssertValidTif(tif);
         TifFilePath = Path.GetFullPath(tifFile);
+        NoiseFloor_Percent = noiseFloorPercentile;
         Width = tif.Width;
         Height = tif.Height;
         (RedImages, GreenImages) = Drawing.GetAllChannels(tif);

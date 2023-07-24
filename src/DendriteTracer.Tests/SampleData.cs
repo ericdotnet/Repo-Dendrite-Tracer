@@ -34,11 +34,13 @@ public class SampleData
         return t;
     }
 
+    public static readonly string JsonFilePath = Path.GetFullPath("SampleData/analysis.json");
+
     [Fact]
     public void Test_Files_exist()
     {
-        Console.WriteLine(TSeriesTifPath);
         File.Exists(TSeriesTifPath).Should().BeTrue();
-        File.Exists(TSeriesTifPath).Should().BeTrue();
+        File.Exists(TSeriesTifPath2).Should().BeTrue();
+        File.Exists(JsonFilePath).Should().BeTrue();
     }
 }

@@ -35,7 +35,9 @@ public class RoiCollection
     public double[][] RatioCurveByFrame { get; }
     public double[] FrameTimes;
     public double ThresholdFloorPercent { get; }
-    public double ThresholdMult { get; }
+    public double ThresholdMult { get; } // TODO: call these from Settings
+
+    public RoiExperimentSettings Settings { get; }
 
     public RoiCollection(RoiGenerator roiGen, double thresholdFloorPercent = 50, double thresholdMult = 3)
     {
@@ -65,6 +67,17 @@ public class RoiCollection
         RedCurveByFrame = ArrayOperations.GetCurveByFrame(RedMeans);
         GreenCurveByFrame = ArrayOperations.GetCurveByFrame(GreenMeans);
         RatioCurveByFrame = ArrayOperations.GetCurveByFrame(Ratios);
+
+        Settings = new()
+        {
+            TifFilePath = roiGen.TifFilePath,
+            ImageFloor_Percent = roiGen.NoiseFloor_Percent,
+            RoiSpacing_Microns = roiGen.Tracing.RoiSpacing_Microns,
+            RoiRadius_Microns = roiGen.Tracing.RoiRadius_Microns,
+            RoiIsCircular = roiGen.Tracing.IsCircular,
+            RoiFloor_Percent = thresholdFloorPercent,
+            RoiThreshold_Multiple = thresholdMult,
+        };
     }
 
     /// <summary>

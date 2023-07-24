@@ -1,4 +1,6 @@
-﻿namespace DendriteTracer.Tests;
+﻿using FluentAssertions;
+
+namespace DendriteTracer.Tests;
 
 public class AnalysisTests
 {
@@ -27,5 +29,27 @@ public class AnalysisTests
         roic.GetDataByRoi(roic.GreenMeans).Save("TSeries-05312023-1239-2203.green.byRoi.csv");
 
         roic.SaveJson("test.json");
+    }
+
+    [Fact]
+    public void Test_Json_Read()
+    {
+        RoiExperimentSettings r = Core.IO.Json.Load(SampleData.JsonFilePath);
+        Path.GetFileName(r.TifFilePath).Should().Be("MAX_TSeries-05312023-1239-2203.tif");
+
+        r.ImageFloor_IsEnabled.Should().BeFalse();
+        r.ImageFloor_Percent.Should().Be(17);
+
+        r.RoiIsCircular.Should().BeTrue();
+        r.RoiSpacing_Microns.Should().BeApproximately(7, .01);
+        r.RoiRadius_Microns.Should().BeApproximately(9, .01);
+
+        r.RoiIsCircular.Should().BeTrue();
+        r.RoiFloor_Percent.Should().Be(49);
+        r.RoiThreshold_Multiple.Should().Be(27);
+
+        r.Rois.Length.Should().Be(22);
+        r.Rois[1].X.Should().Be(107.64232f);
+        r.Rois[1].Y.Should().Be(184.21773f);
     }
 }
