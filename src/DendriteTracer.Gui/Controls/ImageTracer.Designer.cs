@@ -53,6 +53,12 @@
             label6 = new Label();
             nudImageSubtractionFloor = new NumericUpDown();
             cbImageSubtractionEnabled = new CheckBox();
+            groupBox5 = new GroupBox();
+            cbEnableThreshold = new CheckBox();
+            label9 = new Label();
+            label10 = new Label();
+            nudPixelThresholdMult = new NumericUpDown();
+            nudPixelThresholdFloor = new NumericUpDown();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)nudBrightness).BeginInit();
             panel1.SuspendLayout();
@@ -63,6 +69,9 @@
             ((System.ComponentModel.ISupportInitialize)nudRoiSpacing).BeginInit();
             groupBox4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)nudImageSubtractionFloor).BeginInit();
+            groupBox5.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)nudPixelThresholdMult).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)nudPixelThresholdFloor).BeginInit();
             SuspendLayout();
             // 
             // pictureBox1
@@ -337,11 +346,71 @@
             cbImageSubtractionEnabled.Text = "Enable";
             cbImageSubtractionEnabled.UseVisualStyleBackColor = true;
             // 
+            // groupBox5
+            // 
+            groupBox5.Controls.Add(cbEnableThreshold);
+            groupBox5.Controls.Add(label9);
+            groupBox5.Controls.Add(label10);
+            groupBox5.Controls.Add(nudPixelThresholdMult);
+            groupBox5.Controls.Add(nudPixelThresholdFloor);
+            groupBox5.Location = new Point(6, 1112);
+            groupBox5.Name = "groupBox5";
+            groupBox5.Size = new Size(506, 132);
+            groupBox5.TabIndex = 12;
+            groupBox5.TabStop = false;
+            groupBox5.Text = "ROI Threshold";
+            // 
+            // cbEnableThreshold
+            // 
+            cbEnableThreshold.AutoSize = true;
+            cbEnableThreshold.Location = new Point(297, 72);
+            cbEnableThreshold.Margin = new Padding(4, 5, 4, 5);
+            cbEnableThreshold.Name = "cbEnableThreshold";
+            cbEnableThreshold.Size = new Size(101, 29);
+            cbEnableThreshold.TabIndex = 5;
+            cbEnableThreshold.Text = "Enabled";
+            cbEnableThreshold.UseVisualStyleBackColor = true;
+            // 
+            // label9
+            // 
+            label9.AutoSize = true;
+            label9.Location = new Point(166, 38);
+            label9.Name = "label9";
+            label9.Size = new Size(90, 25);
+            label9.TabIndex = 4;
+            label9.Text = "Threshold";
+            // 
+            // label10
+            // 
+            label10.AutoSize = true;
+            label10.Location = new Point(26, 38);
+            label10.Name = "label10";
+            label10.Size = new Size(83, 25);
+            label10.TabIndex = 3;
+            label10.Text = "Floor (%)";
+            // 
+            // nudPixelThresholdMult
+            // 
+            nudPixelThresholdMult.Location = new Point(166, 67);
+            nudPixelThresholdMult.Name = "nudPixelThresholdMult";
+            nudPixelThresholdMult.Size = new Size(106, 31);
+            nudPixelThresholdMult.TabIndex = 1;
+            nudPixelThresholdMult.Value = new decimal(new int[] { 20, 0, 0, 0 });
+            // 
+            // nudPixelThresholdFloor
+            // 
+            nudPixelThresholdFloor.Location = new Point(26, 67);
+            nudPixelThresholdFloor.Name = "nudPixelThresholdFloor";
+            nudPixelThresholdFloor.Size = new Size(106, 31);
+            nudPixelThresholdFloor.TabIndex = 0;
+            nudPixelThresholdFloor.Value = new decimal(new int[] { 50, 0, 0, 0 });
+            // 
             // ImageTracer
             // 
             AllowDrop = true;
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
+            Controls.Add(groupBox5);
             Controls.Add(groupBox4);
             Controls.Add(groupBox3);
             Controls.Add(groupBox2);
@@ -350,7 +419,7 @@
             Controls.Add(label1);
             Controls.Add(pictureBox1);
             Name = "ImageTracer";
-            Size = new Size(519, 1100);
+            Size = new Size(519, 1249);
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ((System.ComponentModel.ISupportInitialize)nudBrightness).EndInit();
             panel1.ResumeLayout(false);
@@ -365,6 +434,10 @@
             groupBox4.ResumeLayout(false);
             groupBox4.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)nudImageSubtractionFloor).EndInit();
+            groupBox5.ResumeLayout(false);
+            groupBox5.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)nudPixelThresholdMult).EndInit();
+            ((System.ComponentModel.ISupportInitialize)nudPixelThresholdFloor).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -396,5 +469,11 @@
         private Label lblAreaPx;
         private Label lblRadiusPx;
         private Label lblSpacingPx;
+        private GroupBox groupBox5;
+        private CheckBox cbEnableThreshold;
+        private Label label9;
+        private Label label10;
+        private NumericUpDown nudPixelThresholdMult;
+        private NumericUpDown nudPixelThresholdFloor;
     }
 }

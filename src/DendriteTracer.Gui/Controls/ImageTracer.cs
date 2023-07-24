@@ -12,6 +12,9 @@ public partial class ImageTracer : UserControl
     public int SelectedFrame => hScrollBar1.Value - 1;
     private int SelectedRoi;
 
+    public double ThresholdFloor => cbEnableThreshold.Checked ? (double)nudPixelThresholdFloor.Value : 0;
+    public double ThresholdMult => cbEnableThreshold.Checked ? (double)nudPixelThresholdMult.Value : 0;
+
     public ImageTracer()
     {
         InitializeComponent();
@@ -83,6 +86,10 @@ public partial class ImageTracer : UserControl
             nudImageSubtractionFloor.Enabled = cbImageSubtractionEnabled.Checked;
             ReloadTif();
         };
+
+        nudPixelThresholdFloor.ValueChanged += (s, e) => RedrawFrame(true);
+        nudPixelThresholdMult.ValueChanged += (s, e) => RedrawFrame(true);
+        cbEnableThreshold.CheckedChanged += (s, e) => RedrawFrame(true);
 
         // these things just change the display and don't leave this control
         nudBrightness.ValueChanged += (s, e) =>

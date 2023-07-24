@@ -17,8 +17,6 @@ public partial class Form1 : Form
         // When the ROI slider moves, update the analysis window
         roiInspector1.SelectedRoiChanged += (s, e) => UpdateFrameAndRoi();
 
-        roiConfigurator1.RoiSettingsChanged += (s, e) => UpdateAllRois();
-
         LoadSampleData();
     }
 
@@ -27,7 +25,7 @@ public partial class Form1 : Form
         if (imageTracer1.RoiGen is null)
             return;
 
-        RoiCollection rois = imageTracer1.RoiGen.CalculateRois(roiConfigurator1.ThresholdFloor, roiConfigurator1.ThresholdMult);
+        RoiCollection rois = imageTracer1.RoiGen.CalculateRois(imageTracer1.ThresholdFloor, imageTracer1.ThresholdMult);
         roiInspector1.LoadROIs(rois);
         resultsViewer1.LoadRois(rois);
 

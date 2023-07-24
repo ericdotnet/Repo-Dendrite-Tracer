@@ -30,17 +30,17 @@ partial class Form1
     {
         imageTracer1 = new ImageTracer();
         roiInspector1 = new RoiInspector();
-        roiConfigurator1 = new RoiConfigurator();
         resultsViewer1 = new ResultsViewer();
         SuspendLayout();
         // 
         // imageTracer1
         // 
         imageTracer1.AllowDrop = true;
+        imageTracer1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left;
         imageTracer1.Location = new Point(11, 12);
         imageTracer1.Margin = new Padding(1, 2, 1, 2);
         imageTracer1.Name = "imageTracer1";
-        imageTracer1.Size = new Size(543, 1104);
+        imageTracer1.Size = new Size(543, 1460);
         imageTracer1.TabIndex = 0;
         // 
         // roiInspector1
@@ -51,13 +51,6 @@ partial class Form1
         roiInspector1.Name = "roiInspector1";
         roiInspector1.Size = new Size(1113, 385);
         roiInspector1.TabIndex = 1;
-        // 
-        // roiConfigurator1
-        // 
-        roiConfigurator1.Location = new Point(16, 1120);
-        roiConfigurator1.Name = "roiConfigurator1";
-        roiConfigurator1.Size = new Size(508, 114);
-        roiConfigurator1.TabIndex = 2;
         // 
         // resultsViewer1
         // 
@@ -73,7 +66,6 @@ partial class Form1
         AutoScaleMode = AutoScaleMode.Font;
         ClientSize = new Size(1686, 1490);
         Controls.Add(resultsViewer1);
-        Controls.Add(roiConfigurator1);
         Controls.Add(roiInspector1);
         Controls.Add(imageTracer1);
         Name = "Form1";
@@ -87,7 +79,5 @@ partial class Form1
     private ImageTracer imageTracer1;
     private RoiInspector roiInspector1;
     private ResultsViewer roiAnalyzer1;
-    private RoiConfigurator userInputs1;
-    private RoiConfigurator roiConfigurator1;
     private ResultsViewer resultsViewer1;
 }
