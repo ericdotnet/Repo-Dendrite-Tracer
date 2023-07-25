@@ -34,7 +34,7 @@ public partial class Form1 : Form
         roiInspector1.LoadROIs(rois);
         resultsViewer1.LoadRois(rois);
 
-        Text = $"Dendrite Tracer - {Path.GetFileNameWithoutExtension(rois.TifFilePath)}";
+        Text = $"{Core.Version.NameAndVersion} - {Path.GetFileNameWithoutExtension(rois.TifFilePath)}";
     }
 
     private void UpdateFrameAndRoi()
