@@ -19,8 +19,9 @@ public class RoiGenerator
     public int FrameCount { get; }
     public double[] FrameTimes { get; }
     public double NoiseFloor_Percent { get; }
+    public bool NoiseFloor_IsEnabled { get; }
 
-    public RoiGenerator(string tifFile, double noiseFloorPercentile = 0, double brightness = 1)
+    public RoiGenerator(string tifFile, double noiseFloorPercentile, double brightness, bool noiseFloorEnabled)
     {
         string xmlFile = IO.PvXml.Locate(tifFile);
         double micronsPerPixel = IO.PvXml.GetMicronsPerPixel(xmlFile);
@@ -30,6 +31,7 @@ public class RoiGenerator
         Drawing.AssertValidTif(tif);
         TifFilePath = Path.GetFullPath(tifFile);
         NoiseFloor_Percent = noiseFloorPercentile;
+        NoiseFloor_IsEnabled = noiseFloorEnabled;
         Width = tif.Width;
         Height = tif.Height;
         (RedImages, GreenImages) = Drawing.GetAllChannels(tif);
@@ -60,8 +62,8 @@ public class RoiGenerator
         }
     }
 
-    public RoiCollection CalculateRois(double thresholdFloor, double thresholdMult)
+    public RoiCollection CalculateRois(double thresholdFloor, double thresholdMult, bool thresholdEnabled)
     {
-        return new(this, thresholdFloor, thresholdMult);
+        return new(this, thresholdFloor, thresholdMult, thresholdEnabled);
     }
 }

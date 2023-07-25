@@ -12,8 +12,9 @@ public partial class ImageTracer : UserControl
     public int SelectedFrame => hScrollBar1.Value - 1;
     private int SelectedRoi;
 
-    public double ThresholdFloor => cbEnableThreshold.Checked ? (double)nudPixelThresholdFloor.Value : 0;
-    public double ThresholdMult => cbEnableThreshold.Checked ? (double)nudPixelThresholdMult.Value : 0;
+    public double RoiFloor_Percent => (double)nudPixelThresholdFloor.Value ;
+    public double RoiThreshold_Mult => (double)nudPixelThresholdMult.Value;
+    public bool RoiThreshold_IsEnabled => cbRoiThresholdIsEnabled.Checked;
 
     public ImageTracer()
     {
@@ -96,7 +97,7 @@ public partial class ImageTracer : UserControl
 
         nudPixelThresholdFloor.ValueChanged += (s, e) => RedrawFrame(true);
         nudPixelThresholdMult.ValueChanged += (s, e) => RedrawFrame(true);
-        cbEnableThreshold.CheckedChanged += (s, e) => RedrawFrame(true);
+        cbRoiThresholdIsEnabled.CheckedChanged += (s, e) => RedrawFrame(true);
 
         // these things just change the display and don't leave this control
         nudBrightness.ValueChanged += (s, e) =>
@@ -219,7 +220,7 @@ public partial class ImageTracer : UserControl
     {
         
         double noiseFloorPercentile = cbImageSubtractionEnabled.Checked ? (double)nudImageSubtractionFloor.Value : 0;
-        RoiGen = new(tifFilePath, noiseFloorPercentile, (double)nudBrightness.Value);
+        RoiGen = new(tifFilePath, noiseFloorPercentile, (double)nudBrightness.Value, cbImageSubtractionEnabled.Checked);
         RoiGen.Tracing.RoiSpacing_Microns = (double)nudRoiSpacing.Value;
         RoiGen.Tracing.RoiRadius_Microns = (double)nudRoiRadius.Value;
         RoiGen.Tracing.IsCircular = cbRoiCirular.Checked;
@@ -241,7 +242,7 @@ public partial class ImageTracer : UserControl
         cbRoiCirular.Checked = settings.RoiIsCircular;
         nudPixelThresholdFloor.Value = (decimal)settings.RoiFloor_Percent;
         nudPixelThresholdMult.Value = (decimal)settings.RoiThreshold_Multiple;
-        cbEnableThreshold.Checked = settings.RoiThreshold_IsEnabled;
+        cbRoiThresholdIsEnabled.Checked = settings.RoiThreshold_IsEnabled;
         LoadTif(settings.TifFilePath, settings.Rois);
     }
 

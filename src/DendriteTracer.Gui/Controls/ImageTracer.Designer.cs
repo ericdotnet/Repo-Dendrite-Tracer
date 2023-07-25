@@ -54,7 +54,7 @@
             nudImageSubtractionFloor = new NumericUpDown();
             cbImageSubtractionEnabled = new CheckBox();
             groupBox5 = new GroupBox();
-            cbEnableThreshold = new CheckBox();
+            cbRoiThresholdIsEnabled = new CheckBox();
             label9 = new Label();
             label10 = new Label();
             nudPixelThresholdMult = new NumericUpDown();
@@ -348,7 +348,7 @@
             // 
             // groupBox5
             // 
-            groupBox5.Controls.Add(cbEnableThreshold);
+            groupBox5.Controls.Add(cbRoiThresholdIsEnabled);
             groupBox5.Controls.Add(label9);
             groupBox5.Controls.Add(label10);
             groupBox5.Controls.Add(nudPixelThresholdMult);
@@ -362,14 +362,14 @@
             // 
             // cbEnableThreshold
             // 
-            cbEnableThreshold.AutoSize = true;
-            cbEnableThreshold.Location = new Point(297, 72);
-            cbEnableThreshold.Margin = new Padding(4, 5, 4, 5);
-            cbEnableThreshold.Name = "cbEnableThreshold";
-            cbEnableThreshold.Size = new Size(101, 29);
-            cbEnableThreshold.TabIndex = 5;
-            cbEnableThreshold.Text = "Enabled";
-            cbEnableThreshold.UseVisualStyleBackColor = true;
+            cbRoiThresholdIsEnabled.AutoSize = true;
+            cbRoiThresholdIsEnabled.Location = new Point(297, 72);
+            cbRoiThresholdIsEnabled.Margin = new Padding(4, 5, 4, 5);
+            cbRoiThresholdIsEnabled.Name = "cbEnableThreshold";
+            cbRoiThresholdIsEnabled.Size = new Size(101, 29);
+            cbRoiThresholdIsEnabled.TabIndex = 5;
+            cbRoiThresholdIsEnabled.Text = "Enabled";
+            cbRoiThresholdIsEnabled.UseVisualStyleBackColor = true;
             // 
             // label9
             // 
@@ -470,7 +470,7 @@
         private Label lblRadiusPx;
         private Label lblSpacingPx;
         private GroupBox groupBox5;
-        private CheckBox cbEnableThreshold;
+        private CheckBox cbRoiThresholdIsEnabled;
         private Label label9;
         private Label label10;
         private NumericUpDown nudPixelThresholdMult;

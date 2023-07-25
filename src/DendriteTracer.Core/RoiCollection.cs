@@ -34,12 +34,10 @@ public class RoiCollection
     public double[][] GreenCurveByFrame { get; }
     public double[][] RatioCurveByFrame { get; }
     public double[] FrameTimes;
-    public double ThresholdFloorPercent { get; }
-    public double ThresholdMult { get; } // TODO: call these from Settings
 
     public RoiExperimentSettings Settings { get; }
 
-    public RoiCollection(RoiGenerator roiGen, double thresholdFloorPercent = 50, double thresholdMult = 3)
+    public RoiCollection(RoiGenerator roiGen, double thresholdFloorPercent, double thresholdMult, bool thresholdEnabled)
     {
         TifFilePath = roiGen.TifFilePath;
         FrameCount = roiGen.FrameCount;
@@ -55,10 +53,7 @@ public class RoiCollection
         SortedRedPixelsByRoi = ArrayOperations.GetSortedPixels(RedImages);
         ThresholdsByFrame = ArrayOperations.GetThresholdsByFrame(SortedRedPixelsByFrame, thresholdFloorPercent, thresholdMult);
 
-        ThresholdFloorPercent = thresholdFloorPercent;
-        ThresholdMult = thresholdMult;
-        bool maskDisabled = thresholdFloorPercent == 0 || thresholdMult == 0;
-        (MaskImages, Masks) = Drawing.GetMaskImages(RedImages, ThresholdsByFrame, roiGen.Tracing.IsCircular, maskDisabled);
+        (MaskImages, Masks) = Drawing.GetMaskImages(RedImages, ThresholdsByFrame, roiGen.Tracing.IsCircular, !thresholdEnabled);
 
         RedMeans = ArrayOperations.GetMeans(RedImages, Masks);
         GreenMeans = ArrayOperations.GetMeans(GreenImages, Masks);
@@ -71,12 +66,17 @@ public class RoiCollection
         Settings = new()
         {
             TifFilePath = roiGen.TifFilePath,
+
             ImageFloor_Percent = roiGen.NoiseFloor_Percent,
+            ImageFloor_IsEnabled = roiGen.NoiseFloor_IsEnabled,
+
             RoiSpacing_Microns = roiGen.Tracing.RoiSpacing_Microns,
             RoiRadius_Microns = roiGen.Tracing.RoiRadius_Microns,
             RoiIsCircular = roiGen.Tracing.IsCircular,
+
             RoiFloor_Percent = thresholdFloorPercent,
             RoiThreshold_Multiple = thresholdMult,
+            RoiThreshold_IsEnabled = thresholdEnabled,
         };
     }
 
