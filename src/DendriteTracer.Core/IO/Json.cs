@@ -16,18 +16,17 @@ public static class Json
         writer.WriteNumber("RoiCount", roic.RoiCount);
         writer.WriteNumber("FrameCount", roic.FrameCount);
 
-        writer.WriteString("Path", roic.TifFilePath);
-
+        writer.WriteStartObject("Settings");
+        writer.WriteString("TifFilePath", roic.TifFilePath);
         writer.WriteBoolean("ImageFloor_IsEnabled", roic.Settings.ImageFloor_IsEnabled);
         writer.WriteNumber("ImageFloor_Percent", roic.Settings.ImageFloor_Percent);
-
         writer.WriteBoolean("RoiIsCircular", roic.Settings.RoiIsCircular);
         writer.WriteNumber("RoiSpacing_Microns", roic.Settings.RoiSpacing_Microns);
         writer.WriteNumber("RoiRadius_Microns", roic.Settings.RoiRadius_Microns);
-
         writer.WriteBoolean("RoiThreshold_IsEnabled", roic.Settings.RoiThreshold_IsEnabled);
         writer.WriteNumber("RoiFloor_Percent", roic.Settings.RoiFloor_Percent);
         writer.WriteNumber("RoiThreshold_Multiple", roic.Settings.RoiThreshold_Multiple);
+        writer.WriteEndObject();
 
         writer.WriteStartArray("FrameTimes_min");
         roic.FrameTimes.ToList().ForEach(x => writer.WriteNumberValue(x));
@@ -93,20 +92,22 @@ public static class Json
             points.Add(new(x, y));
         }
 
+        var settings = document.RootElement.GetProperty("Settings");
+
         return new RoiExperimentSettings()
         {
-            TifFilePath = document.RootElement.GetProperty("Path").GetString()!,
+            TifFilePath = settings.GetProperty("TifFilePath").GetString()!,
 
-            ImageFloor_IsEnabled = document.RootElement.GetProperty("ImageFloor_IsEnabled").GetBoolean(),
-            ImageFloor_Percent = document.RootElement.GetProperty("ImageFloor_Percent").GetDouble(),
+            ImageFloor_IsEnabled = settings.GetProperty("ImageFloor_IsEnabled").GetBoolean(),
+            ImageFloor_Percent = settings.GetProperty("ImageFloor_Percent").GetDouble(),
 
-            RoiIsCircular = document.RootElement.GetProperty("RoiIsCircular").GetBoolean(),
-            RoiSpacing_Microns = document.RootElement.GetProperty("RoiSpacing_Microns").GetDouble(),
-            RoiRadius_Microns = document.RootElement.GetProperty("RoiRadius_Microns").GetDouble(),
+            RoiIsCircular = settings.GetProperty("RoiIsCircular").GetBoolean(),
+            RoiSpacing_Microns = settings.GetProperty("RoiSpacing_Microns").GetDouble(),
+            RoiRadius_Microns = settings.GetProperty("RoiRadius_Microns").GetDouble(),
 
-            RoiThreshold_IsEnabled = document.RootElement.GetProperty("RoiThreshold_IsEnabled").GetBoolean(),
-            RoiFloor_Percent = document.RootElement.GetProperty("RoiFloor_Percent").GetDouble(),
-            RoiThreshold_Multiple = document.RootElement.GetProperty("RoiThreshold_Multiple").GetDouble(),
+            RoiThreshold_IsEnabled = settings.GetProperty("RoiThreshold_IsEnabled").GetBoolean(),
+            RoiFloor_Percent = settings.GetProperty("RoiFloor_Percent").GetDouble(),
+            RoiThreshold_Multiple = settings.GetProperty("RoiThreshold_Multiple").GetDouble(),
 
             Rois = points.ToArray(),
         };

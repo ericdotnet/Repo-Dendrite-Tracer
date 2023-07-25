@@ -8,11 +8,11 @@ public partial class ImageTracer : UserControl
 
     public event EventHandler RoisChanged = delegate { };
     public event EventHandler FrameChanged = delegate { };
-    public double SubtractionFloor => cbImageSubtractionEnabled.Checked ? (double)nudImageSubtractionFloor.Value : 0;
+
     public int SelectedFrame => hScrollBar1.Value - 1;
     private int SelectedRoi;
 
-    public double RoiFloor_Percent => (double)nudPixelThresholdFloor.Value ;
+    public double RoiFloor_Percent => (double)nudPixelThresholdFloor.Value;
     public double RoiThreshold_Mult => (double)nudPixelThresholdMult.Value;
     public bool RoiThreshold_IsEnabled => cbRoiThresholdIsEnabled.Checked;
 
@@ -218,9 +218,12 @@ public partial class ImageTracer : UserControl
 
     public void LoadTif(string tifFilePath, PixelLocation[]? initialPoints = null)
     {
-        
-        double noiseFloorPercentile = cbImageSubtractionEnabled.Checked ? (double)nudImageSubtractionFloor.Value : 0;
-        RoiGen = new(tifFilePath, noiseFloorPercentile, (double)nudBrightness.Value, cbImageSubtractionEnabled.Checked);
+        RoiGen = new(
+            tifFilePath, 
+            (double)nudImageSubtractionFloor.Value, 
+            (double)nudBrightness.Value, 
+            cbImageSubtractionEnabled.Checked);
+
         RoiGen.Tracing.RoiSpacing_Microns = (double)nudRoiSpacing.Value;
         RoiGen.Tracing.RoiRadius_Microns = (double)nudRoiRadius.Value;
         RoiGen.Tracing.IsCircular = cbRoiCirular.Checked;

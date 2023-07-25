@@ -44,7 +44,7 @@ public class AnalysisTests
         r.RoiSpacing_Microns.Should().BeApproximately(7, .01);
         r.RoiRadius_Microns.Should().BeApproximately(9, .01);
 
-        r.RoiIsCircular.Should().BeTrue();
+        r.RoiThreshold_IsEnabled.Should().BeTrue();
         r.RoiFloor_Percent.Should().Be(49);
         r.RoiThreshold_Multiple.Should().Be(27);
 
