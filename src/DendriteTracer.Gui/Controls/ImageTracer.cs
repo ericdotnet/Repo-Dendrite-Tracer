@@ -12,8 +12,8 @@ public partial class ImageTracer : UserControl
     public int SelectedFrame => hScrollBar1.Value - 1;
     private int SelectedRoi;
 
-    public double RoiFloor_Percent => (double)nudPixelThresholdFloor.Value;
-    public double RoiThreshold_Mult => (double)nudPixelThresholdMult.Value;
+    public double RoiFloor_Percent => (double)nudRoiThresholdFloor.Value;
+    public double RoiThreshold_Mult => (double)nudRoiThresholdMult.Value;
     public bool RoiThreshold_IsEnabled => cbRoiThresholdIsEnabled.Checked;
 
     public ImageTracer()
@@ -95,8 +95,8 @@ public partial class ImageTracer : UserControl
             ReloadTif();
         };
 
-        nudPixelThresholdFloor.ValueChanged += (s, e) => RedrawFrame(true);
-        nudPixelThresholdMult.ValueChanged += (s, e) => RedrawFrame(true);
+        nudRoiThresholdFloor.ValueChanged += (s, e) => RedrawFrame(true);
+        nudRoiThresholdMult.ValueChanged += (s, e) => RedrawFrame(true);
         cbRoiThresholdIsEnabled.CheckedChanged += (s, e) => RedrawFrame(true);
 
         // these things just change the display and don't leave this control
@@ -243,8 +243,8 @@ public partial class ImageTracer : UserControl
         nudRoiSpacing.Value = (decimal)settings.RoiSpacing_Microns;
         nudRoiRadius.Value = (decimal)settings.RoiRadius_Microns;
         cbRoiCirular.Checked = settings.RoiIsCircular;
-        nudPixelThresholdFloor.Value = (decimal)settings.RoiFloor_Percent;
-        nudPixelThresholdMult.Value = (decimal)settings.RoiThreshold_Multiple;
+        nudRoiThresholdFloor.Value = (decimal)settings.RoiFloor_Percent;
+        nudRoiThresholdMult.Value = (decimal)settings.RoiThreshold_Multiple;
         cbRoiThresholdIsEnabled.Checked = settings.RoiThreshold_IsEnabled;
         LoadTif(settings.TifFilePath, settings.Rois);
     }

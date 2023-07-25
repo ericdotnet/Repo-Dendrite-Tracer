@@ -57,8 +57,8 @@
             cbRoiThresholdIsEnabled = new CheckBox();
             label9 = new Label();
             label10 = new Label();
-            nudPixelThresholdMult = new NumericUpDown();
-            nudPixelThresholdFloor = new NumericUpDown();
+            nudRoiThresholdMult = new NumericUpDown();
+            nudRoiThresholdFloor = new NumericUpDown();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)nudBrightness).BeginInit();
             panel1.SuspendLayout();
@@ -70,8 +70,8 @@
             groupBox4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)nudImageSubtractionFloor).BeginInit();
             groupBox5.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)nudPixelThresholdMult).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)nudPixelThresholdFloor).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)nudRoiThresholdMult).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)nudRoiThresholdFloor).BeginInit();
             SuspendLayout();
             // 
             // pictureBox1
@@ -351,8 +351,8 @@
             groupBox5.Controls.Add(cbRoiThresholdIsEnabled);
             groupBox5.Controls.Add(label9);
             groupBox5.Controls.Add(label10);
-            groupBox5.Controls.Add(nudPixelThresholdMult);
-            groupBox5.Controls.Add(nudPixelThresholdFloor);
+            groupBox5.Controls.Add(nudRoiThresholdMult);
+            groupBox5.Controls.Add(nudRoiThresholdFloor);
             groupBox5.Location = new Point(6, 1112);
             groupBox5.Name = "groupBox5";
             groupBox5.Size = new Size(506, 132);
@@ -391,19 +391,19 @@
             // 
             // nudPixelThresholdMult
             // 
-            nudPixelThresholdMult.Location = new Point(166, 67);
-            nudPixelThresholdMult.Name = "nudPixelThresholdMult";
-            nudPixelThresholdMult.Size = new Size(106, 31);
-            nudPixelThresholdMult.TabIndex = 1;
-            nudPixelThresholdMult.Value = new decimal(new int[] { 20, 0, 0, 0 });
+            nudRoiThresholdMult.Location = new Point(166, 67);
+            nudRoiThresholdMult.Name = "nudPixelThresholdMult";
+            nudRoiThresholdMult.Size = new Size(106, 31);
+            nudRoiThresholdMult.TabIndex = 1;
+            nudRoiThresholdMult.Value = new decimal(new int[] { 20, 0, 0, 0 });
             // 
             // nudPixelThresholdFloor
             // 
-            nudPixelThresholdFloor.Location = new Point(26, 67);
-            nudPixelThresholdFloor.Name = "nudPixelThresholdFloor";
-            nudPixelThresholdFloor.Size = new Size(106, 31);
-            nudPixelThresholdFloor.TabIndex = 0;
-            nudPixelThresholdFloor.Value = new decimal(new int[] { 50, 0, 0, 0 });
+            nudRoiThresholdFloor.Location = new Point(26, 67);
+            nudRoiThresholdFloor.Name = "nudPixelThresholdFloor";
+            nudRoiThresholdFloor.Size = new Size(106, 31);
+            nudRoiThresholdFloor.TabIndex = 0;
+            nudRoiThresholdFloor.Value = new decimal(new int[] { 50, 0, 0, 0 });
             // 
             // ImageTracer
             // 
@@ -436,8 +436,8 @@
             ((System.ComponentModel.ISupportInitialize)nudImageSubtractionFloor).EndInit();
             groupBox5.ResumeLayout(false);
             groupBox5.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)nudPixelThresholdMult).EndInit();
-            ((System.ComponentModel.ISupportInitialize)nudPixelThresholdFloor).EndInit();
+            ((System.ComponentModel.ISupportInitialize)nudRoiThresholdMult).EndInit();
+            ((System.ComponentModel.ISupportInitialize)nudRoiThresholdFloor).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -473,7 +473,7 @@
         private CheckBox cbRoiThresholdIsEnabled;
         private Label label9;
         private Label label10;
-        private NumericUpDown nudPixelThresholdMult;
-        private NumericUpDown nudPixelThresholdFloor;
+        private NumericUpDown nudRoiThresholdMult;
+        private NumericUpDown nudRoiThresholdFloor;
     }
 }
