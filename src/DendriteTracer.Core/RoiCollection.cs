@@ -47,7 +47,7 @@ public class RoiCollection
         Times = roiGen.FrameTimes;
         RedImages = Drawing.Crop(roiGen.RedImages, Rois);
         GreenImages = Drawing.Crop(roiGen.GreenImages, Rois);
-        MergedImages = Drawing.GetMergedImages(RedImages, GreenImages);
+        MergedImages = Drawing.GetMergedImages(RedImages, GreenImages, roiGen.Tracing.IsCircular);
         SortedRedPixelsByFrame = ArrayOperations.GetSortedPixels(roiGen.RedImages);
         SortedGreenPixelsByFrame = ArrayOperations.GetSortedPixels(roiGen.GreenImages);
         SortedRedPixelsByRoi = ArrayOperations.GetSortedPixels(RedImages);

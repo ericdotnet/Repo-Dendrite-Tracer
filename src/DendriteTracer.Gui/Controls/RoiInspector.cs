@@ -40,8 +40,11 @@ public partial class RoiInspector : UserControl
         UpdateImage();
     }
 
-    private void SetPictureboxImage(PictureBox pb, Bitmap bmp1)
+    private void SetPictureboxImage_WithScaling(PictureBox pb, Bitmap bmp1)
     {
+        if (RoiCollection is null)
+            return;
+
         pb.BackColor = SystemColors.Control;
         Bitmap bmp2 = new(pb.Width, pb.Height);
         using Graphics gfx = Graphics.FromImage(bmp2);
@@ -54,7 +57,22 @@ public partial class RoiInspector : UserControl
         // zoom in a bit so the edges don't appear anti-aliased with transparency
         float padX = bmp2.Width / bmp1.Width;
         float padY = bmp2.Height / bmp1.Height;
-        gfx.DrawImage(bmp1, -padX, -padY, bmp2.Width + padX * 2, bmp2.Height + padY * 2);
+        float x = -padX;
+        float y = -padY;
+        float w = bmp2.Width + padX * 2;
+        float h = bmp2.Height + padY * 2;
+        RectangleF rect = new(x, y, w, h);
+
+        gfx.DrawImage(bmp1, rect);
+
+        /*
+        if (RoiCollection.Rois.First().IsCircular)
+        {
+            using Pen pen = new(Brushes.Yellow, 3);
+            gfx.DrawEllipse(pen, 0, 0, pb.Width, pb.Height);
+        }
+        */
+
         pb.Image = bmp2;
     }
 
@@ -63,9 +81,9 @@ public partial class RoiInspector : UserControl
         if (RoiCollection is null)
             return;
 
-        label1.Text = $"Frame {SelectedFrame + 1}, ROI {SelectedRoi + 1} of {RoiCollection.RoiCount}";
-        SetPictureboxImage(pictureBox1, RoiCollection.MergedImages[SelectedFrame, SelectedRoi]);
-        SetPictureboxImage(pictureBox2, RoiCollection.MaskImages[SelectedFrame, SelectedRoi]);
+        groupBox1.Text = $"ROI {SelectedRoi + 1} of {RoiCollection.RoiCount}";
+        SetPictureboxImage_WithScaling(pictureBox1, RoiCollection.MergedImages[SelectedFrame, SelectedRoi]);
+        SetPictureboxImage_WithScaling(pictureBox2, RoiCollection.MaskImages[SelectedFrame, SelectedRoi]);
 
         double[] roiRedValues = RoiCollection.SortedRedPixelsByRoi[SelectedFrame, SelectedRoi];
         double[] roiRedValuesPercents = Enumerable.Range(0, roiRedValues.Length).Select(x => 100.0 * x / roiRedValues.Length).ToArray();

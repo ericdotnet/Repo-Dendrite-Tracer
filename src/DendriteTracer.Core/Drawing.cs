@@ -75,7 +75,7 @@ public static class Drawing
         return (img.ToSDBitmap(), mask);
     }
 
-    public static Bitmap[,] GetMergedImages(RasterSharp.Channel[,] RedImages, RasterSharp.Channel[,] GreenImages)
+    public static Bitmap[,] GetMergedImages(RasterSharp.Channel[,] RedImages, RasterSharp.Channel[,] GreenImages, bool isCircular)
     {
         int frameCount = RedImages.GetLength(0);
         int roiCount = RedImages.GetLength(1);
@@ -89,6 +89,12 @@ public static class Drawing
                 RasterSharp.Channel r = RedImages[i, j].Clone();
                 RasterSharp.Channel g = GreenImages[i, j].Clone();
 
+                if (isCircular)
+                {
+                    ApplyCircularMask(r);
+                    ApplyCircularMask(g);
+                }
+
                 r.Rescale();
                 g.Rescale();
 
@@ -99,6 +105,27 @@ public static class Drawing
         }
 
         return merged;
+    }
+
+    public static void ApplyCircularMask(RasterSharp.Channel ch)
+    {
+        double radius = (double)ch.Width / 2;
+
+        for (int y = 0; y < ch.Height; y++)
+        {
+            for (int x = 0; x < ch.Width; x++)
+            {
+                double dX = Math.Abs(radius - x);
+                double dY = Math.Abs(radius - y);
+                double distanceFromCenter = Math.Sqrt(dX * dX + dY * dY);
+                bool isOutsideCircle = distanceFromCenter > radius;
+
+                if (isOutsideCircle)
+                {
+                    ch.SetValue(x, y, 0);
+                }
+            }
+        }
     }
 
     public static Bitmap DrawTracingAndRois(Bitmap source, Tracing Tracing, bool showSpines, bool showRois, int selectedRoi)
