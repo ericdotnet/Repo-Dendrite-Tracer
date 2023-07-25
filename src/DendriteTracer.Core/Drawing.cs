@@ -95,8 +95,8 @@ public static class Drawing
                     ApplyCircularMask(g);
                 }
 
-                r.Rescale();
-                g.Rescale();
+                Multiply(r, 1.0 / 8);
+                Multiply(g, 1.0 / 8);
 
                 RasterSharp.Image img = new(r, g, r);
 
@@ -307,5 +307,18 @@ public static class Drawing
         }
 
         return image2;
+    }
+
+    public static void Multiply(RasterSharp.Channel ch, double factor = .5)
+    {
+
+        for (int y = 0; y < ch.Height; y++)
+        {
+            for (int x = 0; x < ch.Width; x++)
+            {
+                double value = ch.GetValue(x, y) * factor;
+                ch.SetValue(x, y, value);
+            }
+        }
     }
 }

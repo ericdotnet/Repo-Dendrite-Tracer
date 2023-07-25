@@ -54,8 +54,8 @@ public class RoiGenerator
             var r = RedImages[i].Clone();
             var g = GreenImages[i].Clone();
 
-            r.Rescale(0, 255 * brightness);
-            g.Rescale(0, 255 * brightness);
+            Drawing.Multiply(r, 1.0 / 8 * brightness);
+            Drawing.Multiply(g, 1.0 / 8 * brightness);
 
             RasterSharp.Image img = new(r, g, r);
             MergedImages[i] = img.ToSDBitmap();
