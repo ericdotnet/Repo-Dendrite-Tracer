@@ -15,7 +15,7 @@ public class RoiValueTests
     [Fact]
     public void Test_PixelValues_MatchImageJ()
     {
-        Core.RoiGenerator roigen = new(SampleData.TSeriesTifPath);
+        Core.RoiGenerator roigen = new(SampleData.TSeriesTifPath, 20, 1, false);
 
         // pixel values
         roigen.RedImages[0].GetValue(13, 17).Should().Be(268);
@@ -48,10 +48,10 @@ public class RoiValueTests
     [Fact]
     public void Test_RoiValues_MatchImageJ()
     {
-        Core.RoiGenerator roigen = new(SampleData.TSeriesTifPath);
+        Core.RoiGenerator roigen = new(SampleData.TSeriesTifPath, 20, 1, false);
         roigen.Tracing.IsCircular = false;
         roigen.Tracing.AddRange(SampleData.TracingPoints);
-        RoiCollection rois = roigen.CalculateRois(0, 0);
+        RoiCollection rois = roigen.CalculateRois(20, 5, false);
 
         foreach (var roi in rois.Rois)
         {

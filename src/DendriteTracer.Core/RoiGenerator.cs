@@ -35,8 +35,8 @@ public class RoiGenerator
         Width = tif.Width;
         Height = tif.Height;
         (RedImages, GreenImages) = Drawing.GetAllChannels(tif);
-        RedImages = Drawing.SubtractNoiseFloor(RedImages, noiseFloorPercentile);
-        GreenImages = Drawing.SubtractNoiseFloor(GreenImages, noiseFloorPercentile);
+        RedImages = Drawing.SubtractNoiseFloor(RedImages, noiseFloorEnabled ? noiseFloorPercentile : 0);
+        GreenImages = Drawing.SubtractNoiseFloor(GreenImages, noiseFloorEnabled ? noiseFloorPercentile : 0);
         FrameCount = RedImages.Length;
         MergedImages = new Bitmap[RedImages.Length];
         RegenerateMergedImages(brightness);

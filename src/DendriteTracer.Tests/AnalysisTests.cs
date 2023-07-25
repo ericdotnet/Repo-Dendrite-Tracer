@@ -14,11 +14,11 @@ public class AnalysisTests
     [Fact]
     public void Test_Analysis()
     {
-        RoiGenerator roigen = new(SampleData.TSeriesTifPath2);
+        RoiGenerator roigen = new(SampleData.TSeriesTifPath2, 20, 1, true);
         roigen.Tracing.AddRange(SampleData.TracingPoints2);
         roigen.Tracing.RoiRadius_Microns = 10;
         roigen.Tracing.RoiSpacing_Microns = 5;
-        RoiCollection roic = roigen.CalculateRois(0, 0);
+        RoiCollection roic = roigen.CalculateRois(50, 5, false);
 
         roic.GetDataByFrame(roic.Ratios).Save("TSeries-05312023-1239-2203.ratio.byFrame.csv");
         roic.GetDataByFrame(roic.RedMeans).Save("TSeries-05312023-1239-2203.red.byFrame.csv");

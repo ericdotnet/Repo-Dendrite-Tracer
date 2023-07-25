@@ -1,5 +1,8 @@
 ﻿namespace DendriteTracer.Core;
 
+/// <summary>
+/// This object describes all user-provided ROI analysis settings.
+/// </summary>
 public struct RoiExperimentSettings
 {
     public string TifFilePath { get; init; }
