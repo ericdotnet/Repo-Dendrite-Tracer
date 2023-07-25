@@ -222,9 +222,9 @@ public partial class ImageTracer : UserControl
     public void LoadTif(string tifFilePath, PixelLocation[]? initialPoints = null)
     {
         RoiGen = new(
-            tifFilePath, 
-            (double)nudImageSubtractionFloor.Value, 
-            (double)nudBrightness.Value, 
+            tifFilePath,
+            (double)nudImageSubtractionFloor.Value,
+            (double)nudBrightness.Value,
             cbImageSubtractionEnabled.Checked);
 
         RoiGen.Tracing.RoiSpacing_Microns = (double)nudRoiSpacing.Value;
@@ -275,7 +275,7 @@ public partial class ImageTracer : UserControl
         hScrollBar1.Value = Math.Min(RoiGen.FrameCount, hScrollBar1.Value);
         hScrollBar1.Maximum = RoiGen.FrameCount;
 
-        label1.Text = $"Frame {SelectedFrame + 1} of {RoiGen.FrameCount}";
+        gbFrameBox.Text = $"Frame {SelectedFrame + 1} of {RoiGen.FrameCount}";
 
         Image? oldImage = pictureBox1.Image;
         pictureBox1.Image = Drawing.DrawTracingAndRois(RoiGen.MergedImages[SelectedFrame], RoiGen.Tracing, cbSpines.Checked, cbRois.Checked, SelectedRoi);

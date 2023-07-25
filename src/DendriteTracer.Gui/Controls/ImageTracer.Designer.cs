@@ -30,7 +30,6 @@
         {
             pictureBox1 = new PictureBox();
             hScrollBar1 = new HScrollBar();
-            label1 = new Label();
             nudBrightness = new NumericUpDown();
             label2 = new Label();
             cbRois = new CheckBox();
@@ -59,6 +58,7 @@
             label10 = new Label();
             nudRoiThresholdMult = new NumericUpDown();
             nudRoiThresholdFloor = new NumericUpDown();
+            gbFrameBox = new GroupBox();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)nudBrightness).BeginInit();
             panel1.SuspendLayout();
@@ -72,12 +72,13 @@
             groupBox5.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)nudRoiThresholdMult).BeginInit();
             ((System.ComponentModel.ISupportInitialize)nudRoiThresholdFloor).BeginInit();
+            gbFrameBox.SuspendLayout();
             SuspendLayout();
             // 
             // pictureBox1
             // 
             pictureBox1.BackColor = Color.Navy;
-            pictureBox1.Location = new Point(3, 28);
+            pictureBox1.Location = new Point(3, 3);
             pictureBox1.Name = "pictureBox1";
             pictureBox1.Size = new Size(511, 512);
             pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
@@ -92,18 +93,9 @@
             hScrollBar1.Maximum = 10;
             hScrollBar1.Minimum = 1;
             hScrollBar1.Name = "hScrollBar1";
-            hScrollBar1.Size = new Size(507, 47);
+            hScrollBar1.Size = new Size(492, 47);
             hScrollBar1.TabIndex = 1;
             hScrollBar1.Value = 1;
-            // 
-            // label1
-            // 
-            label1.AutoSize = true;
-            label1.Location = new Point(3, 0);
-            label1.Name = "label1";
-            label1.Size = new Size(59, 25);
-            label1.TabIndex = 2;
-            label1.Text = "label1";
             // 
             // nudBrightness
             // 
@@ -154,12 +146,13 @@
             // 
             // panel1
             // 
+            panel1.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             panel1.BorderStyle = BorderStyle.FixedSingle;
             panel1.Controls.Add(hScrollBar1);
-            panel1.Location = new Point(4, 548);
+            panel1.Location = new Point(10, 32);
             panel1.Margin = new Padding(4, 5, 4, 5);
             panel1.Name = "panel1";
-            panel1.Size = new Size(509, 49);
+            panel1.Size = new Size(494, 49);
             panel1.TabIndex = 7;
             // 
             // groupBox1
@@ -168,11 +161,11 @@
             groupBox1.Controls.Add(nudBrightness);
             groupBox1.Controls.Add(cbSpines);
             groupBox1.Controls.Add(cbRois);
-            groupBox1.Location = new Point(6, 857);
+            groupBox1.Location = new Point(3, 867);
             groupBox1.Margin = new Padding(4, 5, 4, 5);
             groupBox1.Name = "groupBox1";
             groupBox1.Padding = new Padding(4, 5, 4, 5);
-            groupBox1.Size = new Size(507, 95);
+            groupBox1.Size = new Size(511, 95);
             groupBox1.TabIndex = 8;
             groupBox1.TabStop = false;
             groupBox1.Text = "Display";
@@ -181,14 +174,14 @@
             // 
             groupBox2.Controls.Add(label3);
             groupBox2.Controls.Add(btnSelectFile);
-            groupBox2.Location = new Point(6, 608);
+            groupBox2.Location = new Point(3, 621);
             groupBox2.Margin = new Padding(4, 5, 4, 5);
             groupBox2.Name = "groupBox2";
             groupBox2.Padding = new Padding(4, 5, 4, 5);
-            groupBox2.Size = new Size(507, 103);
+            groupBox2.Size = new Size(511, 103);
             groupBox2.TabIndex = 9;
             groupBox2.TabStop = false;
-            groupBox2.Text = "Load Data";
+            groupBox2.Text = "Load Data (TIF or JSON)";
             // 
             // label3
             // 
@@ -221,9 +214,9 @@
             groupBox3.Controls.Add(label5);
             groupBox3.Controls.Add(nudRoiRadius);
             groupBox3.Controls.Add(nudRoiSpacing);
-            groupBox3.Location = new Point(6, 960);
+            groupBox3.Location = new Point(3, 970);
             groupBox3.Name = "groupBox3";
-            groupBox3.Size = new Size(507, 136);
+            groupBox3.Size = new Size(511, 136);
             groupBox3.TabIndex = 10;
             groupBox3.TabStop = false;
             groupBox3.Text = "ROI Dimensions";
@@ -306,16 +299,15 @@
             // 
             // groupBox4
             // 
-            groupBox4.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             groupBox4.Controls.Add(label6);
             groupBox4.Controls.Add(nudImageSubtractionFloor);
             groupBox4.Controls.Add(cbImageSubtractionEnabled);
-            groupBox4.Location = new Point(6, 720);
+            groupBox4.Location = new Point(3, 732);
             groupBox4.Name = "groupBox4";
-            groupBox4.Size = new Size(507, 127);
+            groupBox4.Size = new Size(511, 127);
             groupBox4.TabIndex = 11;
             groupBox4.TabStop = false;
-            groupBox4.Text = "Noise Floor Subtraction";
+            groupBox4.Text = "Image Pre-Processing";
             // 
             // label6
             // 
@@ -341,9 +333,9 @@
             cbImageSubtractionEnabled.CheckState = CheckState.Checked;
             cbImageSubtractionEnabled.Location = new Point(166, 74);
             cbImageSubtractionEnabled.Name = "cbImageSubtractionEnabled";
-            cbImageSubtractionEnabled.Size = new Size(90, 29);
+            cbImageSubtractionEnabled.Size = new Size(150, 29);
             cbImageSubtractionEnabled.TabIndex = 10;
-            cbImageSubtractionEnabled.Text = "Enable";
+            cbImageSubtractionEnabled.Text = "Subtract Floor";
             cbImageSubtractionEnabled.UseVisualStyleBackColor = true;
             // 
             // groupBox5
@@ -353,19 +345,19 @@
             groupBox5.Controls.Add(label10);
             groupBox5.Controls.Add(nudRoiThresholdMult);
             groupBox5.Controls.Add(nudRoiThresholdFloor);
-            groupBox5.Location = new Point(6, 1112);
+            groupBox5.Location = new Point(3, 1112);
             groupBox5.Name = "groupBox5";
-            groupBox5.Size = new Size(506, 132);
+            groupBox5.Size = new Size(511, 132);
             groupBox5.TabIndex = 12;
             groupBox5.TabStop = false;
-            groupBox5.Text = "ROI Threshold";
+            groupBox5.Text = "ROI Pixel Threshold";
             // 
-            // cbEnableThreshold
+            // cbRoiThresholdIsEnabled
             // 
             cbRoiThresholdIsEnabled.AutoSize = true;
             cbRoiThresholdIsEnabled.Location = new Point(297, 72);
             cbRoiThresholdIsEnabled.Margin = new Padding(4, 5, 4, 5);
-            cbRoiThresholdIsEnabled.Name = "cbEnableThreshold";
+            cbRoiThresholdIsEnabled.Name = "cbRoiThresholdIsEnabled";
             cbRoiThresholdIsEnabled.Size = new Size(101, 29);
             cbRoiThresholdIsEnabled.TabIndex = 5;
             cbRoiThresholdIsEnabled.Text = "Enabled";
@@ -389,37 +381,46 @@
             label10.TabIndex = 3;
             label10.Text = "Floor (%)";
             // 
-            // nudPixelThresholdMult
+            // nudRoiThresholdMult
             // 
             nudRoiThresholdMult.Location = new Point(166, 67);
-            nudRoiThresholdMult.Name = "nudPixelThresholdMult";
+            nudRoiThresholdMult.Name = "nudRoiThresholdMult";
             nudRoiThresholdMult.Size = new Size(106, 31);
             nudRoiThresholdMult.TabIndex = 1;
             nudRoiThresholdMult.Value = new decimal(new int[] { 20, 0, 0, 0 });
             // 
-            // nudPixelThresholdFloor
+            // nudRoiThresholdFloor
             // 
             nudRoiThresholdFloor.Location = new Point(26, 67);
-            nudRoiThresholdFloor.Name = "nudPixelThresholdFloor";
+            nudRoiThresholdFloor.Name = "nudRoiThresholdFloor";
             nudRoiThresholdFloor.Size = new Size(106, 31);
             nudRoiThresholdFloor.TabIndex = 0;
             nudRoiThresholdFloor.Value = new decimal(new int[] { 50, 0, 0, 0 });
+            // 
+            // gbFrameBox
+            // 
+            gbFrameBox.Controls.Add(panel1);
+            gbFrameBox.Location = new Point(3, 521);
+            gbFrameBox.Name = "gbFrameBox";
+            gbFrameBox.Size = new Size(511, 92);
+            gbFrameBox.TabIndex = 13;
+            gbFrameBox.TabStop = false;
+            gbFrameBox.Text = "Frame (12 of 34)";
             // 
             // ImageTracer
             // 
             AllowDrop = true;
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
+            Controls.Add(gbFrameBox);
             Controls.Add(groupBox5);
             Controls.Add(groupBox4);
             Controls.Add(groupBox3);
             Controls.Add(groupBox2);
             Controls.Add(groupBox1);
-            Controls.Add(panel1);
-            Controls.Add(label1);
             Controls.Add(pictureBox1);
             Name = "ImageTracer";
-            Size = new Size(519, 1249);
+            Size = new Size(517, 1251);
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ((System.ComponentModel.ISupportInitialize)nudBrightness).EndInit();
             panel1.ResumeLayout(false);
@@ -438,15 +439,14 @@
             groupBox5.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)nudRoiThresholdMult).EndInit();
             ((System.ComponentModel.ISupportInitialize)nudRoiThresholdFloor).EndInit();
+            gbFrameBox.ResumeLayout(false);
             ResumeLayout(false);
-            PerformLayout();
         }
 
         #endregion
 
         private PictureBox pictureBox1;
         private HScrollBar hScrollBar1;
-        private Label label1;
         private NumericUpDown nudBrightness;
         private Label label2;
         private CheckBox cbRois;
@@ -475,5 +475,6 @@
         private Label label10;
         private NumericUpDown nudRoiThresholdMult;
         private NumericUpDown nudRoiThresholdFloor;
+        private GroupBox gbFrameBox;
     }
 }
