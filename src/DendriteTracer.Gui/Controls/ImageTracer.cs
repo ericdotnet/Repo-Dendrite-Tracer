@@ -23,6 +23,9 @@ public partial class ImageTracer : UserControl
         lblRadiusPx.Text = string.Empty;
         lblAreaPx.Text = string.Empty;
 
+        nudRoiThresholdFloor.Enabled = false;
+        nudRoiThresholdMult.Enabled = false;
+
         // file selection
         AllowDrop = true;
 
@@ -263,6 +266,9 @@ public partial class ImageTracer : UserControl
         lblSpacingPx.Text = Math.Round(RoiGen.Tracing.Spacing_Px, 2).ToString() + " px";
         lblRadiusPx.Text = Math.Round(RoiGen.Tracing.Radius_Px, 2).ToString() + " px";
         lblAreaPx.Text = Math.Round(RoiGen.Tracing.RoiArea_Microns, 2).ToString() + " µm²";
+
+        nudRoiThresholdFloor.Enabled = RoiThreshold_IsEnabled;
+        nudRoiThresholdMult.Enabled = RoiThreshold_IsEnabled;
 
         RenderingNow = true;
 
