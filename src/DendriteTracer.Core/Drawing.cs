@@ -47,9 +47,9 @@ public static class Drawing
 
                 if (isOutsideCircle)
                 {
-                    img.Red.SetValue(x, y, 0);
-                    img.Green.SetValue(x, y, 0);
-                    img.Blue.SetValue(x, y, 0);
+                    img.Red.SetValue(x, y, 100);
+                    img.Green.SetValue(x, y, 100);
+                    img.Blue.SetValue(x, y, 100);
                     mask[y, x] = false;
                     continue;
                 }
@@ -95,14 +95,14 @@ public static class Drawing
                 RasterSharp.Channel r = RedImages[i, j].Clone();
                 RasterSharp.Channel g = GreenImages[i, j].Clone();
 
+                Multiply(r, mult * brightness);
+                Multiply(g, mult * brightness);
+
                 if (isCircular)
                 {
                     ApplyCircularMask(r);
                     ApplyCircularMask(g);
                 }
-
-                Multiply(r, mult * brightness);
-                Multiply(g, mult * brightness);
 
                 RasterSharp.Image img = new(r, g, r);
 
@@ -124,7 +124,7 @@ public static class Drawing
             mult *= 2;
         }
 
-        return 1.0 / (mult / 2);
+        return 2.0 / mult;
     }
 
     public static void ApplyCircularMask(RasterSharp.Channel ch)
@@ -142,7 +142,7 @@ public static class Drawing
 
                 if (isOutsideCircle)
                 {
-                    ch.SetValue(x, y, 0);
+                    ch.SetValue(x, y, 100);
                 }
             }
         }

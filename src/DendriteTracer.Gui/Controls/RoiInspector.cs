@@ -49,7 +49,7 @@ public partial class RoiInspector : UserControl
         Bitmap bmp2 = new(pb.Width, pb.Height);
         using Graphics gfx = Graphics.FromImage(bmp2);
 
-        const bool USE_ANTIALIASING = true;
+        const bool USE_ANTIALIASING = false;
         gfx.InterpolationMode = USE_ANTIALIASING
             ? System.Drawing.Drawing2D.InterpolationMode.Bicubic
             : System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
