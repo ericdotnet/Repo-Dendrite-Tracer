@@ -1,4 +1,5 @@
 ﻿using System.Drawing;
+using System.Numerics;
 
 namespace DendriteTracer.Core;
 
@@ -75,12 +76,17 @@ public static class Drawing
         return (img.ToSDBitmap(), mask);
     }
 
-    public static Bitmap[,] GetMergedImages(RasterSharp.Channel[,] RedImages, RasterSharp.Channel[,] GreenImages, bool isCircular)
+    public static Bitmap[,] GetMergedImages(RasterSharp.Channel[,] RedImages, RasterSharp.Channel[,] GreenImages, bool isCircular, double brightness)
     {
         int frameCount = RedImages.GetLength(0);
         int roiCount = RedImages.GetLength(1);
 
         Bitmap[,] merged = new Bitmap[frameCount, roiCount];
+
+        if (RedImages.GetLength(0) == 0 || RedImages.GetLength(1) == 0)
+            return merged;
+
+        double mult = GetBestMultiplier(RedImages[0, 0]);
 
         for (int i = 0; i < frameCount; i++)
         {
@@ -95,8 +101,8 @@ public static class Drawing
                     ApplyCircularMask(g);
                 }
 
-                Multiply(r, 1.0 / 8);
-                Multiply(g, 1.0 / 8);
+                Multiply(r, mult * brightness);
+                Multiply(g, mult * brightness);
 
                 RasterSharp.Image img = new(r, g, r);
 
@@ -105,6 +111,20 @@ public static class Drawing
         }
 
         return merged;
+    }
+
+    public static double GetBestMultiplier(RasterSharp.Channel ch)
+    {
+        double max = ch.GetValues().Max();
+
+        double mult = 1;
+
+        while (max / mult > 255)
+        {
+            mult *= 2;
+        }
+
+        return 1.0 / (mult / 2);
     }
 
     public static void ApplyCircularMask(RasterSharp.Channel ch)

@@ -102,12 +102,14 @@ public partial class ImageTracer : UserControl
         nudRoiThresholdMult.ValueChanged += (s, e) => RedrawFrame(true);
         cbRoiThresholdIsEnabled.CheckedChanged += (s, e) => RedrawFrame(true);
 
-        // these things just change the display and don't leave this control
         nudBrightness.ValueChanged += (s, e) =>
         {
             RoiGen?.RegenerateMergedImages((double)nudBrightness.Value);
             RedrawFrame();
+            RoisChanged.Invoke(this, EventArgs.Empty);
         };
+
+        // these things just change the display and don't leave this control
         cbSpines.CheckedChanged += (s, e) => RedrawFrame();
         cbRois.CheckedChanged += (s, e) => RedrawFrame();
 

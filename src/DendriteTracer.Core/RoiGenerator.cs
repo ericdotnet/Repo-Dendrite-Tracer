@@ -20,6 +20,7 @@ public class RoiGenerator
     public double[] FrameTimes { get; }
     public double NoiseFloor_Percent { get; }
     public bool NoiseFloor_IsEnabled { get; }
+    public double Brightness { get; private set; }
 
     public RoiGenerator(string tifFile, double noiseFloorPercentile, double brightness, bool noiseFloorEnabled)
     {
@@ -30,6 +31,7 @@ public class RoiGenerator
         SciTIF.TifFile tif = new(tifFile);
         Drawing.AssertValidTif(tif);
         TifFilePath = Path.GetFullPath(tifFile);
+        Brightness = brightness;
         NoiseFloor_Percent = noiseFloorPercentile;
         NoiseFloor_IsEnabled = noiseFloorEnabled;
         Width = tif.Width;
@@ -45,17 +47,20 @@ public class RoiGenerator
 
     public void RegenerateMergedImages(double brightness)
     {
+        Brightness = brightness;
         ArgumentNullException.ThrowIfNull(RedImages);
         ArgumentNullException.ThrowIfNull(GreenImages);
         ArgumentNullException.ThrowIfNull(MergedImages);
+
+        double mult = Drawing.GetBestMultiplier(RedImages.First());
 
         for (int i = 0; i < RedImages.Length; i++)
         {
             var r = RedImages[i].Clone();
             var g = GreenImages[i].Clone();
 
-            Drawing.Multiply(r, 1.0 / 8 * brightness);
-            Drawing.Multiply(g, 1.0 / 8 * brightness);
+            Drawing.Multiply(r, mult * brightness);
+            Drawing.Multiply(g, mult * brightness);
 
             RasterSharp.Image img = new(r, g, r);
             MergedImages[i] = img.ToSDBitmap();
