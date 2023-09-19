@@ -53,12 +53,21 @@ public static class PvXml
     {
         string xmlText = File.ReadAllText(xmlFilePath);
         XDocument doc = XDocument.Parse(xmlText);
-        var sequenceFirstFrameTimes = doc.Element("PVScan")!
+        double[] sequenceFirstFrameTimes = doc.Element("PVScan")!
             .Elements("Sequence")!
-            .Select(x => x.Elements("Frame").First())
+            .Select(x => x.Elements("Frame").FirstOrDefault())
             .Skip(1)
-            .Select(x => double.Parse(x.Attribute("absoluteTime")!.Value))
+            .Select(x => x is null ? -1 : double.Parse(x.Attribute("absoluteTime")!.Value))
             .ToArray();
+
+        double framePeriod = sequenceFirstFrameTimes[1] - sequenceFirstFrameTimes[0];
+        for (int i = 1; i < sequenceFirstFrameTimes.Length; i++)
+        {
+            if (sequenceFirstFrameTimes[i] < 0)
+            {
+                sequenceFirstFrameTimes[i] = sequenceFirstFrameTimes[i - 1] + framePeriod;
+            }
+        }
 
         double[] frameTimes = sequenceFirstFrameTimes
             .Select(x => x - sequenceFirstFrameTimes.First())
