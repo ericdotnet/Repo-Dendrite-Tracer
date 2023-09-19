@@ -28,7 +28,7 @@ public class AnalysisTests
         roic.GetDataByRoi(roic.RedMeans).Save("TSeries-05312023-1239-2203.red.byRoi.csv");
         roic.GetDataByRoi(roic.GreenMeans).Save("TSeries-05312023-1239-2203.green.byRoi.csv");
 
-        roic.SaveJson("test.json");
+        Core.IO.Json.SaveJson(roic, "test.json");
     }
 
     [Fact]

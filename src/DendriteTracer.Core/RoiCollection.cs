@@ -135,13 +135,4 @@ public class RoiCollection
 
         return csv;
     }
-
-    /// <summary>
-    /// Save all data as a single JSON file
-    /// </summary>
-    /// <param name="saveAs"></param>
-    public void SaveJson(string saveAs)
-    {
-        IO.Json.SaveJson(this, saveAs);
-    }
 }
