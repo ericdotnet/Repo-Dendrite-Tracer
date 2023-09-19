@@ -36,7 +36,7 @@ public partial class ResultsViewer : UserControl
 
             if (savefile.ShowDialog() == DialogResult.OK)
             {
-                RoiCollection.SaveJson(savefile.FileName);
+                Core.IO.Json.SaveJson(RoiCollection, savefile.FileName);
             }
         };
     }
