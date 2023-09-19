@@ -31,12 +31,12 @@ public partial class ResultsViewer : UserControl
             {
                 FileName = Path.GetFileNameWithoutExtension(RoiCollection.TifFilePath) + ".json",
                 Filter = "JSON Files (*.json)|*.json|All files (*.*)|*.*",
-
             };
 
             if (savefile.ShowDialog() == DialogResult.OK)
             {
                 Core.IO.Json.SaveJson(RoiCollection, savefile.FileName);
+                Core.IO.ImageJ.SaveIjm(RoiCollection, savefile.FileName.Replace(".json", ".ijm"));
             }
         };
     }
