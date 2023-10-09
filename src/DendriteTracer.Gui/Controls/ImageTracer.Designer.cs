@@ -42,7 +42,6 @@
             groupBox3 = new GroupBox();
             lblAreaPx = new Label();
             lblRadiusPx = new Label();
-            lblSpacingPx = new Label();
             cbRoiCirular = new CheckBox();
             label4 = new Label();
             label5 = new Label();
@@ -59,6 +58,7 @@
             nudRoiThresholdMult = new NumericUpDown();
             nudRoiThresholdFloor = new NumericUpDown();
             gbFrameBox = new GroupBox();
+            label1 = new Label();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)nudBrightness).BeginInit();
             panel1.SuspendLayout();
@@ -206,9 +206,9 @@
             // 
             // groupBox3
             // 
+            groupBox3.Controls.Add(label1);
             groupBox3.Controls.Add(lblAreaPx);
             groupBox3.Controls.Add(lblRadiusPx);
-            groupBox3.Controls.Add(lblSpacingPx);
             groupBox3.Controls.Add(cbRoiCirular);
             groupBox3.Controls.Add(label4);
             groupBox3.Controls.Add(label5);
@@ -240,16 +240,6 @@
             lblRadiusPx.Size = new Size(66, 25);
             lblRadiusPx.TabIndex = 11;
             lblRadiusPx.Text = "123 px";
-            // 
-            // lblSpacingPx
-            // 
-            lblSpacingPx.AutoSize = true;
-            lblSpacingPx.ForeColor = SystemColors.ControlDark;
-            lblSpacingPx.Location = new Point(23, 99);
-            lblSpacingPx.Name = "lblSpacingPx";
-            lblSpacingPx.Size = new Size(66, 25);
-            lblSpacingPx.TabIndex = 10;
-            lblSpacingPx.Text = "123 px";
             // 
             // cbRoiCirular
             // 
@@ -407,6 +397,15 @@
             gbFrameBox.TabStop = false;
             gbFrameBox.Text = "Frame (12 of 34)";
             // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Location = new Point(302, 39);
+            label1.Name = "label1";
+            label1.Size = new Size(54, 25);
+            label1.TabIndex = 13;
+            label1.Text = "Mask";
+            // 
             // ImageTracer
             // 
             AllowDrop = true;
@@ -468,7 +467,6 @@
         private CheckBox cbImageSubtractionEnabled;
         private Label lblAreaPx;
         private Label lblRadiusPx;
-        private Label lblSpacingPx;
         private GroupBox groupBox5;
         private CheckBox cbRoiThresholdIsEnabled;
         private Label label9;
@@ -476,5 +474,6 @@
         private NumericUpDown nudRoiThresholdMult;
         private NumericUpDown nudRoiThresholdFloor;
         private GroupBox gbFrameBox;
+        private Label label1;
     }
 }

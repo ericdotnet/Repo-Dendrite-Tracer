@@ -19,7 +19,6 @@ public partial class ImageTracer : UserControl
     public ImageTracer()
     {
         InitializeComponent();
-        lblSpacingPx.Text = string.Empty;
         lblRadiusPx.Text = string.Empty;
         lblAreaPx.Text = string.Empty;
 
@@ -265,9 +264,13 @@ public partial class ImageTracer : UserControl
             return;
         }
 
-        lblSpacingPx.Text = Math.Round(RoiGen.Tracing.Spacing_Px, 2).ToString() + " px";
-        lblRadiusPx.Text = Math.Round(RoiGen.Tracing.Radius_Px, 2).ToString() + " px";
-        lblAreaPx.Text = Math.Round(RoiGen.Tracing.RoiArea_Microns, 2).ToString() + " µm²";
+        int roiDiameter = (int)(RoiGen.Tracing.Radius_Px * 2);
+        lblRadiusPx.Text = $"ROI {roiDiameter}x{roiDiameter}";
+
+        int countedPixels = RoiGen.Tracing.IsCircular ?
+                (int)(Math.PI * RoiGen.Tracing.Radius_Px * RoiGen.Tracing.Radius_Px)
+                : roiDiameter * roiDiameter;
+        lblAreaPx.Text = $"{countedPixels:N0} px";
 
         nudRoiThresholdFloor.Enabled = RoiThreshold_IsEnabled;
         nudRoiThresholdMult.Enabled = RoiThreshold_IsEnabled;
