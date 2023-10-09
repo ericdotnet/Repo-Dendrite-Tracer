@@ -15,7 +15,7 @@ public static class ImageJ
         sb.AppendLine("roiManager(\"reset\");");
         foreach (Roi roi in roiCollection.Rois)
         {
-            string args = $"{roi.Left}, {roi.Top}, {roi.Width}, {roi.Height}";
+            string args = $"{roi.Left - 1:0}, {roi.Top - 1:0}, {roi.Width - 1:0}, {roi.Height - 1:0}";
             string func = roi.IsCircular ? "makeOval" : "makeRectangle";
             sb.AppendLine($"{func}({args}); roiManager(\"Add\");");
         }
