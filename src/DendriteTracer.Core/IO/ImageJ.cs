@@ -9,9 +9,11 @@ public static class ImageJ
     /// </summary>
     public static string GetImagejMacro(RoiCollection roiCollection)
     {
+        string safePath = roiCollection.TifFilePath.Replace("\\", "/");
         StringBuilder sb = new();
         sb.AppendLine("roiManager(\"Deselect\");");
         sb.AppendLine("roiManager(\"Delete\");");
+        sb.AppendLine($"open(\"{safePath}\");");
         foreach (Roi roi in roiCollection.Rois)
         {
             string args = $"{roi.Left}, {roi.Top}, {roi.Width}, {roi.Height}";
