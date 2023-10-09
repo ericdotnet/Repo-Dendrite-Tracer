@@ -11,9 +11,8 @@ public static class ImageJ
     {
         string safePath = roiCollection.TifFilePath.Replace("\\", "/");
         StringBuilder sb = new();
-        sb.AppendLine("roiManager(\"Deselect\");");
-        sb.AppendLine("roiManager(\"Delete\");");
         sb.AppendLine($"open(\"{safePath}\");");
+        sb.AppendLine("roiManager(\"reset\");");
         foreach (Roi roi in roiCollection.Rois)
         {
             string args = $"{roi.Left}, {roi.Top}, {roi.Width}, {roi.Height}";
