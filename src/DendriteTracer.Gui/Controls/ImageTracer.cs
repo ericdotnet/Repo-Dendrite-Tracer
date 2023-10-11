@@ -251,11 +251,9 @@ public partial class ImageTracer : UserControl
         }
 
         int roiDiameter = (int)(RoiGen.Tracing.Radius_Px * 2);
-        lblRadiusPx.Text = $"ROI {roiDiameter}x{roiDiameter}";
+        lblRadiusPx.Text = $"{roiDiameter}x{roiDiameter}";
 
-        int countedPixels = RoiGen.Tracing.IsCircular ?
-                (int)(Math.PI * RoiGen.Tracing.Radius_Px * RoiGen.Tracing.Radius_Px)
-                : roiDiameter * roiDiameter;
+        int countedPixels = cbRoiCirular.Checked ? Drawing.PixelsInRoi(roiDiameter) : roiDiameter * roiDiameter;
         lblAreaPx.Text = $"{countedPixels:N0} px";
 
         RenderingNow = true;

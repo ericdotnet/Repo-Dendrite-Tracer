@@ -36,6 +36,7 @@
             cbSpines = new CheckBox();
             panel1 = new Panel();
             groupBox1 = new GroupBox();
+            richTextBox2 = new RichTextBox();
             groupBox2 = new GroupBox();
             label3 = new Label();
             btnSelectFile = new Button();
@@ -49,6 +50,8 @@
             nudRoiRadius = new NumericUpDown();
             nudRoiSpacing = new NumericUpDown();
             groupBox4 = new GroupBox();
+            richTextBox1 = new RichTextBox();
+            label7 = new Label();
             label6 = new Label();
             nudImageSubtractionFloor = new NumericUpDown();
             cbImageSubtractionEnabled = new CheckBox();
@@ -92,7 +95,7 @@
             // 
             nudBrightness.DecimalPlaces = 1;
             nudBrightness.Increment = new decimal(new int[] { 5, 0, 0, 65536 });
-            nudBrightness.Location = new Point(107, 37);
+            nudBrightness.Location = new Point(120, 68);
             nudBrightness.Margin = new Padding(4, 5, 4, 5);
             nudBrightness.Name = "nudBrightness";
             nudBrightness.Size = new Size(90, 31);
@@ -102,7 +105,7 @@
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(10, 40);
+            label2.Location = new Point(18, 70);
             label2.Margin = new Padding(4, 0, 4, 0);
             label2.Name = "label2";
             label2.Size = new Size(94, 25);
@@ -114,7 +117,7 @@
             cbRois.AutoSize = true;
             cbRois.Checked = true;
             cbRois.CheckState = CheckState.Checked;
-            cbRois.Location = new Point(330, 42);
+            cbRois.Location = new Point(363, 67);
             cbRois.Margin = new Padding(4, 5, 4, 5);
             cbRois.Name = "cbRois";
             cbRois.Size = new Size(76, 29);
@@ -127,7 +130,7 @@
             cbSpines.AutoSize = true;
             cbSpines.Checked = true;
             cbSpines.CheckState = CheckState.Checked;
-            cbSpines.Location = new Point(236, 42);
+            cbSpines.Location = new Point(242, 67);
             cbSpines.Margin = new Padding(4, 5, 4, 5);
             cbSpines.Name = "cbSpines";
             cbSpines.Size = new Size(90, 29);
@@ -148,24 +151,38 @@
             // 
             // groupBox1
             // 
+            groupBox1.Controls.Add(richTextBox2);
             groupBox1.Controls.Add(label2);
             groupBox1.Controls.Add(nudBrightness);
             groupBox1.Controls.Add(cbSpines);
             groupBox1.Controls.Add(cbRois);
-            groupBox1.Location = new Point(3, 867);
+            groupBox1.Location = new Point(4, 951);
             groupBox1.Margin = new Padding(4, 5, 4, 5);
             groupBox1.Name = "groupBox1";
             groupBox1.Padding = new Padding(4, 5, 4, 5);
-            groupBox1.Size = new Size(511, 95);
+            groupBox1.Size = new Size(511, 116);
             groupBox1.TabIndex = 8;
             groupBox1.TabStop = false;
             groupBox1.Text = "Display";
+            // 
+            // richTextBox2
+            // 
+            richTextBox2.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            richTextBox2.BackColor = SystemColors.Control;
+            richTextBox2.BorderStyle = BorderStyle.None;
+            richTextBox2.ForeColor = SystemColors.ControlDark;
+            richTextBox2.Location = new Point(7, 29);
+            richTextBox2.Name = "richTextBox2";
+            richTextBox2.ReadOnly = true;
+            richTextBox2.Size = new Size(499, 31);
+            richTextBox2.TabIndex = 15;
+            richTextBox2.Text = "These settings only affects the preview image (not analysis)";
             // 
             // groupBox2
             // 
             groupBox2.Controls.Add(label3);
             groupBox2.Controls.Add(btnSelectFile);
-            groupBox2.Location = new Point(3, 621);
+            groupBox2.Location = new Point(3, 631);
             groupBox2.Margin = new Padding(4, 5, 4, 5);
             groupBox2.Name = "groupBox2";
             groupBox2.Padding = new Padding(4, 5, 4, 5);
@@ -205,7 +222,7 @@
             groupBox3.Controls.Add(label5);
             groupBox3.Controls.Add(nudRoiRadius);
             groupBox3.Controls.Add(nudRoiSpacing);
-            groupBox3.Location = new Point(3, 970);
+            groupBox3.Location = new Point(4, 1085);
             groupBox3.Name = "groupBox3";
             groupBox3.Size = new Size(511, 136);
             groupBox3.TabIndex = 10;
@@ -227,9 +244,9 @@
             lblAreaPx.ForeColor = SystemColors.ControlDark;
             lblAreaPx.Location = new Point(302, 99);
             lblAreaPx.Name = "lblAreaPx";
-            lblAreaPx.Size = new Size(73, 25);
+            lblAreaPx.Size = new Size(46, 25);
             lblAreaPx.TabIndex = 12;
-            lblAreaPx.Text = "123 px²";
+            lblAreaPx.Text = "0 px";
             // 
             // lblRadiusPx
             // 
@@ -237,9 +254,9 @@
             lblRadiusPx.ForeColor = SystemColors.ControlDark;
             lblRadiusPx.Location = new Point(163, 99);
             lblRadiusPx.Name = "lblRadiusPx";
-            lblRadiusPx.Size = new Size(66, 25);
+            lblRadiusPx.Size = new Size(64, 25);
             lblRadiusPx.TabIndex = 11;
-            lblRadiusPx.Text = "123 px";
+            lblRadiusPx.Text = "0x0 px";
             // 
             // cbRoiCirular
             // 
@@ -289,20 +306,45 @@
             // 
             // groupBox4
             // 
+            groupBox4.Controls.Add(richTextBox1);
+            groupBox4.Controls.Add(label7);
             groupBox4.Controls.Add(label6);
             groupBox4.Controls.Add(nudImageSubtractionFloor);
             groupBox4.Controls.Add(cbImageSubtractionEnabled);
-            groupBox4.Location = new Point(3, 732);
+            groupBox4.Location = new Point(3, 752);
             groupBox4.Name = "groupBox4";
-            groupBox4.Size = new Size(511, 127);
+            groupBox4.Size = new Size(511, 181);
             groupBox4.TabIndex = 11;
             groupBox4.TabStop = false;
-            groupBox4.Text = "Image Pre-Processing";
+            groupBox4.Text = "Noise Floor Subtraction";
+            // 
+            // richTextBox1
+            // 
+            richTextBox1.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            richTextBox1.BackColor = SystemColors.Control;
+            richTextBox1.BorderStyle = BorderStyle.None;
+            richTextBox1.ForeColor = SystemColors.ControlDark;
+            richTextBox1.Location = new Point(6, 30);
+            richTextBox1.Name = "richTextBox1";
+            richTextBox1.ReadOnly = true;
+            richTextBox1.Size = new Size(499, 80);
+            richTextBox1.TabIndex = 14;
+            richTextBox1.Text = "This filter subtracts the noise floor so ROI background mean is zero. Note that the green floor is typically higher than the red floor. Doing this makes G/R ratio insensitive to ROI size.";
+            // 
+            // label7
+            // 
+            label7.AutoSize = true;
+            label7.ForeColor = SystemColors.ControlDark;
+            label7.Location = new Point(7, 27);
+            label7.Margin = new Padding(4, 0, 4, 0);
+            label7.Name = "label7";
+            label7.Size = new Size(0, 25);
+            label7.TabIndex = 13;
             // 
             // label6
             // 
             label6.AutoSize = true;
-            label6.Location = new Point(21, 38);
+            label6.Location = new Point(35, 127);
             label6.Name = "label6";
             label6.Size = new Size(83, 25);
             label6.TabIndex = 12;
@@ -310,9 +352,9 @@
             // 
             // nudImageSubtractionFloor
             // 
-            nudImageSubtractionFloor.Location = new Point(26, 72);
+            nudImageSubtractionFloor.Location = new Point(121, 125);
             nudImageSubtractionFloor.Name = "nudImageSubtractionFloor";
-            nudImageSubtractionFloor.Size = new Size(106, 31);
+            nudImageSubtractionFloor.Size = new Size(82, 31);
             nudImageSubtractionFloor.TabIndex = 11;
             nudImageSubtractionFloor.Value = new decimal(new int[] { 20, 0, 0, 0 });
             // 
@@ -321,11 +363,11 @@
             cbImageSubtractionEnabled.AutoSize = true;
             cbImageSubtractionEnabled.Checked = true;
             cbImageSubtractionEnabled.CheckState = CheckState.Checked;
-            cbImageSubtractionEnabled.Location = new Point(166, 74);
+            cbImageSubtractionEnabled.Location = new Point(243, 126);
             cbImageSubtractionEnabled.Name = "cbImageSubtractionEnabled";
-            cbImageSubtractionEnabled.Size = new Size(150, 29);
+            cbImageSubtractionEnabled.Size = new Size(90, 29);
             cbImageSubtractionEnabled.TabIndex = 10;
-            cbImageSubtractionEnabled.Text = "Subtract Floor";
+            cbImageSubtractionEnabled.Text = "Enable";
             cbImageSubtractionEnabled.UseVisualStyleBackColor = true;
             // 
             // gbFrameBox
@@ -396,5 +438,8 @@
         private Label lblRadiusPx;
         private GroupBox gbFrameBox;
         private Label label1;
+        private Label label7;
+        private RichTextBox richTextBox2;
+        private RichTextBox richTextBox1;
     }
 }

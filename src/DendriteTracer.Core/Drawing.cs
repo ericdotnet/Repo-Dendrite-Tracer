@@ -25,6 +25,11 @@ public static class Drawing
 
     public static (Bitmap image, bool[,] mask) GetMask(RasterSharp.Channel source, bool isCircular)
     {
+        // NOTE: This circle method does not produce even circles.
+        // Circles created also do not match ImageJ.
+        // This is a potential location for improvement.
+        // http://groups.csail.mit.edu/graphics/classes/6.837/F98/Lecture6/circle.html
+
         RasterSharp.Image img = new(source.Width, source.Height);
 
         bool[,] mask = new bool[source.Height, source.Width];
@@ -116,6 +121,11 @@ public static class Drawing
 
     public static void ApplyCircularMask(RasterSharp.Channel ch)
     {
+        // NOTE: This circle method does not produce even circles.
+        // Circles created also do not match ImageJ.
+        // This is a potential location for improvement.
+        // http://groups.csail.mit.edu/graphics/classes/6.837/F98/Lecture6/circle.html
+
         double radius = (double)ch.Width / 2;
 
         for (int y = 0; y < ch.Height; y++)
@@ -133,6 +143,33 @@ public static class Drawing
                 }
             }
         }
+    }
+
+    public static int PixelsInRoi(int roiDiameter)
+    {
+        // NOTE: This circle method does not produce even circles.
+        // Circles created also do not match ImageJ.
+        // This is a potential location for improvement.
+        // http://groups.csail.mit.edu/graphics/classes/6.837/F98/Lecture6/circle.html
+
+        int count = 0;
+        double radius = (double)roiDiameter / 2;
+
+        for (int y = 0; y < roiDiameter; y++)
+        {
+            for (int x = 0; x < roiDiameter; x++)
+            {
+                double dX = Math.Abs(radius - x);
+                double dY = Math.Abs(radius - y);
+                double distanceFromCenter = Math.Sqrt(dX * dX + dY * dY);
+                bool isOutsideCircle = distanceFromCenter > radius;
+
+                if (!isOutsideCircle)
+                    count += 1;
+            }
+        }
+
+        return count;
     }
 
     public static Bitmap DrawTracingAndRois(Bitmap source, Tracing Tracing, bool showSpines, bool showRois, int selectedRoi)
