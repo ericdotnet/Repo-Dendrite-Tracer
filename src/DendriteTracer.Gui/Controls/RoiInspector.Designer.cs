@@ -1,4 +1,6 @@
-﻿namespace DendriteTracer.Gui
+﻿using DendriteTracer.Gui.Controls;
+
+namespace DendriteTracer.Gui
 {
     partial class RoiInspector
     {
@@ -28,14 +30,11 @@
         /// </summary>
         private void InitializeComponent()
         {
-            pictureBox1 = new PictureBox();
+            pictureBox1 = new RawPictureBox();
             hScrollBar1 = new HScrollBar();
             formsPlot1 = new ScottPlot.FormsPlot();
-            pictureBox2 = new PictureBox();
             groupBox1 = new GroupBox();
             panel2 = new Panel();
-            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
             groupBox1.SuspendLayout();
             panel2.SuspendLayout();
             SuspendLayout();
@@ -46,7 +45,6 @@
             pictureBox1.Location = new Point(3, 3);
             pictureBox1.Name = "pictureBox1";
             pictureBox1.Size = new Size(250, 250);
-            pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
             pictureBox1.TabIndex = 0;
             pictureBox1.TabStop = false;
             // 
@@ -62,21 +60,11 @@
             // formsPlot1
             // 
             formsPlot1.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            formsPlot1.Location = new Point(518, 5);
+            formsPlot1.Location = new Point(262, 5);
             formsPlot1.Margin = new Padding(6, 5, 6, 5);
             formsPlot1.Name = "formsPlot1";
-            formsPlot1.Size = new Size(741, 336);
+            formsPlot1.Size = new Size(997, 336);
             formsPlot1.TabIndex = 3;
-            // 
-            // pictureBox2
-            // 
-            pictureBox2.BackColor = Color.Navy;
-            pictureBox2.Location = new Point(259, 3);
-            pictureBox2.Name = "pictureBox2";
-            pictureBox2.Size = new Size(250, 250);
-            pictureBox2.SizeMode = PictureBoxSizeMode.StretchImage;
-            pictureBox2.TabIndex = 1;
-            pictureBox2.TabStop = false;
             // 
             // groupBox1
             // 
@@ -105,11 +93,8 @@
             Controls.Add(groupBox1);
             Controls.Add(pictureBox1);
             Controls.Add(formsPlot1);
-            Controls.Add(pictureBox2);
             Name = "RoiInspector";
             Size = new Size(1265, 344);
-            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
             groupBox1.ResumeLayout(false);
             panel2.ResumeLayout(false);
             ResumeLayout(false);
@@ -117,10 +102,9 @@
 
         #endregion
 
-        private PictureBox pictureBox1;
+        private RawPictureBox pictureBox1;
         private HScrollBar hScrollBar1;
         private ScottPlot.FormsPlot formsPlot1;
-        private PictureBox pictureBox2;
         private GroupBox groupBox1;
         private Panel panel2;
     }
