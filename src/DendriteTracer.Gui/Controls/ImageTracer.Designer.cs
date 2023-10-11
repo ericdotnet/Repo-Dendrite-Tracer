@@ -40,6 +40,7 @@
             label3 = new Label();
             btnSelectFile = new Button();
             groupBox3 = new GroupBox();
+            label1 = new Label();
             lblAreaPx = new Label();
             lblRadiusPx = new Label();
             cbRoiCirular = new CheckBox();
@@ -51,14 +52,7 @@
             label6 = new Label();
             nudImageSubtractionFloor = new NumericUpDown();
             cbImageSubtractionEnabled = new CheckBox();
-            groupBox5 = new GroupBox();
-            cbRoiThresholdIsEnabled = new CheckBox();
-            label9 = new Label();
-            label10 = new Label();
-            nudRoiThresholdMult = new NumericUpDown();
-            nudRoiThresholdFloor = new NumericUpDown();
             gbFrameBox = new GroupBox();
-            label1 = new Label();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)nudBrightness).BeginInit();
             panel1.SuspendLayout();
@@ -69,9 +63,6 @@
             ((System.ComponentModel.ISupportInitialize)nudRoiSpacing).BeginInit();
             groupBox4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)nudImageSubtractionFloor).BeginInit();
-            groupBox5.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)nudRoiThresholdMult).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)nudRoiThresholdFloor).BeginInit();
             gbFrameBox.SuspendLayout();
             SuspendLayout();
             // 
@@ -221,6 +212,15 @@
             groupBox3.TabStop = false;
             groupBox3.Text = "ROI Dimensions";
             // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Location = new Point(302, 39);
+            label1.Name = "label1";
+            label1.Size = new Size(54, 25);
+            label1.TabIndex = 13;
+            label1.Text = "Mask";
+            // 
             // lblAreaPx
             // 
             lblAreaPx.AutoSize = true;
@@ -328,65 +328,6 @@
             cbImageSubtractionEnabled.Text = "Subtract Floor";
             cbImageSubtractionEnabled.UseVisualStyleBackColor = true;
             // 
-            // groupBox5
-            // 
-            groupBox5.Controls.Add(cbRoiThresholdIsEnabled);
-            groupBox5.Controls.Add(label9);
-            groupBox5.Controls.Add(label10);
-            groupBox5.Controls.Add(nudRoiThresholdMult);
-            groupBox5.Controls.Add(nudRoiThresholdFloor);
-            groupBox5.Location = new Point(3, 1112);
-            groupBox5.Name = "groupBox5";
-            groupBox5.Size = new Size(511, 132);
-            groupBox5.TabIndex = 12;
-            groupBox5.TabStop = false;
-            groupBox5.Text = "ROI Pixel Threshold";
-            // 
-            // cbRoiThresholdIsEnabled
-            // 
-            cbRoiThresholdIsEnabled.AutoSize = true;
-            cbRoiThresholdIsEnabled.Location = new Point(297, 72);
-            cbRoiThresholdIsEnabled.Margin = new Padding(4, 5, 4, 5);
-            cbRoiThresholdIsEnabled.Name = "cbRoiThresholdIsEnabled";
-            cbRoiThresholdIsEnabled.Size = new Size(101, 29);
-            cbRoiThresholdIsEnabled.TabIndex = 5;
-            cbRoiThresholdIsEnabled.Text = "Enabled";
-            cbRoiThresholdIsEnabled.UseVisualStyleBackColor = true;
-            // 
-            // label9
-            // 
-            label9.AutoSize = true;
-            label9.Location = new Point(166, 38);
-            label9.Name = "label9";
-            label9.Size = new Size(90, 25);
-            label9.TabIndex = 4;
-            label9.Text = "Threshold";
-            // 
-            // label10
-            // 
-            label10.AutoSize = true;
-            label10.Location = new Point(26, 38);
-            label10.Name = "label10";
-            label10.Size = new Size(83, 25);
-            label10.TabIndex = 3;
-            label10.Text = "Floor (%)";
-            // 
-            // nudRoiThresholdMult
-            // 
-            nudRoiThresholdMult.Location = new Point(166, 67);
-            nudRoiThresholdMult.Name = "nudRoiThresholdMult";
-            nudRoiThresholdMult.Size = new Size(106, 31);
-            nudRoiThresholdMult.TabIndex = 1;
-            nudRoiThresholdMult.Value = new decimal(new int[] { 20, 0, 0, 0 });
-            // 
-            // nudRoiThresholdFloor
-            // 
-            nudRoiThresholdFloor.Location = new Point(26, 67);
-            nudRoiThresholdFloor.Name = "nudRoiThresholdFloor";
-            nudRoiThresholdFloor.Size = new Size(106, 31);
-            nudRoiThresholdFloor.TabIndex = 0;
-            nudRoiThresholdFloor.Value = new decimal(new int[] { 50, 0, 0, 0 });
-            // 
             // gbFrameBox
             // 
             gbFrameBox.Controls.Add(panel1);
@@ -397,22 +338,12 @@
             gbFrameBox.TabStop = false;
             gbFrameBox.Text = "Frame (12 of 34)";
             // 
-            // label1
-            // 
-            label1.AutoSize = true;
-            label1.Location = new Point(302, 39);
-            label1.Name = "label1";
-            label1.Size = new Size(54, 25);
-            label1.TabIndex = 13;
-            label1.Text = "Mask";
-            // 
             // ImageTracer
             // 
             AllowDrop = true;
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             Controls.Add(gbFrameBox);
-            Controls.Add(groupBox5);
             Controls.Add(groupBox4);
             Controls.Add(groupBox3);
             Controls.Add(groupBox2);
@@ -434,10 +365,6 @@
             groupBox4.ResumeLayout(false);
             groupBox4.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)nudImageSubtractionFloor).EndInit();
-            groupBox5.ResumeLayout(false);
-            groupBox5.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)nudRoiThresholdMult).EndInit();
-            ((System.ComponentModel.ISupportInitialize)nudRoiThresholdFloor).EndInit();
             gbFrameBox.ResumeLayout(false);
             ResumeLayout(false);
         }
@@ -467,12 +394,6 @@
         private CheckBox cbImageSubtractionEnabled;
         private Label lblAreaPx;
         private Label lblRadiusPx;
-        private GroupBox groupBox5;
-        private CheckBox cbRoiThresholdIsEnabled;
-        private Label label9;
-        private Label label10;
-        private NumericUpDown nudRoiThresholdMult;
-        private NumericUpDown nudRoiThresholdFloor;
         private GroupBox gbFrameBox;
         private Label label1;
     }

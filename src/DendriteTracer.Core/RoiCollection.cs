@@ -22,7 +22,6 @@ public class RoiCollection
     public double[][] SortedRedPixelsByFrame { get; }
     public double[][] SortedGreenPixelsByFrame { get; }
     public double[,][] SortedRedPixelsByRoi { get; }
-    public double[] ThresholdsByFrame { get; }
     public Bitmap[,] MaskImages { get; }
     public bool[,][,] Masks { get; }
     public double[,] RedMeans { get; }
@@ -37,7 +36,7 @@ public class RoiCollection
 
     public RoiExperimentSettings Settings { get; }
 
-    public RoiCollection(RoiGenerator roiGen, double thresholdFloorPercent, double thresholdMult, bool thresholdEnabled)
+    public RoiCollection(RoiGenerator roiGen)
     {
         TifFilePath = roiGen.TifFilePath;
         FrameCount = roiGen.FrameCount;
@@ -51,9 +50,8 @@ public class RoiCollection
         SortedRedPixelsByFrame = ArrayOperations.GetSortedPixels(roiGen.RedImages);
         SortedGreenPixelsByFrame = ArrayOperations.GetSortedPixels(roiGen.GreenImages);
         SortedRedPixelsByRoi = ArrayOperations.GetSortedPixels(RedImages);
-        ThresholdsByFrame = ArrayOperations.GetThresholdsByFrame(SortedRedPixelsByFrame, thresholdFloorPercent, thresholdMult);
 
-        (MaskImages, Masks) = Drawing.GetMaskImages(RedImages, ThresholdsByFrame, roiGen.Tracing.IsCircular, !thresholdEnabled);
+        (MaskImages, Masks) = Drawing.GetMaskImages(RedImages, roiGen.Tracing.IsCircular);
 
         RedMeans = ArrayOperations.GetMeans(RedImages, Masks);
         GreenMeans = ArrayOperations.GetMeans(GreenImages, Masks);
@@ -73,10 +71,6 @@ public class RoiCollection
             RoiSpacing_Microns = roiGen.Tracing.RoiSpacing_Microns,
             RoiRadius_Microns = roiGen.Tracing.RoiRadius_Microns,
             RoiIsCircular = roiGen.Tracing.IsCircular,
-
-            RoiFloor_Percent = thresholdFloorPercent,
-            RoiThreshold_Multiple = thresholdMult,
-            RoiThreshold_IsEnabled = thresholdEnabled,
         };
     }
 

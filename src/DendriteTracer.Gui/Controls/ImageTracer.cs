@@ -12,18 +12,11 @@ public partial class ImageTracer : UserControl
     public int SelectedFrame => hScrollBar1.Value - 1;
     private int SelectedRoi;
 
-    public double RoiFloor_Percent => (double)nudRoiThresholdFloor.Value;
-    public double RoiThreshold_Mult => (double)nudRoiThresholdMult.Value;
-    public bool RoiThreshold_IsEnabled => cbRoiThresholdIsEnabled.Checked;
-
     public ImageTracer()
     {
         InitializeComponent();
         lblRadiusPx.Text = string.Empty;
         lblAreaPx.Text = string.Empty;
-
-        nudRoiThresholdFloor.Enabled = false;
-        nudRoiThresholdMult.Enabled = false;
 
         // file selection
         AllowDrop = true;
@@ -96,10 +89,6 @@ public partial class ImageTracer : UserControl
             nudImageSubtractionFloor.Enabled = cbImageSubtractionEnabled.Checked;
             ReloadTif();
         };
-
-        nudRoiThresholdFloor.ValueChanged += (s, e) => RedrawFrame(true);
-        nudRoiThresholdMult.ValueChanged += (s, e) => RedrawFrame(true);
-        cbRoiThresholdIsEnabled.CheckedChanged += (s, e) => RedrawFrame(true);
 
         nudBrightness.ValueChanged += (s, e) =>
         {
@@ -247,9 +236,6 @@ public partial class ImageTracer : UserControl
         nudRoiSpacing.Value = (decimal)settings.RoiSpacing_Microns;
         nudRoiRadius.Value = (decimal)settings.RoiRadius_Microns;
         cbRoiCirular.Checked = settings.RoiIsCircular;
-        nudRoiThresholdFloor.Value = (decimal)settings.RoiFloor_Percent;
-        nudRoiThresholdMult.Value = (decimal)settings.RoiThreshold_Multiple;
-        cbRoiThresholdIsEnabled.Checked = settings.RoiThreshold_IsEnabled;
         LoadTif(settings.TifFilePath, settings.Rois);
     }
 
@@ -271,9 +257,6 @@ public partial class ImageTracer : UserControl
                 (int)(Math.PI * RoiGen.Tracing.Radius_Px * RoiGen.Tracing.Radius_Px)
                 : roiDiameter * roiDiameter;
         lblAreaPx.Text = $"{countedPixels:N0} px";
-
-        nudRoiThresholdFloor.Enabled = RoiThreshold_IsEnabled;
-        nudRoiThresholdMult.Enabled = RoiThreshold_IsEnabled;
 
         RenderingNow = true;
 

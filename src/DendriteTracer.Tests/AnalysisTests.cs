@@ -18,7 +18,7 @@ public class AnalysisTests
         roigen.Tracing.AddRange(SampleData.TracingPoints2);
         roigen.Tracing.RoiRadius_Microns = 10;
         roigen.Tracing.RoiSpacing_Microns = 5;
-        RoiCollection roic = roigen.CalculateRois(50, 5, false);
+        RoiCollection roic = roigen.CalculateRois();
 
         roic.GetDataByFrame(roic.Ratios).Save("TSeries-05312023-1239-2203.ratio.byFrame.csv");
         roic.GetDataByFrame(roic.RedMeans).Save("TSeries-05312023-1239-2203.red.byFrame.csv");
@@ -44,10 +44,6 @@ public class AnalysisTests
         r.RoiSpacing_Microns.Should().BeApproximately(7, .01);
         r.RoiRadius_Microns.Should().BeApproximately(9, .01);
 
-        r.RoiThreshold_IsEnabled.Should().BeTrue();
-        r.RoiFloor_Percent.Should().Be(49);
-        r.RoiThreshold_Multiple.Should().Be(27);
-
         r.Rois.Length.Should().Be(22);
         r.Rois[1].X.Should().Be(107.64232f);
         r.Rois[1].Y.Should().Be(184.21773f);
@@ -60,7 +56,7 @@ public class AnalysisTests
         roigen.Tracing.AddRange(SampleData.TracingPoints2);
         roigen.Tracing.RoiRadius_Microns = 10;
         roigen.Tracing.RoiSpacing_Microns = 5;
-        RoiCollection roic = roigen.CalculateRois(50, 5, false);
+        RoiCollection roic = roigen.CalculateRois();
 
         string saveAs = Path.GetFullPath("test.ijm");
         Core.IO.ImageJ.SaveIjm(roic, saveAs);

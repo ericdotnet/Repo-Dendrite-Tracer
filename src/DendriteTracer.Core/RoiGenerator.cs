@@ -67,8 +67,8 @@ public class RoiGenerator
         }
     }
 
-    public RoiCollection CalculateRois(double thresholdFloor, double thresholdMult, bool thresholdEnabled)
+    public RoiCollection CalculateRois()
     {
-        return new(this, thresholdFloor, thresholdMult, thresholdEnabled);
+        return new RoiCollection(this);
     }
 }

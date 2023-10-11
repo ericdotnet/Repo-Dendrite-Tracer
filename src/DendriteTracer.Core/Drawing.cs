@@ -1,11 +1,10 @@
 ﻿using System.Drawing;
-using System.Numerics;
 
 namespace DendriteTracer.Core;
 
 public static class Drawing
 {
-    public static (Bitmap[,], bool[,][,]) GetMaskImages(RasterSharp.Channel[,] images, double[] thresholds, bool isCircular, bool maskDisabled)
+    public static (Bitmap[,], bool[,][,]) GetMaskImages(RasterSharp.Channel[,] images, bool isCircular)
     {
         int frameCount = images.GetLength(0);
         int roiCount = images.GetLength(1);
@@ -17,14 +16,14 @@ public static class Drawing
         {
             for (int j = 0; j < roiCount; j++)
             {
-                (maskImages[i, j], mask[i, j]) = GetMask(images[i, j], thresholds[i], isCircular, maskDisabled);
+                (maskImages[i, j], mask[i, j]) = GetMask(images[i, j], isCircular);
             }
         }
 
         return (maskImages, mask);
     }
 
-    public static (Bitmap image, bool[,] mask) GetMask(RasterSharp.Channel source, double threshold, bool isCircular, bool maskDisabled)
+    public static (Bitmap image, bool[,] mask) GetMask(RasterSharp.Channel source, bool isCircular)
     {
         RasterSharp.Image img = new(source.Width, source.Height);
 
@@ -54,22 +53,10 @@ public static class Drawing
                     continue;
                 }
 
-                bool isAboveThreshold = maskDisabled ? true : source.GetValue(x, y) >= threshold;
-
-                if (isAboveThreshold)
-                {
-                    img.Red.SetValue(x, y, 255);
-                    img.Green.SetValue(x, y, 0);
-                    img.Blue.SetValue(x, y, 0);
-                    mask[y, x] = true;
-                }
-                else
-                {
-                    img.Red.SetValue(x, y, 0);
-                    img.Green.SetValue(x, y, 0);
-                    img.Blue.SetValue(x, y, 255);
-                    mask[y, x] = false;
-                }
+                img.Red.SetValue(x, y, 255);
+                img.Green.SetValue(x, y, 0);
+                img.Blue.SetValue(x, y, 0);
+                mask[y, x] = true;
             }
         }
 

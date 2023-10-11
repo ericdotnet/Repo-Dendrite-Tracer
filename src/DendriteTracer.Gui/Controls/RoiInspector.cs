@@ -66,12 +66,6 @@ public partial class RoiInspector : UserControl
             formsPlot1.Plot.AddScatterLines(frameRedValues, frameRedValuesPercents, Color.Magenta, 2, LineStyle.Solid, label: "Frame Red");
             formsPlot1.Plot.AddScatterLines(frameGreenValues, frameGreenValuesPercents, Color.Green, 2, LineStyle.Solid, label: "Frame Green");
 
-            if (RoiCollection.Settings.RoiThreshold_IsEnabled)
-            {
-                formsPlot1.Plot.AddVerticalLine(RoiCollection.ThresholdsByFrame[SelectedFrame] / RoiCollection.Settings.RoiThreshold_Multiple, Color.Blue, style: LineStyle.Dot, label: "ROI Floor");
-                formsPlot1.Plot.AddVerticalLine(RoiCollection.ThresholdsByFrame[SelectedFrame], Color.Blue, style: LineStyle.Dash, label: "ROI Threshold");
-            }
-
             formsPlot1.Plot.Legend(true, Alignment.LowerRight);
 
             formsPlot1.Plot.Title("");

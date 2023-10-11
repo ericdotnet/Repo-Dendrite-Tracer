@@ -23,9 +23,6 @@ public static class Json
         writer.WriteBoolean("RoiIsCircular", roic.Settings.RoiIsCircular);
         writer.WriteNumber("RoiSpacing_Microns", roic.Settings.RoiSpacing_Microns);
         writer.WriteNumber("RoiRadius_Microns", roic.Settings.RoiRadius_Microns);
-        writer.WriteBoolean("RoiThreshold_IsEnabled", roic.Settings.RoiThreshold_IsEnabled);
-        writer.WriteNumber("RoiFloor_Percent", roic.Settings.RoiFloor_Percent);
-        writer.WriteNumber("RoiThreshold_Multiple", roic.Settings.RoiThreshold_Multiple);
         writer.WriteEndObject();
 
         writer.WriteStartArray("FrameTimes_min");
@@ -104,10 +101,6 @@ public static class Json
             RoiIsCircular = settings.GetProperty("RoiIsCircular").GetBoolean(),
             RoiSpacing_Microns = settings.GetProperty("RoiSpacing_Microns").GetDouble(),
             RoiRadius_Microns = settings.GetProperty("RoiRadius_Microns").GetDouble(),
-
-            RoiThreshold_IsEnabled = settings.GetProperty("RoiThreshold_IsEnabled").GetBoolean(),
-            RoiFloor_Percent = settings.GetProperty("RoiFloor_Percent").GetDouble(),
-            RoiThreshold_Multiple = settings.GetProperty("RoiThreshold_Multiple").GetDouble(),
 
             Rois = points.ToArray(),
         };

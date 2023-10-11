@@ -51,7 +51,7 @@ public class RoiValueTests
         Core.RoiGenerator roigen = new(SampleData.TSeriesTifPath, 20, 1, false);
         roigen.Tracing.IsCircular = false;
         roigen.Tracing.AddRange(SampleData.TracingPoints);
-        RoiCollection rois = roigen.CalculateRois(20, 5, false);
+        RoiCollection rois = roigen.CalculateRois();
 
         foreach (var roi in rois.Rois)
         {

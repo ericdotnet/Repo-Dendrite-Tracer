@@ -26,10 +26,7 @@ public partial class Form1 : Form
             return;
 
         // TODO: pass these 3 as a struct
-        RoiCollection rois = imageTracer1.RoiGen.CalculateRois(
-            imageTracer1.RoiFloor_Percent, 
-            imageTracer1.RoiThreshold_Mult, 
-            imageTracer1.RoiThreshold_IsEnabled);
+        RoiCollection rois = imageTracer1.RoiGen.CalculateRois();
 
         roiInspector1.LoadROIs(rois);
         resultsViewer1.LoadRois(rois);
