@@ -32,6 +32,7 @@
             formsPlot1 = new ScottPlot.FormsPlot();
             formsPlot2 = new ScottPlot.FormsPlot();
             panel1 = new Panel();
+            lblCopyIJM = new Button();
             cbOverTime = new CheckBox();
             cbAllFrames = new CheckBox();
             btnSave = new Button();
@@ -76,6 +77,7 @@
             // 
             // panel1
             // 
+            panel1.Controls.Add(lblCopyIJM);
             panel1.Controls.Add(cbOverTime);
             panel1.Controls.Add(cbAllFrames);
             panel1.Controls.Add(btnSave);
@@ -85,6 +87,18 @@
             panel1.Name = "panel1";
             panel1.Size = new Size(1025, 73);
             panel1.TabIndex = 2;
+            // 
+            // lblCopyIJM
+            // 
+            lblCopyIJM.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            lblCopyIJM.Location = new Point(468, 14);
+            lblCopyIJM.Margin = new Padding(4, 5, 4, 5);
+            lblCopyIJM.Name = "lblCopyIJM";
+            lblCopyIJM.Size = new Size(204, 45);
+            lblCopyIJM.TabIndex = 10;
+            lblCopyIJM.Text = "Copy ImageJ Macro";
+            lblCopyIJM.UseVisualStyleBackColor = true;
+            lblCopyIJM.Click += lblCopyIJM_Click;
             // 
             // cbOverTime
             // 
@@ -109,13 +123,14 @@
             // btnSave
             // 
             btnSave.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            btnSave.Location = new Point(891, 14);
+            btnSave.Location = new Point(680, 14);
             btnSave.Margin = new Padding(4, 5, 4, 5);
             btnSave.Name = "btnSave";
-            btnSave.Size = new Size(119, 45);
+            btnSave.Size = new Size(330, 45);
             btnSave.TabIndex = 2;
-            btnSave.Text = "Save As...";
+            btnSave.Text = "Save and Copy Origin Command";
             btnSave.UseVisualStyleBackColor = true;
+            btnSave.Click += btnSave_Click;
             // 
             // ResultsViewer
             // 
@@ -139,5 +154,6 @@
         private Button btnSave;
         private CheckBox cbOverTime;
         private CheckBox cbAllFrames;
+        private Button lblCopyIJM;
     }
 }

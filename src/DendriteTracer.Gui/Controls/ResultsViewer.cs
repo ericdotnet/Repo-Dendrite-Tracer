@@ -21,24 +21,6 @@ public partial class ResultsViewer : UserControl
         };
 
         cbOverTime.CheckedChanged += (s, e) => UpdatePlots();
-
-        btnSave.Click += (s, e) =>
-        {
-            if (RoiCollection is null)
-                return;
-
-            SaveFileDialog savefile = new()
-            {
-                FileName = Path.GetFileNameWithoutExtension(RoiCollection.TifFilePath) + ".json",
-                Filter = "JSON Files (*.json)|*.json|All files (*.*)|*.*",
-            };
-
-            if (savefile.ShowDialog() == DialogResult.OK)
-            {
-                Core.IO.Json.SaveJson(RoiCollection, savefile.FileName);
-                Core.IO.ImageJ.SaveIjm(RoiCollection, savefile.FileName.Replace(".json", ".ijm"));
-            }
-        };
     }
 
     public void SetSelectedFrameAndRoi(int frame, int roi)
@@ -213,5 +195,36 @@ public partial class ResultsViewer : UserControl
         double max = c.RatioCurveByFrame.Select(x => x.Max()).Max();
 
         plt.SetAxisLimitsY(Math.Min(min, 0), max);
+    }
+
+    private void lblCopyIJM_Click(object sender, EventArgs e)
+    {
+        if (RoiCollection is null)
+            return;
+
+        string ijm = Core.IO.ImageJ.GetImagejMacro(RoiCollection);
+        Clipboard.SetText(ijm);
+    }
+
+    private void btnSave_Click(object sender, EventArgs e)
+    {
+        if (RoiCollection is null)
+            return;
+
+        SaveFileDialog savefile = new()
+        {
+            FileName = Path.GetFileNameWithoutExtension(RoiCollection.TifFilePath) + ".json",
+            Filter = "JSON Files (*.json)|*.json|All files (*.*)|*.*",
+        };
+
+        if (savefile.ShowDialog() == DialogResult.OK)
+        {
+            Core.IO.Json.SaveJson(RoiCollection, savefile.FileName);
+            Core.IO.ImageJ.SaveIjm(RoiCollection, savefile.FileName.Replace(".json", ".ijm"));
+        }
+
+        string safePath = savefile.FileName.Replace("\\", "/");
+        string cmd = $"LoadDendriteTracing \"{safePath}\";";
+        Clipboard.SetText(cmd);
     }
 }
