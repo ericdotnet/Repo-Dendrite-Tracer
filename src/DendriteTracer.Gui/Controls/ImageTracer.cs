@@ -1,4 +1,5 @@
 ﻿using DendriteTracer.Core;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace DendriteTracer.Gui;
 
@@ -116,7 +117,11 @@ public partial class ImageTracer : UserControl
     private void PictureBox1_MouseUp(object? sender, MouseEventArgs e)
     {
         SpineBeingDragged = null;
-        RedrawFrame(true);
+
+        if (e.Button == MouseButtons.Left)
+        {
+            RedrawFrame(true);
+        }
     }
 
     private int? SpineBeingDragged = null;
@@ -144,13 +149,53 @@ public partial class ImageTracer : UserControl
                 float scaleY = (float)RoiGen.Height / pictureBox1.Height;
                 RoiGen.Tracing.Add(e.X * scaleX, e.Y * scaleY);
             }
-        }
-        else if (e.Button == MouseButtons.Right)
-        {
-            RoiGen.Tracing.Clear();
+
+            RedrawFrame();
+            return;
         }
 
-        RedrawFrame();
+        if (e.Button == MouseButtons.Right)
+        {
+            LaunchRightClickMenu(e.Location);
+            return;
+        }
+    }
+
+    private void LaunchRightClickMenu(Point clickedLocation)
+    {
+        if (RoiGen is null)
+            return;
+
+        ContextMenuStrip menu = new();
+        menu.ShowImageMargin = false;
+
+        ToolStripMenuItem deleteLastItem = new("Delete Last Point");
+        deleteLastItem.Click += (s, e) =>
+        {
+            RoiGen.Tracing.Points.Remove(RoiGen.Tracing.Points.Last());
+            RedrawFrame();
+        };
+
+        deleteLastItem.Enabled = RoiGen.Tracing.Points.Any();
+        menu.Items.Add(deleteLastItem);
+
+        ToolStripMenuItem clearMenuItem = new("Delete All Points");
+        clearMenuItem.Click += (s, e) =>
+        {
+            RoiGen.Tracing.Clear();
+            RedrawFrame();
+        };
+        clearMenuItem.Enabled = RoiGen.Tracing.Points.Any();
+        menu.Items.Add(clearMenuItem);
+
+        ToolStripMenuItem openMenuItem = new("Open Containing Folder");
+        openMenuItem.Click += (s, e) =>
+        {
+            System.Diagnostics.Process.Start("explorer.exe", $"/select, \"{RoiGen.TifFilePath}\"");
+        };
+        menu.Items.Add(openMenuItem);
+
+        menu.Show(this, clickedLocation);
     }
 
     private int? GetSpineIndexUnderMouse(MouseEventArgs e, double snapDistance = 5)
