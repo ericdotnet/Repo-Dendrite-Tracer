@@ -169,6 +169,44 @@ public partial class ImageTracer : UserControl
         ContextMenuStrip menu = new();
         menu.ShowImageMargin = false;
 
+        ToolStripMenuItem insertMenuItem = new("Insert Point");
+        insertMenuItem.Click += (s, e) =>
+        {
+            float scaleX = (float)RoiGen.Width / pictureBox1.Width;
+            float scaleY = (float)RoiGen.Height / pictureBox1.Height;
+            float clickedX = clickedLocation.X * scaleX;
+            float clickedY = clickedLocation.Y * scaleY;
+
+            int closestIndex = 0;
+            double closestDistance = double.MaxValue;
+            for (int i = 0; i < RoiGen.Tracing.Points.Count - 1; i++)
+            {
+                double dX = Math.Abs(clickedX - RoiGen.Tracing.Points[i].X);
+                double dY = Math.Abs(clickedY - RoiGen.Tracing.Points[i].Y);
+                double distance = dX * dX + dY * dY;
+                if (distance < closestDistance)
+                {
+                    closestIndex = i;
+                    closestDistance = distance;
+                }
+            }
+
+            float closestX = RoiGen.Tracing.Points[closestIndex].X;
+            float closestY = RoiGen.Tracing.Points[closestIndex].Y;
+
+            float nextX = RoiGen.Tracing.Points[closestIndex + 1].X;
+            float nextY = RoiGen.Tracing.Points[closestIndex + 1].Y;
+
+            float midX = (closestX + nextX) / 2;
+            float midY = (closestY + nextY) / 2;
+            PixelLocation midPoint = new(midX, midY);
+
+            RoiGen.Tracing.Points.Insert(closestIndex + 1, midPoint);
+            RedrawFrame();
+        };
+        insertMenuItem.Enabled = RoiGen.Tracing.Points.Count >= 2;
+        menu.Items.Add(insertMenuItem);
+
         ToolStripMenuItem deleteLastItem = new("Delete Last Point");
         deleteLastItem.Click += (s, e) =>
         {
