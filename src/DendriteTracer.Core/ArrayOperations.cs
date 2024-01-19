@@ -56,7 +56,13 @@ internal static class ArrayOperations
         {
             for (int j = 0; j < roiCount; j++)
             {
-                means[i, j] = GetMean(images[i, j], masks[i, j]);
+                double value = GetMean(images[i, j], masks[i, j]);
+                means[i, j] = value;
+
+                if (value == 0)
+                {
+                    throw new InvalidDataException($"frame {i + 1} ROI {j + i} has no image data");
+                }
             }
         }
 
