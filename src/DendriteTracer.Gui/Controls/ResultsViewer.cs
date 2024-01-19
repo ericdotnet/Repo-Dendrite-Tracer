@@ -195,7 +195,10 @@ public partial class ResultsViewer : UserControl
         double min = c.RatioCurveByFrame.Select(x => x.Min()).Min();
         double max = c.RatioCurveByFrame.Select(x => x.Max()).Max();
 
-        plt.SetAxisLimitsY(Math.Min(min, 0), max);
+        min = Math.Min(min, 0);
+        max = Math.Min(max, 500);
+
+        plt.SetAxisLimitsY(min, max);
     }
 
     private void lblCopyIJM_Click(object sender, EventArgs e)
