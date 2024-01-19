@@ -71,6 +71,7 @@ public partial class ResultsViewer : UserControl
 
             formsPlot2.Plot.Clear();
             formsPlot2.Refresh();
+            throw;
         }
     }
 

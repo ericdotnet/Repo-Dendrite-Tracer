@@ -75,11 +75,10 @@ public partial class RoiInspector : UserControl
         }
         catch (Exception ex)
         {
-            System.Diagnostics.Debug.WriteLine(ex);
-
             formsPlot1.Plot.Clear();
             formsPlot1.Plot.Title(ex.ToString());
             formsPlot1.Refresh();
+            throw;
         }
     }
 }
